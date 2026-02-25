@@ -1,10 +1,493 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title|default:"Litmarket | Каталог книг" }}</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="/static/css/books.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* Стили для выпадающего списка категорий */
+      .categories-dropdown {
+        position: relative;
+        display: inline-block;
+        margin-left: 20px;
+      }
+
+      .categories-dropdown-toggle {
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background-color 0.2s;
+      }
+
+      .categories-dropdown-toggle:hover {
+        background-color: #e0e0e0;
+      }
+
+      .categories-dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding: 16px;
+        z-index: 100;
+        width: 320px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .categories-dropdown.active .categories-dropdown-menu {
+        display: block;
+      }
+
+      .category-group {
+        margin-bottom: 16px;
+      }
+
+      .category-group h4 {
+        margin: 0 0 8px 0;
+        font-size: 14px;
+        color: #333;
+        font-weight: 600;
+      }
+
+      .category-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        color: #555;
+        cursor: pointer;
+      }
+
+      .category-group input[type="checkbox"] {
+        margin-right: 8px;
+      }
+
+      /* Сетка книг */
+      .books-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        margin-top: 24px;
+      }
+
+      .book-card {
+        width: 200px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 16px;
+        transition: box-shadow 0.2s;
+        background: white;
+      }
+
+      .book-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+
+      .book-cover {
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+      }
+
+      .book-cover img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+      }
+
+      .book-price {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+
+      .book-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .book-title a {
+        text-decoration: none;
+        color: #333;
+      }
+
+      .book-author {
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 8px;
+      }
+
+      .book-author a {
+        text-decoration: none;
+        color: #777;
+      }
+
+      .book-rating {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 12px;
+      }
+
+      .stars {
+        color: #f1c40f;
+        font-size: 12px;
+      }
+
+      .rating-count {
+        font-size: 12px;
+        color: #999;
+      }
+
+      .book-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .add-to-cart-btn {
+        flex: 1;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 0;
+        font-size: 13px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        text-decoration: none;
+      }
+
+      .add-to-cart-btn:hover {
+        background-color: #2980b9;
+      }
+
+      .wishlist-btn {
+        width: 36px;
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #555;
+      }
+
+      .wishlist-btn:hover {
+        background: #e9ecef;
+      }
+
+      .catalog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .sort-controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Верхняя панель с регионом -->
+    <div class="top-bar">
+      <div class="container">
+        <div class="region-selector">
+          <span class="region">Россия, Москва <i class="fas fa-chevron-down"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Шапка -->
+    <header class="main-header">
+      <div class="container">
+        <div class="header-content">
+          <a href="{% url 'index' %}" class="logo">
+            <div class="logo-text">
+              <div class="logo-main">LitMarket</div>
+            </div>
+          </a>
+
+          <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+          </button>
+
+          <nav class="main-nav">
+            <ul class="nav-menu">
+              <li class="nav-item"><a href="{% url 'index' %}" class="nav-link">Главная</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">Акции</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">Распродажа</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">Сертификаты</a></li>
+              <li class="nav-item dropdown">
+                <a href="#" class="nav-link">Ещё <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-menu">
+                  <a href="#" class="dropdown-item">Доставка</a>
+                  <a href="#" class="dropdown-item">Оплата</a>
+                  <a href="#" class="dropdown-item">Контакты</a>
+                </div>
+              </li>
+            </ul>
+          </nav>
+
+          <div class="header-right">
+            <div class="catalog-search">
+              <div class="search-box">
+                <input type="text" placeholder="Найти в каталоге" class="search-input" />
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+              </div>
+            </div>
+            <div class="user-actions">
+              <a href="{% url 'users:login' %}" class="user-action"><i class="far fa-user"></i><span>Войти</span></a>
+              <a href="{% url 'users:profile' %}" class="user-action"><i class="far fa-user"></i><span>Профиль</span></a>
+              <a href="#" class="user-action"><i class="fas fa-book-open"></i><span>Мои книги</span></a>
+              <a href="#" class="user-action cart"><i class="fas fa-shopping-cart"></i><span>Корзина</span><span class="cart-count">0</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Основной контент каталога -->
+    <div class="content-wrapper">
+      <div class="container">
+        <div class="catalog-container">
+          <aside class="catalog-sidebar" id="catalogSidebar">
+            <div class="sidebar-header">
+              <h2>Категории</h2>
+              <button class="toggle-sidebar" id="toggleSidebar"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="categories">
+              {% for item in categories %}
+                <a href="{% url 'books:category' item.id %}">{{ item.category }} | {{ item.genre }}</a>
+              {% endfor %}
+
+              {% regroup categories by category as categories_list %}
+              {% for category in categories_list %}
+                <div class="category-item">
+                  <div class="category-header">
+                    <span>{{ category.grouper }}</span>
+                    <i class="fas fa-chevron-down toggle-genres"></i>
+                  </div>
+                  <div class="genres-list">
+                    {% for item in category.list %}
+                      <label class="genre-checkbox">
+                        <input type="checkbox" name="genre" value="{{ item.id }}">
+                        <span>{{ item.genre }}</span>
+                      </label>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+
+            <!-- Фильтр по цене -->
+            <div class="price-filter">
+              <h3>Цена, ₽</h3>
+              <div class="price-inputs">
+                <input type="number" placeholder="От" min="0" />
+              </div>
+              <div class="price-inputs">
+                <input type="number" placeholder="До" min="0" />
+              </div>
+            </div>
+
+            <button class="apply-filters">Применить фильтры</button>
+            <button class="reset-filters">Сбросить всё</button>
+          </aside>
+
+          <!-- Основная часть с книгами -->
+          <main class="catalog-main">
+            <div class="catalog-header">
+              <div class="catalog-info">
+                <h1>Каталог книг</h1>
+                <span class="book-count" id="bookCount">Найдено: {{ books|length }} </span>
+              </div>
+
+              <div class="sort-controls">
+                <button class="toggle-filters" id="toggleFilters"><i class="fas fa-filter"></i> Фильтры</button>
+
+                <!-- ВЫПАДАЮЩИЙ СПИСОК КАТЕГОРИЙ (динамический, grouped) -->
+                <div class="categories-dropdown" id="categoriesDropdown">
+                  <button class="categories-dropdown-toggle" id="categoriesDropdownToggle">
+                    Категории <i class="fas fa-chevron-down"></i>
+                  </button>
+                  <div class="categories-dropdown-menu">
+                    {% regroup categories by category as categories_list %}
+                    {% for category in categories_list %}
+                      <div class="category-group">
+                        <h4>{{ category.grouper }}</h4>
+                        {% for item in category.list %}
+                          <label>
+                            <input type="checkbox" name="dropdown_genre" value="{{ item.id }}">
+                            {{ item.genre }}
+                          </label>
+                        {% endfor %}
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="sort-by">
+                  <label for="sortSelect">Сортировать:</label>
+                  <select id="sortSelect">
+                    <option value="title-asc">По названию (А-Я)</option>
+                    <option value="title-desc">По названию (Я-А)</option>
+                    <option value="price-asc">По цене (сначала дешевые)</option>
+                    <option value="price-desc">По цене (сначала дорогие)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Сетка карточек книг -->
+            <div class="books-grid">
+              {% for book in books %}
+                <div class="book-card">
+                  <div class="book-cover">
+                    <img src="{{ book.cover_image_url.url }}" alt="{{ book.title }}" />
+                  </div>
+                  <div class="book-price">
+                    <span class="current-price">{{ book.price }} ₽</span>
+                  </div>
+                  <h3 class="book-title"><a href="#">{{ book.title }}</a></h3>
+                  <div class="book-author">
+                    <a href="#">{{ book.author.name }}</a>
+                  </div>
+                  <div class="book-rating">
+                    <div class="stars">
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span class="rating-count">4.8</span>
+                  </div>
+                  <div class="book-actions">
+                    <a href="{% url 'books:basket_add' book.id %}" class="add-to-cart-btn">
+                      <i class="fas fa-shopping-cart"></i><span>Купить</span>
+                    </a>
+                    <button class="wishlist-btn" data-book-id="{{ book.id }}"><i class="far fa-bookmark"></i></button>
+                  </div>
+                </div>
+              {% empty %}
+                <p>Книг не найдено.</p>
+              {% endfor %}
+            </div>
+
+            <!-- Пагинация -->
+            <div class="pagination">
+                <!-- Кнопка "Назад" -->
+                <div class="pagination-btn prev">
+                    {% if books.has_previous %}
+                        <a href="{% url 'books:page' books.previous_page_number %}" class="fas fa-chevron-left">Назад</a>
+                    {% else %}
+                        <a href="#" class="fas fa-chevron-left disabled">Назад</a>
+                    {% endif %}
+                </div>
+
+                <!-- Номера страниц -->
+                <div class="page-numbers">
+                    {% for page_num in books.paginator.page_range %}
+                        <a href="{% url 'books:page' page_num %}"
+                           class="page-number {% if page_num == books.number %}active{% endif %}">
+                            {{ page_num }}
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <!-- Кнопка "Вперед" -->
+                <div class="pagination-btn next">
+                    {% if books.has_next %}
+                        <a href="{% url 'books:page' books.next_page_number %}" class="fas fa-chevron-right">Вперед</a>
+                    {% else %}
+                        <a href="#" class="fas fa-chevron-right disabled">Вперед</a>
+                    {% endif %}
+                </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Открытие/закрытие категорий в сайдбаре
+      document.querySelectorAll('.category-header').forEach(header => {
+        header.addEventListener('click', () => {
+          header.classList.toggle('active');
+        });
+      });
+
+      // Мобильное меню (бургер)
+      document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+        document.querySelector('.main-nav').classList.toggle('active');
+      });
+
+      // Кнопка "Фильтры" для мобильных
+      document.getElementById('toggleFilters').addEventListener('click', () => {
+        document.getElementById('catalogSidebar').classList.add('active');
+      });
+
+      document.getElementById('toggleSidebar').addEventListener('click', () => {
+        document.getElementById('catalogSidebar').classList.remove('active');
+      });
+
+      // Скролл шапки
+      window.addEventListener('scroll', () => {
+        const header = document.querySelector('.main-header');
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // Логика для выпадающего списка категорий
+      const dropdownToggle = document.getElementById('categoriesDropdownToggle');
+      const dropdown = document.getElementById('categoriesDropdown');
+
+      dropdownToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove('active');
+        }
+      });
+
+      // Обработка сортировки (если нужно)
+      document.getElementById('sortSelect').addEventListener('change', function() {
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort', this.value);
+        window.location.href = url.toString();
+      });
+    </script>
+  </body>
 </html>

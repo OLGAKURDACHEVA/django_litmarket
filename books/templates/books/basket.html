@@ -1,0 +1,41 @@
+{% if baskets %}
+    <div class="cart-header">
+        <h2 class="section-title">Корзина</h2>
+        <span class="cart-count"> Всего: {{ total_quantity }}</span>
+    </div>
+    {% for basket in baskets %}
+        <div class="cart-items">
+            <div class="cart-item">
+                <div class="item-image">
+                    {% if basket.book.cover_image %}
+                        <img src="{{ basket.book.cover_image_url }}" alt="{{ basket.book.title }}">
+                    {% else %}
+                        <i class="fas fa-book fa-2x"></i>
+                    {% endif %}
+                </div>
+                <div class="item-info">
+                    <div class="item-title">{{ basket.book.title }}</div>
+                    <div class="item-desc">{{ basket.book.author }}</div>
+                </div>
+                <div class="item-details">
+                    <div class="item-quantity">
+                        <button class="quantity-btn">−</button>
+                        <span class="quantity-value">{{ basket.quantity }} шт.</span>
+                        <a href="{% url 'books:basket_add' basket.book.id %}" class="quantity-plus-btn" title="Добавить одну">+</a>
+                    </div>
+                    <div class="item-price">{{ basket.sum }} ₽</div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="cart-total">
+        <span>Итого:</span>
+        <h6 class="total-amount">{{ total_sum }} ₽</h6>
+    </div>
+    <a href="#" class="checkout-btn">
+        <i class="fas fa-shopping-cart" ></i> Оформить заказ
+    </a>
+{% else %}
+    <h2 class="section-title">Корзина пуста</h2>
+{% endif %}

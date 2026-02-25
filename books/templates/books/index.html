@@ -1,10 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title|title }}</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="top-bar">
+      <div class="container">
+        <div class="region-selector">
+          <span class="region"
+            >Россия, Москва <i class="fas fa-chevron-down"></i
+          ></span>
+        </div>
+      </div>
+    </div>
+
+    <header class="main-header">
+      <div class="container">
+        <div class="header-content">
+          <!-- Логотип -->
+          <div class="logo">
+            <h1 class="logo-text">LitMarket</h1>
+          </div>
+
+          <!-- Основное меню -->
+            <div class="header-right">
+                <div class="catalog-search">
+                    <a href="{% url 'books:index' %}" class="catalog-btn">
+                        <i class="fas fa-bars"></i> Каталог
+                    </a>
+                    <div class="search-box">
+                        <input
+                                type="text"
+                                placeholder="Найти в LitMarket"
+                                class="search-input"
+                        />
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#" class="nav-link">Акции</a></li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Распродажа</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Сертификаты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Программа лояльности</a>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link">Чат</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link"
+                        >Ещё <i class="fas fa-chevron-down"></i
+                        ></a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Доставка</a>
+                            <a href="#" class="dropdown-item">Оплата</a>
+                            <a href="#" class="dropdown-item">Контакты</a>
+                        </div>
+                    </li>
+                </ul>
+                    <div class="user-actions">
+                      {% if user.is_authenticated %}
+                        <a href="{% url 'users:profile' %}" class="user-action">
+                          <i class="far fa-user"></i><span>{{ user.username }}</span>
+                        </a>
+                        <a href="#" class="user-action">
+                          <i class="far fa-clipboard"></i><span>Заказы</span>
+                        </a>
+                        <a href="#" class="user-action">
+                          <i class="fas fa-book-open"></i><span>Мои книги</span>
+                        </a>
+                        <a href="#" class="user-action cart">
+                          <i class="fas fa-shopping-cart"></i><span>Корзина</span>
+                          <span class="cart-count">0</span>
+                        </a>
+                        <!-- Кнопка выхода -->
+                        <form action="{% url 'users:logout_view' %}" method="post" style="display: inline;">
+                          {% csrf_token %}
+                          <button type="submit" class="user-action"
+                                  style="background: none; border: none; padding: 0; font: inherit; cursor: pointer;">
+                            <i class="fas fa-sign-out-alt"></i><span>Выйти</span>
+                          </button>
+                        </form>
+                      {% else %}
+                        <a href="{% url 'users:login' %}" class="user-action">
+                          <i class="far fa-user"></i><span>Войти</span>
+                        </a>
+                        <!-- Здесь можно добавить ссылку на регистрацию, если нужно -->
+                      {% endif %}
+                    </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Основной контент -->
+    <div class="content-wrapper">
+      <div class="bookshelf">
+        <!-- Главная секция -->
+        <header class="reading-room">
+          <h1 class="book-title">Тут будет какая-нибудь фотокарточка с книгой месяца и её описанием</h1>
+        </header>
+
+        <main class="library-hall">
+          <!-- Секция с заголовками -->
+          <section class="literary-section">
+            <h2 class="section-title">Новые поступления</h2>
+            <p class="section-subtitle">
+              Свежие книги, которые стоит прочитать первыми.
+            </p>
+            <div class="divider"></div>
+          </section>
+
+          <section class="literary-section">
+            <h2 class="section-title">Бестселлеры месяца</h2>
+            <p class="section-subtitle">Книги, завоевавшие сердца читателей.</p>
+            <div class="divider"></div>
+          </section>
+
+          <!-- Секция возможностей -->
+          <section class="reading-features">
+            <h2 class="section-title">Возможности</h2>
+            <ul class="feature-list">
+              <li class="feature-item">Авторские подборки</li>
+              <li class="feature-item">Редкие издания</li>
+              <li class="feature-item">Поиск по аннотациям</li>
+              <li class="feature-item">Подарочные издания</li>
+            </ul>
+            <div class="divider"></div>
+          </section>
+
+          <!-- Секция ресурсов -->
+          <section class="resource-section">
+            <h2 class="section-title">Ресурсы</h2>
+            <ul class="resource-grid">
+              <li class="resource-item">Аудиокниги</li>
+              <li class="resource-item">Электронные версии</li>
+              <li class="resource-item">Журналы</li>
+              <li class="resource-item">Коллекционные издания</li>
+            </ul>
+            <div class="divider"></div>
+
+            <h2 class="section-title">Категории мб убрать их в каталог</h2>
+            <ul class="category-list">
+              <li class="category-item">Бизнес-литература</li>
+              <li class="category-item">Образовательные книги</li>
+              <li class="category-item">Государственные издания</li>
+              <li class="category-item">Художественная литература</li>
+            </ul>
+            <div class="divider"></div>
+          </section>
+
+          <section class="about-section">
+            <h2 class="section-title">О лавке</h2>
+            <ul class="about-list">
+              <li class="about-item">О компании</li>
+              <li class="about-item">Конфиденциальность</li>
+              <li class="about-item">Условия сотрудничества</li>
+            </ul>
+          </section>
+        </main>
+
+        <footer class="bookend">
+          <p class="page-counter">Страница 1 из 1</p>
+          <p class="copyright">© 2026 Litmarket. Все права защищены. Добавлю ещё контактную инфу</p>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+
+      window.addEventListener("scroll", function () {
+        const header = document.querySelector(".main-header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      //  Открытие/закрытие выпадающего меню
+      document.querySelectorAll(".dropdown").forEach((item) => {
+        item.addEventListener("mouseenter", function () {
+          this.querySelector(".dropdown-menu").style.display = "block";
+        });
+
+        item.addEventListener("mouseleave", function () {
+          this.querySelector(".dropdown-menu").style.display = "none";
+        });
+      });
+
+    </script>
+  </body>
 </html>
