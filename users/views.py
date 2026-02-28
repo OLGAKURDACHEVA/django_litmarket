@@ -70,5 +70,18 @@ def profile(request):
 def basket(request):
     return render(request, 'basket.html')
 
+@login_required
+def checkout(request):
+    baskets = Basket.objects.filter(user=request.user)
+    if not baskets.exists():
+        return redirect('books:index')
 
+    total_sum = sum(basket.sum() for basket in baskets)
+    total_quantity = baskets.count()
 
+    context = {
+        'baskets': baskets,
+        'total_sum': total_sum,
+        'total_quantity': total_quantity,
+    }
+    return render(request, 'users/checkout.html', context)

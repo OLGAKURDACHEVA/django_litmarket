@@ -41,3 +41,6 @@ def basket_add(request, book_id):
         basket.quantity +=1
         basket.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def agreement(request):
+    return render(request, 'books/agreement.html')

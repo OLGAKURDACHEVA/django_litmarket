@@ -1,5 +1,6 @@
 from django.urls import path
-from books.views import books, basket_add
+from books.views import books, basket_add, agreement
+from django.shortcuts import render
 
 
 app_name = 'books'
@@ -9,6 +10,7 @@ urlpatterns = [
     path('<int:category_id>', books, name='category'),
     path('page/<int:page>', books, name='page'),
     path('basket-add/<int:book_id>', basket_add, name='basket_add'),
+    path('agreement/', agreement, name='agreement'),
     # path('basket-delete/<int:book_id>', basket-delete, name='basket-delete'),
 
 

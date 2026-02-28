@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+    .bookstore-footer {
+      background-color: #6b2c2c;
+      color: white;
+      padding: 40px 0 20px;
+      margin-top: 50px;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    .back-to-top {
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      font-size: 1.3rem;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    .back-to-top:hover {
+      color: #8B3A3A;
+      background-color: white;
+      transform: translateY(-3px);
+    }
+
+    .footer-top {
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .footer-welcome h3 {
+      font-size: 1.3rem;
+      margin-bottom: 5px;
+      color: white;
+    }
+
+    .footer-subtitle {
+      color: rgba(255,255,255,0.9);
+    }
+
+    .footer-middle {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 30px;
+    }
+
+    .footer-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-column-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .footer-column-link {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .footer-column-link:hover {
+      color: white;
+    }
+
+    .payment-systems {
+      display: flex;
+      gap: 15px;
+      font-size: 2rem;
+    }
+
+    .payment-systems i {
+      color: white;
+      opacity: 0.9;
+    }
+
+    .footer-bottom {
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      width: 100%;
+    }
+
+    .copyright {
+      color: white;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    /* Медиа-запросы, затрагивающие футер */
+    @media (max-width: 1024px) {
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-middle {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .footer-middle {
+        grid-template-columns: 1fr;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+    </style>
+</head>
+<body>
+    <footer class="bookstore-footer">
+      <div class="footer-container">
+        <a href="#" class="back-to-top" title="Наверх"><i class="fas fa-arrow-up"></i></a>
+
+        <div class="footer-top">
+          <div class="footer-welcome">
+            <h3>Добро пожаловать на LitMarket!</h3>
+            <p class="footer-subtitle">Книжный интернет-магазин</p>
+          </div>
+        </div>
+
+        <div class="footer-middle">
+          <div class="footer-column">
+            <h4 class="footer-column-title">Информация</h4>
+            <a href="#" class="footer-column-link">Сертификаты</a>
+            <a href="#" class="footer-column-link">Программа лояльности</a>
+            <a href="#" class="footer-column-link">Пользовательское соглашение</a>
+            <a href="#" class="footer-column-link">Оплата и доставка</a>
+            <a href="#" class="footer-column-link">Ресейл</a>
+          </div>
+
+          <div class="footer-column">
+            <h4 class="footer-column-title">Контакты</h4>
+            <a href="#" class="footer-column-link">Контактная информация</a>
+            <a href="#" class="footer-column-link">Поддержка</a>
+          </div>
+
+          <div class="footer-column">
+            <h4 class="footer-column-title">Мы принимаем</h4>
+            <div class="payment-systems">
+              <i class="fab fa-cc-visa"></i>
+              <i class="fab fa-cc-mastercard"></i>
+              <i class="fab fa-cc-mir"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="copyright">© 2026, ООО «ЛитМаркет». Все права защищены.
+            Использование материалов сайта возможно только с активной ссылкой на litmarket.ru.</p>
+        </div>
+      </div>
+    </footer>
+</body>
+</html>

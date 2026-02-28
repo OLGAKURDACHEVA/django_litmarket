@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Оформление заказа | LitMarket</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #f9f9f9;
+      color: #6b2c2c;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .checkout-wrapper {
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border: 1px solid #6b2c2c;
+      color: #6b2c2c;
+      font-size: 0.85rem;
+      text-decoration: none;
+      margin-bottom: 15px;
+    }
+
+    .back-btn:hover {
+      background-color: #6b2c2c;
+      color: white;
+    }
+
+    .checkout-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .checkout-form, .order-summary {
+      background-color: #ffffff;
+      padding: 20px;
+      border: 1px solid #e8dfd6;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #6b2c2c;
+      margin-bottom: 20px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #6b2c2c;
+      display: inline-block;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #6b2c2c;
+      margin-bottom: 4px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #6b2c2c;
+      font-size: 0.9rem;
+      background-color: #f9f9f9;
+      color: #6b2c2c;
+      font-family: "Inter", sans-serif;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      background-color: white;
+    }
+
+    .form-textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .payment-methods {
+      border: 1px solid #e8dfd6;
+      margin-bottom: 16px;
+    }
+
+    .payment-method {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      border-bottom: 1px solid #e8dfd6;
+    }
+
+    .payment-method:last-child {
+      border-bottom: none;
+    }
+
+    .payment-method input[type="radio"] {
+      margin-right: 12px;
+      accent-color: #6b2c2c;
+    }
+
+    .payment-method label {
+      flex: 1;
+      font-size: 0.9rem;
+      color: #6b2c2c;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .payment-method i {
+      font-size: 1.2rem;
+      color: #6b2c2c;
+      width: 24px;
+    }
+
+    .delivery-points {
+      margin-bottom: 20px;
+    }
+
+    .delivery-point {
+      display: flex;
+      align-items: flex-start;
+      padding: 12px 15px;
+      border: 1px solid #e8dfd6;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .delivery-point.selected {
+      border: 2px solid #6b2c2c;
+      background-color: #f9f9f9;
+    }
+
+    .delivery-point input[type="radio"] {
+      margin-right: 12px;
+      margin-top: 2px;
+      accent-color: #6b2c2c;
+    }
+
+    .delivery-point-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #6b2c2c;
+    }
+
+    .delivery-point-address {
+      font-size: 0.8rem;
+      color: #6b2c2c;
+      opacity: 0.8;
+    }
+
+    .order-items {
+      margin-bottom: 20px;
+    }
+
+    .order-item {
+      display: flex;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #e8dfd6;
+    }
+
+    .order-item-image {
+      width: 40px;
+      height: 55px;
+      background-color: #f9f9f9;
+      border: 1px solid #e8dfd6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .order-item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .order-item-image i {
+      font-size: 1.2rem;
+      color: #6b2c2c;
+      opacity: 0.5;
+    }
+
+    .order-item-info {
+      flex: 1;
+    }
+
+    .order-item-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #6b2c2c;
+    }
+
+    .order-item-price {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #6b2c2c;
+      white-space: nowrap;
+    }
+
+    .order-total {
+      border-top: 2px solid #6b2c2c;
+      padding-top: 15px;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: #6b2c2c;
+    }
+
+    .total-row.final {
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-top: 1px solid #e8dfd6;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background-color: #6b2c2c;
+      color: white;
+      border: 1px solid #6b2c2c;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+      background-color: #8B3A3A;
+    }
+
+    .card-details {
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid #e8dfd6;
+      background-color: #f9f9f9;
+    }
+
+    @media (max-width: 768px) {
+      .checkout-container {
+        grid-template-columns: 1fr;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="checkout-wrapper">
+    <a href="javascript:history.back()" class="back-btn">
+      <i class="fas fa-chevron-left"></i> Назад
+    </a>
+
+    <div class="checkout-container">
+      <!-- Левая колонка -->
+      <div class="checkout-form">
+        <h2 class="section-title">Получатель</h2>
+
+        <form id="checkoutForm" method="post" action="{% url 'users:profile' %}">
+          {% csrf_token %}
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Фамилия</label>
+              <input type="text" name="last_name" class="form-input" value="{{ user.last_name }}" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Имя</label>
+              <input type="text" name="first_name" class="form-input" value="{{ user.first_name }}" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Телефон</label>
+            <input type="tel" name="phone" class="form-input" placeholder="+7 (999) 999-99-99" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-input" value="{{ user.email }}" required>
+          </div>
+
+          <h2 class="section-title" style="margin-top:20px;">Оплата</h2>
+
+          <div class="payment-methods">
+            <div class="payment-method">
+              <input type="radio" name="payment_method" id="card" value="card" checked>
+              <label for="card"><i class="fas fa-credit-card"></i>Картой онлайн</label>
+            </div>
+            <div class="payment-method">
+              <input type="radio" name="payment_method" id="cash" value="cash">
+              <label for="cash"><i class="fas fa-money-bill-wave"></i>Наличными</label>
+            </div>
+            <div class="payment-method">
+              <input type="radio" name="payment_method" id="sbp" value="sbp">
+              <label for="sbp"><i class="fas fa-qrcode"></i>СБП</label>
+            </div>
+          </div>
+
+          <div id="cardDetails" class="card-details">
+            <div class="form-group">
+              <label class="form-label">Номер карты</label>
+              <input type="text" name="card_number" class="form-input" placeholder="0000 0000 0000 0000">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Срок</label>
+                <input type="text" name="card_expiry" class="form-input" placeholder="MM/ГГ">
+              </div>
+              <div class="form-group">
+                <label class="form-label">CVV</label>
+                <input type="text" name="card_cvv" class="form-input" placeholder="123">
+              </div>
+            </div>
+          </div>
+
+          <h2 class="section-title" style="margin-top:20px;">Пункт выдачи</h2>
+
+          <div class="delivery-points">
+            <div class="delivery-point">
+              <input type="radio" name="pickup_point" id="point1" value="Тверская,15" checked>
+              <div>
+                <div class="delivery-point-name">ул. Тверская, 15</div>
+                <div class="delivery-point-address">м. Охотный ряд</div>
+              </div>
+            </div>
+            <div class="delivery-point">
+              <input type="radio" name="pickup_point" id="point2" value="Новый Арбат,24">
+              <div>
+                <div class="delivery-point-name">ул. Новый Арбат, 24</div>
+                <div class="delivery-point-address">м. Арбатская</div>
+              </div>
+            </div>
+            <div class="delivery-point">
+              <input type="radio" name="pickup_point" id="point3" value="Мира,119">
+              <div>
+                <div class="delivery-point-name">пр. Мира, 119</div>
+                <div class="delivery-point-address">м. ВДНХ</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Комментарий</label>
+            <textarea name="comment" class="form-textarea" placeholder="Необязательно"></textarea>
+          </div>
+        </form>
+      </div>
+
+      <!-- Правая колонка -->
+      <div class="order-summary">
+        <h2 class="section-title">Ваш заказ</h2>
+
+        <div class="order-items">
+          {% for basket in baskets %}
+          <div class="order-item">
+            <div class="order-item-image">
+              {% if basket.book.cover_image %}
+                <img src="{{ basket.book.cover_image_url }}" alt="">
+              {% else %}
+                <i class="fas fa-book"></i>
+              {% endif %}
+            </div>
+            <div class="order-item-info">
+              <div class="order-item-title">{{ basket.book.title|truncatechars:20 }}</div>
+            </div>
+            <div class="order-item-price">
+              {{ basket.book.price }} ₽ x{{ basket.quantity }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="order-total">
+          <div class="total-row">
+            <span>Товары ({{ total_quantity }} шт.)</span>
+            <span>{{ total_sum }} ₽</span>
+          </div>
+          <div class="total-row final">
+            <span>Итого</span>
+            <span>{{ total_sum }} ₽</span>
+          </div>
+        </div>
+
+        <button type="submit" form="checkoutForm" class="submit-btn">
+          <i class="fas fa-check"></i> Заказать
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        const cardDetails = document.getElementById('cardDetails');
+        cardDetails.style.display = this.value === 'card' ? 'block' : 'none';
+      });
+    });
+
+    document.querySelectorAll('.delivery-point').forEach(point => {
+      point.addEventListener('click', function() {
+        document.querySelectorAll('.delivery-point').forEach(p => {
+          p.classList.remove('selected');
+        });
+        this.classList.add('selected');
+        this.querySelector('input').checked = true;
+      });
+    });
+  </script>
+</body>
+</html>

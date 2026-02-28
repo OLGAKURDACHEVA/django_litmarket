@@ -4,13 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Профиль и корзина | LitMarket</title>
-  <!-- Шрифты и иконки (как на всём сайте) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Базовые стили (перекликаются с books.css) */
     * {
       margin: 0;
       padding: 0;
@@ -18,203 +16,224 @@
     }
 
     body {
-      font-family: 'Open Sans', Arial, sans-serif;
-      background-color: #f5f5f5;
+      font-family: "Inter", sans-serif;
+      background-color: #f9f9f9;
+      color: #6b2c2c;
+      min-height: 100vh;
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 40px 20px;
+      padding: 20px;
     }
 
-    /* Основной контейнер — две колонки */
-    .profile-cart-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      max-width: 1100px;
+    .profile-wrapper {
+      max-width: 1000px;
       width: 100%;
     }
 
-    /* Общие стили карточек */
+    .back-button-container {
+      margin-bottom: 15px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background-color: transparent;
+      border: 1px solid #6b2c2c;
+      color: #6b2c2c;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover {
+      background-color: #6b2c2c;
+      color: white;
+    }
+
+    .back-btn i {
+      font-size: 0.8rem;
+    }
+
+    .profile-cart-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      width: 100%;
+    }
+
     .profile-card, .cart-card {
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-      padding: 30px 25px;
-      transition: box-shadow 0.3s ease;
-      border: 1px solid #eee;
+      background-color: #ffffff;
+      padding: 15px;
+      border: 1px solid #e8dfd6;
     }
 
-    .profile-card:hover, .cart-card:hover {
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    }
-
-    /* Заголовки карточек */
     .section-title {
-      font-family: 'Open Sans', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #2c3e50;
-      margin-bottom: 25px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #4a6fa5;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #6b2c2c;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #6b2c2c;
       display: inline-block;
     }
 
-    /* Контейнер для аватарки — центрирование */
     .profile-avatar {
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 15px;
     }
 
     .profile-avatar img {
-      border-radius: 50%;      /* опционально: делает аватар круглым */
+      border: 2px solid #6b2c2c;
       object-fit: cover;
-      width: 100px;
-      height: 100px;
+      width: 70px;
+      height: 70px;
     }
 
-    /* Форма профиля */
     .profile-form .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 12px;
     }
 
     .profile-form .form-label {
       display: block;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #2c3e50;
-      margin-bottom: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #6b2c2c;
+      margin-bottom: 2px;
     }
 
-    .profile-form .form-input {
+    .profile-form input[type="text"],
+    .profile-form input[type="email"] {
       width: 100%;
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: 'Open Sans', sans-serif;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      background-color: #fafafa;
+      padding: 8px 10px;
+      border: 1px solid #6b2c2c;
+      font-size: 0.85rem;
+      background-color: #f9f9f9;
+      color: #6b2c2c;
     }
 
-    .profile-form .form-input:focus {
+    .profile-form input[type="text"]:focus,
+    .profile-form input[type="email"]:focus {
       outline: none;
-      border-color: #4a6fa5;
-      box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
-      background-color: #fff;
+      background-color: white;
     }
 
-    /* Стилизация стандартного поля загрузки файла */
     .profile-form input[type="file"] {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      background-color: #fafafa;
-      font-size: 0.95rem;
-      cursor: pointer;
+      padding: 4px 0;
+      font-size: 0.8rem;
     }
 
     .profile-form input[type="file"]::file-selector-button {
-      background-color: #e9ecef;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 16px;
-      margin-right: 15px;
+      background-color: #f9f9f9;
+      border: 1px solid #6b2c2c;
+      padding: 5px 10px;
+      margin-right: 10px;
+      font-size: 0.8rem;
       font-weight: 500;
-      color: #2c3e50;
+      color: #6b2c2c;
       cursor: pointer;
-      transition: background-color 0.2s;
     }
 
     .profile-form input[type="file"]::file-selector-button:hover {
-      background-color: #dee2e6;
+      background-color: #6b2c2c;
+      color: white;
     }
 
-    /* Кнопка сохранения (на всю ширину) */
     .save-btn {
       width: 100%;
-      background-color: #4a6fa5;
+      background-color: #6b2c2c;
       color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 14px 20px;
-      font-size: 1.1rem;
-      font-weight: 600;
+      border: 1px solid #6b2c2c;
+      padding: 8px 15px;
+      font-size: 0.9rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: background-color 0.2s;
-      margin-top: 15px;
+      margin-top: 8px;
     }
 
     .save-btn:hover {
-      background-color: #3a5985;
+      background-color: #8B3A3A;
     }
 
-    /* Корзина */
-    .cart-items {
-      margin-bottom: 25px;
+    .alert {
+      padding: 8px 30px 8px 10px;
+      margin-bottom: 15px;
+      background-color: #f9f9f9;
+      border: 1px solid #6b2c2c;
+      font-size: 0.8rem;
+      position: relative;
     }
 
-    /* Контейнер для заголовка и счётчика */
+    .close-btn {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      font-size: 1.1rem;
+      color: #6b2c2c;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
     .cart-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
     }
 
-    /* Стиль счётчика (как кнопки + и -) */
     .cart-count {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 28px;        /* чтобы цифры не сжимали */
-        height: 28px;
-        padding: 0 6px;          /* горизонтальные отступы для двузначных чисел */
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        background-color: #fff;  /* или #f0f0f0, как у кнопок */
-        color: #4a6fa5;
-        font-weight: 600;
-        font-size: 1rem;
-        line-height: 1;
-        text-align: center;
-        box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      padding: 0 8px;
+      border: 1px solid #6b2c2c;
+      background-color: #f9f9f9;
+      color: #6b2c2c;
+      font-size: 0.75rem;
+      font-weight: 600;
     }
 
-    /* Если хотите эффект при наведении, как у кнопок */
-    .cart-count:hover {
-        background-color: #e9ecef;
-        border-color: #4a6fa5;
+    .cart-items {
+      margin-bottom: 10px;
     }
-
 
     .cart-item {
       display: flex;
       align-items: center;
-      gap: 15px;
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .cart-item:last-child {
-      border-bottom: none;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #e8dfd6;
     }
 
     .item-image {
-      width: 70px;
-      height: 90px;
-      background-color: #f0f0f0;
-      border-radius: 6px;
+      width: 40px;
+      height: 55px;
+      background-color: #f9f9f9;
+      border: 1px solid #e8dfd6;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #aaa;
-      font-size: 0.8rem;
-      text-align: center;
+      overflow: hidden;
+    }
+
+    .item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .item-image i {
+      font-size: 1.2rem;
+      color: #6b2c2c;
+      opacity: 0.5;
     }
 
     .item-info {
@@ -223,13 +242,15 @@
 
     .item-title {
       font-weight: 600;
-      color: #2c3e50;
-      margin-bottom: 4px;
+      color: #6b2c2c;
+      font-size: 0.8rem;
+      margin-bottom: 2px;
     }
 
     .item-desc {
-      font-size: 0.9rem;
-      color: #666;
+      font-size: 0.7rem;
+      color: #6b2c2c;
+      opacity: 0.8;
     }
 
     .item-details {
@@ -241,108 +262,100 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 10px;
-      margin-bottom: 5px;
+      gap: 4px;
+      margin-bottom: 2px;
     }
+
+    .quantity-btn,
     .quantity-plus-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 28px;
-        height: 28px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        background: none;
-        color: #4a6fa5;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.2s;
-        cursor: pointer;
-    }
-
-    .quantity-plus-btn:hover {
-        background-color: #4a6fa5;
-        color: white;
-        border-color: #4a6fa5;
-    }
-
-    .quantity-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #6b2c2c;
       background: none;
-      border: 1px solid #ddd;
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      cursor: pointer;
-      color: #4a6fa5;
+      color: #6b2c2c;
       font-weight: 600;
-      transition: all 0.2s;
+      font-size: 0.8rem;
+      text-decoration: none;
     }
 
-    .quantity-btn:hover {
-      background-color: #4a6fa5;
+    .quantity-btn:hover,
+    .quantity-plus-btn:hover {
+      background-color: #6b2c2c;
       color: white;
-      border-color: #4a6fa5;
     }
 
     .quantity-value {
-      font-weight: 600;
-      color: #2c3e50;
+      font-weight: 500;
+      color: #6b2c2c;
+      min-width: 40px;
+      text-align: center;
+      font-size: 0.75rem;
     }
 
     .item-price {
-      font-weight: 700;
-      color: #2c3e50;
+      font-weight: 600;
+      color: #6b2c2c;
+      font-size: 0.8rem;
     }
 
-    /* Итого и кнопка оформления */
     .cart-total {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #2c3e50;
-      padding: 15px 0;
-      border-top: 2px solid #eee;
-      margin-bottom: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #6b2c2c;
+      padding: 8px 0;
+      border-top: 2px solid #6b2c2c;
+      margin: 10px 0;
     }
 
     .total-amount {
-      color: #4a6fa5;
-      font-size: 1.4rem;
+      font-size: 1rem;
+      font-weight: 700;
     }
 
     .checkout-btn {
       width: 100%;
-      background-color: #4a6fa5;
+      background-color: #6b2c2c;
       color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 14px 20px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.2s;
+      border: 1px solid #6b2c2c;
+      padding: 8px 15px;
+      font-size: 0.85rem;
+      font-weight: 500;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 6px;
       text-decoration: none;
     }
 
     .checkout-btn:hover {
-      background-color: #3a5985;
+      background-color: #8B3A3A;
     }
 
-    /* Адаптивность */
+    .empty-cart {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .empty-cart h2 {
+      font-size: 1rem;
+      color: #6b2c2c;
+      opacity: 0.7;
+      font-weight: 500;
+    }
+
     @media (max-width: 768px) {
       .profile-cart-container {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 15px;
       }
-
       body {
-        padding: 20px 15px;
+        padding: 15px;
       }
     }
 
@@ -350,124 +363,75 @@
       .cart-item {
         flex-direction: column;
         align-items: flex-start;
+        gap: 8px;
       }
-
       .item-details {
         width: 100%;
         text-align: left;
       }
-
       .item-quantity {
         justify-content: flex-start;
       }
-    }
-
-    /* +++++ СТИЛИ ДЛЯ УВЕДОМЛЕНИЯ +++++ */
-    .alert {
-      padding: 12px 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      background-color: rgba(173, 216, 230, 0.85);
-      color: #0c5460;
-      border: 1px solid rgba(0, 123, 255, 0.2);
-      font-weight: 500;
-      text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      position: relative;           /* для позиционирования кнопки закрытия */
-      padding-right: 40px;          /* чтобы крестик не налезал на текст */
-    }
-
-    /* Кнопка закрытия */
-    .close-btn {
-      position: absolute;
-      top: 50%;
-      right: 15px;
-      transform: translateY(-50%);
-      background: transparent;
-      border: none;
-      font-size: 1.6rem;
-      line-height: 1;
-      color: #0c5460;
-      cursor: pointer;
-      opacity: 0.7;
-      transition: opacity 0.2s;
-      padding: 0 5px;
-    }
-    .close-btn:hover {
-      opacity: 1;
+      .profile-card, .cart-card {
+        padding: 12px;
+      }
     }
   </style>
 </head>
 <body>
-
   {% load static %}
 
-  <div class="profile-cart-container">
-
-    <!-- ЛЕВАЯ КОЛОНКА: ПРОФИЛЬ -->
-    <div class="profile-card">
-
-      <!-- БЛОК СООБЩЕНИЙ С КНОПКОЙ ЗАКРЫТИЯ -->
-      {% if messages %}
-        <div class="alert alert-{{ message.tags }}" role="alert">
-          {% for msg in messages %}
-            {{ msg }}
-          {% endfor %}
-          <button type="button" class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
-        </div>
-      {% endif %}
-
-      <h2 class="section-title">Профиль</h2>
-
-      <div class="profile-avatar">
-        <img width="100" height="100" src="
-          {% if user.image %}
-            {{ user.image.url }}
-          {% else %}
-            {% static 'vendor/img/profile.jpg' %}
-          {% endif %}
-        ">
-      </div>
-
-      <!-- Форма редактирования профиля -->
-      <form method="post" action="{% url 'users:profile' %}" enctype="multipart/form-data" class="profile-form">
-        {% csrf_token %}
-
-        <!-- Имя -->
-        <div class="form-group">
-          <label class="form-label" for="{{ form.first_name.id_for_label }}">Имя</label>
-          {{ form.first_name }}
-        </div>
-
-        <!-- Фамилия -->
-        <div class="form-group">
-          <label class="form-label" for="{{ form.last_name.id_for_label }}">Фамилия</label>
-          {{ form.last_name }}
-        </div>
-
-        <!-- Поле загрузки изображения -->
-        <div class="form-group">
-          <label class="form-label" for="{{ form.image.id_for_label }}">Выберите изображение</label>
-          {{ form.image }}
-        </div>
-
-        <!-- Имя пользователя -->
-        <div class="form-group">
-          <label class="form-label" for="{{ form.username.id_for_label }}">Имя пользователя</label>
-          {{ form.username }}
-        </div>
-
-        <!-- Email -->
-        <div class="form-group">
-          <label class="form-label" for="{{ form.email.id_for_label }}">Адрес электронной почты</label>
-          {{ form.email }}
-        </div>
-
-        <button type="submit" class="save-btn">Сохранить</button>
-      </form>
+  <div class="profile-wrapper">
+    <div class="back-button-container">
+      <a href="{% url 'index' %}" class="back-btn">
+        <i class="fas fa-chevron-left"></i> На главную
+      </a>
+      <a href="{% url 'books:index' %}" class="back-btn">
+        <i class="fas fa-chevron-left"></i> В каталог
+      </a>
     </div>
 
-    <!-- ПРАВАЯ КОЛОНКА: КОРЗИНА -->
+    <div class="profile-cart-container">
+      <div class="profile-card">
+        {% if messages %}
+          <div class="alert">
+            {% for msg in messages %}{{ msg }}{% endfor %}
+            <button type="button" class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+          </div>
+        {% endif %}
+
+        <h2 class="section-title">Профиль</h2>
+
+        <div class="profile-avatar">
+          <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'vendor/img/profile.jpg' %}{% endif %}">
+        </div>
+
+        <form method="post" action="{% url 'users:profile' %}" enctype="multipart/form-data" class="profile-form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="form-label" for="{{ form.first_name.id_for_label }}">Имя</label>
+            {{ form.first_name }}
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="{{ form.last_name.id_for_label }}">Фамилия</label>
+            {{ form.last_name }}
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="{{ form.image.id_for_label }}">Фото</label>
+            {{ form.image }}
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="{{ form.username.id_for_label }}">Логин</label>
+            {{ form.username }}
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+          </div>
+          <button type="submit" class="save-btn">Сохранить</button>
+        </form>
+      </div>
+
     <div class="cart-card">
         {% include "books/basket.html" %}
     </div>

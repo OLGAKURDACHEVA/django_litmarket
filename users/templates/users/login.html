@@ -4,13 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Вход в LitMarket</title>
-  <!-- Шрифты и иконки -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Базовые стили (перекликаются с вашим books.css) */
     * {
       margin: 0;
       padding: 0;
@@ -18,8 +16,9 @@
     }
 
     body {
-      font-family: 'Open Sans', Arial, sans-serif;
-      background-color: #f5f5f5; /* тот же фон, что в каталоге */
+      font-family: "Inter", sans-serif;
+      background-color: #f9f9f9;
+      color: #6b2c2c;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -28,70 +27,50 @@
       padding: 20px;
     }
 
-    /* Логотип (кликабельный) */
+    /* Логотип */
     .auth-logo {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
       text-decoration: none;
-      margin-bottom: 20px;
-      transition: opacity 0.2s;
-    }
-
-    .auth-logo:hover {
-      opacity: 0.8;
-    }
-
-    .auth-logo-icon {
-      font-size: 2rem;
-      color: #4a6fa5;
+      margin-bottom: 15px;
     }
 
     .auth-logo-text {
-      font-family: 'Open Sans', serif;
-      font-size: 2rem;
       font-weight: 700;
-      color: #2c3e50;
+      color: #6b2c2c;
+      font-size: 1.8rem;
+      line-height: 1.2;
     }
 
-    /* Карточка авторизации */
     .auth-card {
       background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       width: 100%;
-      max-width: 420px;
-      padding: 35px 30px;
-      transition: all 0.3s ease;
-      border: 1px solid #eee;
+      max-width: 360px;
+      padding: 25px 20px;
+      border: 1px solid #e8dfd6;
     }
 
-    .auth-card:hover {
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    }
-
-    /* Заголовок */
     .auth-title {
-      font-family: 'Open Sans', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: #2c3e50; /* темно-синий, как в каталоге */
+      font-family: "Inter", sans-serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #6b2c2c;
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
     /* Поля формы */
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .form-label {
       display: block;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #2c3e50;
-      margin-bottom: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #6b2c2c;
+      margin-bottom: 4px;
     }
 
     .input-wrapper {
@@ -102,122 +81,97 @@
 
     .input-icon {
       position: absolute;
-      left: 15px;
-      color: #aaa;
-      font-size: 1rem;
+      left: 12px;
+      color: #6b2c2c;
+      opacity: 0.7;
+      font-size: 0.95rem;
     }
 
     .form-input {
       width: 100%;
-      padding: 14px 20px 14px 45px; /* отступ слева под иконку */
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: 'Open Sans', sans-serif;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      background-color: #fafafa;
+      padding: 10px 12px 10px 38px;
+      border: 1px solid #6b2c2c;
+      font-size: 0.95rem;
+      font-family: "Inter", sans-serif;
+      background-color: #f9f9f9;
+      color: #6b2c2c;
     }
 
     .form-input:focus {
       outline: none;
-      border-color: #4a6fa5; /* основной синий */
-      box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
-      background-color: #fff;
+      background-color: white;
+      border-color: #6b2c2c;
     }
 
     .form-input::placeholder {
-      color: #aaa;
-      font-weight: 300;
+      color: #6b2c2c;
+      opacity: 0.5;
+      font-size: 0.9rem;
     }
 
-    /* Кнопка входа — длинная, на всю ширину */
     .auth-btn {
       width: 100%;
-      padding: 14px 20px;
-      background-color: #4a6fa5; /* фирменный синий */
+      padding: 10px 20px;
+      background-color: #6b2c2c;
       color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      font-family: 'Open Sans', sans-serif;
+      border: 1px solid #6b2c2c;
+      font-size: 1rem;
+      font-weight: 500;
+      font-family: "Inter", sans-serif;
       cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
-      margin-top: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-top: 8px;
     }
 
     .auth-btn:hover {
-      background-color: #3a5985; /* темнее при наведении */
+      background-color: #8B3A3A;
+      border-color: #8B3A3A;
     }
 
-    .auth-btn:active {
-      transform: scale(0.98);
-    }
-
-    /* Ссылки под кнопкой */
     .auth-links {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 20px;
-      font-size: 0.95rem;
+      justify-content: flex-end;
+      margin-top: 12px;
+      font-size: 0.85rem;
     }
 
     .auth-links a {
-      color: #4a6fa5;
+      color: #6b2c2c;
       text-decoration: none;
-      transition: color 0.2s;
       font-weight: 500;
     }
 
     .auth-links a:hover {
-      color: #2c3e50;
+      color: #8B3A3A;
       text-decoration: underline;
     }
 
-    .forgot-link {
-      /* можно добавить стили, если нужно выделить */
-    }
-
-    .register-link {
-      /* стиль для ссылки регистрации */
-    }
-
-    /* Дополнительный блок "Нужен аккаунт?" — мы уже включили ссылку справа,
-       но можно и отдельно вынести, если нужно строго как на картинке.
-       Для точного соответствия картинке сделаем под кнопкой две строки: */
     .auth-footer {
       text-align: center;
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
-      font-size: 0.95rem;
-      color: #666;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #e8dfd6;
+      font-size: 0.85rem;
+      color: #6b2c2c;
     }
 
     .auth-footer a {
-      color: #4a6fa5;
+      color: #6b2c2c;
       font-weight: 600;
       text-decoration: none;
       margin-left: 5px;
     }
 
     .auth-footer a:hover {
+      color: #8B3A3A;
       text-decoration: underline;
     }
 
-    /* Адаптивность */
     @media (max-width: 480px) {
       .auth-card {
-        padding: 25px 20px;
+        padding: 20px 15px;
       }
       .auth-title {
-        font-size: 1.8rem;
-      }
-      .auth-links {
-        flex-direction: column;
-        gap: 12px;
+        font-size: 1.4rem;
       }
     }
   </style>
@@ -226,23 +180,22 @@
 
   <div class="auth-card">
     <a href="{% url 'index' %}" class="auth-logo">
-      <i class="fas fa-book-open auth-logo-icon"></i>
       <span class="auth-logo-text">LitMarket</span>
     </a>
 
-  <div class="auth-card">
     <h1 class="auth-title">Авторизация</h1>
 
     <form action="{% url 'users:login' %}" method="post">
       {% csrf_token %}
-
 
       <!-- Поле "Имя пользователя" -->
       <div class="form-group">
         <label class="form-label" for="{{ form.username.id_for_label }}">Имя пользователя</label>
         <div class="input-wrapper">
           <i class="fas fa-user input-icon"></i>
-            {{ form.username }}
+          <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}"
+                 class="form-input" placeholder="Введите имя"
+                 {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
         </div>
       </div>
 
@@ -251,14 +204,15 @@
         <label class="form-label" for="{{ form.password.id_for_label }}">Пароль</label>
         <div class="input-wrapper">
           <i class="fas fa-lock input-icon"></i>
-          {{ form.password }}
+          <input type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}"
+                 class="form-input" placeholder="Введите пароль">
         </div>
       </div>
 
-      <!-- Кнопка входа  -->
-      <input type="submit" class="auth-btn" value="Авторизоваться">
+      <!-- Кнопка входа -->
+      <button type="submit" class="auth-btn">Авторизоваться</button>
 
-      <!-- Ссылки под кнопкой: "Забыли пароль?"-->
+      <!-- Ссылка "Забыли пароль?" -->
       <div class="auth-links">
         <a href="#" class="forgot-link">Забыли пароль?</a>
       </div>

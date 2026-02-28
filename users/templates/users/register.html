@@ -4,11 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Регистрация в LitMarket</title>
+  <!-- Шрифты и иконки -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Базовые стили из первого CSS */
     * {
       margin: 0;
       padding: 0;
@@ -16,8 +18,9 @@
     }
 
     body {
-      font-family: 'Open Sans', Arial, sans-serif;
-      background-color: #f5f5f5;
+      font-family: "Inter", sans-serif;
+      background-color: #f9f9f9;
+      color: #6b2c2c;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -26,70 +29,64 @@
       padding: 20px;
     }
 
-<!--        /* Логотип (кликабельный) */-->
+    /* Логотип */
     .auth-logo {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
       text-decoration: none;
-      margin-bottom: 20px;
-      transition: opacity 0.2s;
-    }
-
-    .auth-logo:hover {
-      opacity: 0.8;
-    }
-
-    .auth-logo-icon {
-      font-size: 2rem;
-      color: #4a6fa5;
+      margin-bottom: 15px;
     }
 
     .auth-logo-text {
-      font-family: 'Open Sans', serif;
-      font-size: 2rem;
       font-weight: 700;
-      color: #2c3e50;
+      color: #6b2c2c;
+      font-size: 1.8rem;
+      line-height: 1.2;
     }
 
-    /* Карточка регистрации */
+    /* Карточка регистрации - компактная, без теней */
     .register-card {
       background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       width: 100%;
-      max-width: 480px;
-      padding: 35px 30px;
-      transition: all 0.3s ease;
-      border: 1px solid #eee;
-    }
-
-    .register-card:hover {
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      max-width: 600px;
+      padding: 25px 25px;
+      border: 1px solid #e8dfd6;
     }
 
     /* Заголовок */
     .register-title {
-      font-family: 'Open Sans', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: #2c3e50;
+      font-family: "Inter", sans-serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #6b2c2c;
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
+    }
+
+    /* Двухколоночная сетка для полей */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Поля на всю ширину */
+    .form-full-width {
+      grid-column: span 2;
     }
 
     /* Поля формы */
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 0;
     }
 
     .form-label {
       display: block;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #2c3e50;
-      margin-bottom: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #6b2c2c;
+      margin-bottom: 4px;
     }
 
     .input-wrapper {
@@ -100,167 +97,248 @@
 
     .input-icon {
       position: absolute;
-      left: 15px;
-      color: #aaa;
-      font-size: 1rem;
+      left: 12px;
+      color: #6b2c2c;
+      opacity: 0.7;
+      font-size: 0.95rem;
+      z-index: 1;
     }
 
-    .form-input {
+    /* Стили для полей ввода */
+    .form-input,
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
       width: 100%;
-      padding: 14px 20px 14px 45px; /* место под иконку */
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: 'Open Sans', sans-serif;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      background-color: #fafafa;
+      padding: 10px 12px 10px 38px;
+      border: 1px solid #6b2c2c;
+      font-size: 0.95rem;
+      font-family: "Inter", sans-serif;
+      background-color: #f9f9f9;
+      color: #6b2c2c;
+      border-radius: 0;
     }
 
-    .form-input:focus {
+    .form-input:focus,
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus {
       outline: none;
-      border-color: #4a6fa5;
-      box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
-      background-color: #fff;
+      background-color: white;
+      border-color: #6b2c2c;
     }
 
-    .form-input::placeholder {
-      color: #aaa;
-      font-weight: 300;
+    .form-input::placeholder,
+    input[type="text"]::placeholder,
+    input[type="password"]::placeholder,
+    input[type="email"]::placeholder {
+      color: #6b2c2c;
+      opacity: 0.5;
+      font-size: 0.9rem;
     }
 
-    /* Кнопка создания аккаунта */
+    /* Стили для Django форм */
+    input[name="first_name"],
+    input[name="last_name"],
+    input[name="username"],
+    input[name="password1"],
+    input[name="password2"],
+    input[name="email"] {
+      width: 100%;
+      padding: 10px 12px 10px 38px;
+      border: 1px solid #6b2c2c;
+      font-size: 0.95rem;
+      font-family: "Inter", sans-serif;
+      background-color: #f9f9f9;
+      color: #6b2c2c;
+    }
+
+    input[name="first_name"]:focus,
+    input[name="last_name"]:focus,
+    input[name="username"]:focus,
+    input[name="password1"]:focus,
+    input[name="password2"]:focus,
+    input[name="email"]:focus {
+      outline: none;
+      background-color: white;
+      border-color: #6b2c2c;
+    }
+
+    /* Кнопка регистрации */
     .register-btn {
       width: 100%;
-      padding: 14px 20px;
-      background-color: #4a6fa5;
+      padding: 12px 20px;
+      background-color: #6b2c2c;
       color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      font-family: 'Open Sans', sans-serif;
+      border: 1px solid #6b2c2c;
+      font-size: 1rem;
+      font-weight: 500;
+      font-family: "Inter", sans-serif;
       cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
-      margin-top: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-top: 20px;
     }
 
     .register-btn:hover {
-      background-color: #3a5985;
-    }
-
-    .register-btn:active {
-      transform: scale(0.98);
+      background-color: #8B3A3A;
+      border-color: #8B3A3A;
     }
 
     /* Ссылка на авторизацию */
     .login-link {
       text-align: center;
-      margin-top: 25px;
+      margin-top: 20px;
       padding-top: 20px;
-      border-top: 1px solid #eee;
-      font-size: 0.95rem;
-      color: #666;
+      border-top: 1px solid #e8dfd6;
+      font-size: 0.85rem;
+      color: #6b2c2c;
     }
 
     .login-link a {
-      color: #4a6fa5;
+      color: #6b2c2c;
       font-weight: 600;
       text-decoration: none;
       margin-left: 5px;
     }
 
     .login-link a:hover {
+      color: #8B3A3A;
       text-decoration: underline;
     }
 
-    /* Адаптивность */
-    @media (max-width: 480px) {
+    /* Стили для ошибок формы */
+    .error-messages {
+      color: #b22222;
+      background-color: #ffe4e1;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #6b2c2c;
+      font-size: 0.85rem;
+      grid-column: span 2;
+    }
+
+    .error-messages ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .error-messages li {
+      margin-bottom: 4px;
+    }
+
+    /* Адаптивность для мобильных */
+    @media (max-width: 640px) {
       .register-card {
-        padding: 25px 20px;
+        padding: 20px 15px;
+        max-width: 100%;
       }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .form-full-width {
+        grid-column: span 1;
+      }
+
       .register-title {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
       }
     }
   </style>
 </head>
 <body>
   <div class="register-card">
-     <a href="{% url 'index' %}" class="auth-logo">
-      <i class="fas fa-book-open auth-logo-icon"></i>
+    <a href="{% url 'index' %}" class="auth-logo">
       <span class="auth-logo-text">LitMarket</span>
     </a>
+
     <h1 class="register-title">Создать аккаунт</h1>
 
     <form action="{% url 'users:register' %}" method="post">
       {% csrf_token %}
 
       {% if form.errors %}
-        <div style="color: #b22222; background: #ffe4e1; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-          {{ form.errors }}
+        <div class="error-messages">
+          <ul>
+            {% for field, errors in form.errors.items %}
+              {% for error in errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
         </div>
       {% endif %}
 
-  <!-- остальные поля -->
-
-      <!-- Имя -->
-      <div class="form-group">
-        <label class="form-label" for="{{ form.first_name.id_for_label }}">Имя</label>
-        <div class="input-wrapper">
-          <i class="fas fa-user input-icon"></i>
-          {{ form.first_name }}
+      <!-- Двухколоночная сетка для полей -->
+      <div class="form-grid">
+        <!-- Имя (левая колонка) -->
+        <div class="form-group">
+          <label class="form-label" for="{{ form.first_name.id_for_label }}">Имя</label>
+          <div class="input-wrapper">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}"
+                   class="form-input" placeholder="Введите имя"
+                   {% if form.first_name.value %}value="{{ form.first_name.value }}"{% endif %}>
+          </div>
         </div>
-      </div>
 
-      <!-- Фамилия -->
-      <div class="form-group">
-        <label class="form-label" for="{{ form.last_name.id_for_label }}">Фамилия</label>
-        <div class="input-wrapper">
-          <i class="fas fa-user input-icon"></i>
-          {{ form.last_name }}
+        <!-- Фамилия (правая колонка) -->
+        <div class="form-group">
+          <label class="form-label" for="{{ form.last_name.id_for_label }}">Фамилия</label>
+          <div class="input-wrapper">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}"
+                   class="form-input" placeholder="Введите фамилию"
+                   {% if form.last_name.value %}value="{{ form.last_name.value }}"{% endif %}>
+          </div>
         </div>
-      </div>
 
-      <!-- Имя пользователя -->
-      <div class="form-group">
-        <label class="form-label" for="{{ form.username.id_for_label }}">Имя пользователя</label>
-        <div class="input-wrapper">
-          <i class="fas fa-at input-icon"></i>
-          {{ form.username }}
+        <!-- Имя пользователя (левая колонка) -->
+        <div class="form-group">
+          <label class="form-label" for="{{ form.username.id_for_label }}">Имя пользователя</label>
+          <div class="input-wrapper">
+            <i class="fas fa-at input-icon"></i>
+            <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}"
+                   class="form-input" placeholder="Введите логин"
+                   {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
+          </div>
         </div>
-      </div>
 
-      <!-- Пароль -->
-      <div class="form-group">
-        <label class="form-label" for="{{ form.password1.id_for_label }}">Пароль</label>
-        <div class="input-wrapper">
-          <i class="fas fa-lock input-icon"></i>
-          {{ form.password1 }}
+        <!-- Email (правая колонка) -->
+        <div class="form-group">
+          <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
+          <div class="input-wrapper">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}"
+                   class="form-input" placeholder="Введите email"
+                   {% if form.email.value %}value="{{ form.email.value }}"{% endif %}>
+          </div>
         </div>
-      </div>
 
-      <!-- Подтверждение пароля -->
-      <div class="form-group">
-        <label class="form-label" for="{{ form.password2.id_for_label }}">Подтверждение пароля</label>
-        <div class="input-wrapper">
-          <i class="fas fa-lock input-icon"></i>
-          {{ form.password2 }}
+        <!-- Пароль (левая колонка) -->
+        <div class="form-group">
+          <label class="form-label" for="{{ form.password1.id_for_label }}">Пароль</label>
+          <div class="input-wrapper">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}"
+                   class="form-input" placeholder="Введите пароль">
+          </div>
         </div>
-      </div>
 
-      <!-- Email -->
-      <div class="form-group">
-        <label class="form-label" for="{{ form.email.id_for_label }}">Адрес электронной почты</label>
-        <div class="input-wrapper">
-          <i class="fas fa-envelope input-icon"></i>
-          {{ form.email }}
+        <!-- Подтверждение пароля (правая колонка) -->
+        <div class="form-group">
+          <label class="form-label" for="{{ form.password2.id_for_label }}">Подтверждение пароля</label>
+          <div class="input-wrapper">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}"
+                   class="form-input" placeholder="Повторите пароль">
+          </div>
         </div>
-      </div>
+      </div> <!-- Закрытие form-grid -->
 
-      <!-- Кнопка регистрации -->
-<!--      <button type="submit" class="register-btn">Создать аккаунт</button>-->
-      <input type="submit" class="register-btn" value="Создать аккаунт">
+      <!-- Кнопка регистрации (на всю ширину) -->
+      <button type="submit" class="register-btn">Создать аккаунт</button>
 
       <!-- Ссылка на авторизацию -->
       <div class="login-link">
