@@ -103,7 +103,7 @@
 
     .age-block:hover {
         background-color: #6b2c2c;
-         color: white;
+        color: white;
     }
 
     .catalog-btn {
@@ -247,8 +247,6 @@
         color: #8B3A3A;
     }
 
-
-
     .content-wrapper {
         padding: 20px;
         width: 100%;
@@ -260,13 +258,99 @@
         padding: 20px;
     }
 
-    .reading-room {
+   .reading-room {
         background: linear-gradient(135deg, #fff9f0, #f5ede4);
-        padding: 60px 40px;
+        padding: 5px 40px;
         border-radius: 12px;
         margin-bottom: 40px;
-        text-align: center;
         border: 1px solid #e8dfd6;
+   }
+
+    .month-book-label {
+        font-size: 3rem;
+        color: #6b2c2c;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .book-of-month {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+    }
+
+    .book-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .book-title {
+        font-size: 2.2rem;
+        color: #8dfd6;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
+
+    .book-author {
+        font-size: 1.3rem;
+        color: #6b2c2c;
+        margin-bottom: 20px;
+    }
+
+    .book-description {
+        font-size: 1.1rem;
+        color: #8dfd6;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .read-more-btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: #6b2c2c;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        align-self: flex-start;
+        border: none;
+        margin-bottom: 15px;
+        border: 2px solid #6b2c2c;
+    }
+
+    .read-more-btn:hover {
+        background-color: white;
+        color: #8B3A3A;
+        border: 2px solid #6b2c2c;
+
+    }
+
+    .book-image {
+        flex: 0 0 280px;
+    }
+
+    .book-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    @media (max-width: 768px) {
+        .book-of-month {
+            flex-direction: column;
+        }
+
+        .book-image {
+            flex: 0 0 auto;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .read-more-btn {
+            align-self: center;
+        }
     }
 
     .library-hall {
@@ -354,7 +438,6 @@
     .back-to-top:hover {
         color: #8B3A3A;
         background-color: white;
-        transform: translateY(-3px);
     }
 
     .footer-top {

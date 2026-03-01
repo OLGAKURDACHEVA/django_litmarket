@@ -2,11 +2,12 @@ from django.contrib import auth
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import messages
 from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import logout
-from books.models import Basket
+from books.models import Basket, MyBooks, Book
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 def login(request):
@@ -85,3 +86,64 @@ def checkout(request):
         'total_quantity': total_quantity,
     }
     return render(request, 'users/checkout.html', context)
+
+
+def mybooks(request):
+    """Страница Мои книги"""
+    my_books = MyBooks.objects.filter(user=request.user).select_related('book', 'book__author')
+    context = {
+        'my_books': [item.book for item in my_books],
+        'title': 'Мои книги',
+    }
+    return render(request, 'users/mybooks.html', context)
+
+
+@login_required
+def add_to_mybooks(request, book_id):
+    """Добавление книги в Мои книги"""
+    book = get_object_or_404(Book, id=book_id)
+    MyBooks.objects.get_or_create(user=request.user, book=book)
+    return redirect(request.META.get('HTTP_REFERER', 'books:index'))
+
+
+@login_required
+def remove_from_mybooks(request, book_id):
+    """Удаление книги из Мои книги"""
+    book = get_object_or_404(Book, id=book_id)
+    MyBooks.objects.filter(user=request.user, book=book).delete()
+    return redirect('users:mybooks')  # указываем users:mybooks
+
+
+@login_required
+def move_to_cart(request, book_id):
+    """Перемещение книги из Мои книги в корзину"""
+    book = get_object_or_404(Book, id=book_id)
+
+    # Удаляем из Мои книги
+    MyBooks.objects.filter(user=request.user, book=book).delete()
+
+    # Добавляем в корзину
+    basket, created = Basket.objects.get_or_create(
+        user=request.user,
+        book=book,
+        defaults={'quantity': 1}
+    )
+    if not created:
+        basket.quantity += 1
+        basket.save()
+
+    return redirect('users:mybooks')
+
+
+@login_required
+def clear_mybooks(request):
+    """Очистка всех книг из Мои книги"""
+    MyBooks.objects.filter(user=request.user).delete()
+    return redirect('users:mybooks')
+
+
+@login_required
+def mybooks_count(request):
+    """API для получения количества книг в Мои книги"""
+    count = MyBooks.objects.filter(user=request.user).count()
+    return JsonResponse({'count': count})

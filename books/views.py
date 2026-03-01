@@ -1,7 +1,7 @@
 from statistics import quantiles
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from books.models import Book, Catalog, Basket
 from django.core.paginator import Paginator
 
@@ -44,3 +44,15 @@ def basket_add(request, book_id):
 
 def agreement(request):
     return render(request, 'books/agreement.html')
+
+
+def card(request, book_id):
+    book = get_object_or_404(Book, id=book_id )
+    categories = Catalog.objects.all()
+
+    context = {
+        'book': book,
+        'categories': categories,
+        'title': book.title,
+    }
+    return render(request, 'books/card.html', context)

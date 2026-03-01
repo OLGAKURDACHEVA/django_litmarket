@@ -66,8 +66,10 @@
               <a href="#" class="user-action">
                 <i class="far fa-clipboard"></i><span>Заказы</span>
               </a>
-              <a href="#" class="user-action">
                 <i class="fas fa-book-open"></i><span>Мои книги</span>
+                {% if user.is_authenticated %}
+                    <span class="cart-count" id="myBooksCount">{{ user.my_books.count }}</span>
+                {% endif %}
               </a>
               <form action="{% url 'users:logout_view' %}" method="post" style="display: inline;">
                 {% csrf_token %}
@@ -152,15 +154,16 @@
 
             <div class="books-grid">
               {% for book in books %}
-
-                <div class="book-card">
+                <div class="book-card" >
+                  <a href="{% url 'books:card' book.id %}">
                   <div class="book-cover">
                     <img src="{{ book.cover_image_url.url }}" alt="{{ book.title }}" />
-                  </div>
+                  </div></a>
                   <div class="book-price">
                     <span class="current-price">{{ book.price }} ₽</span>
                   </div>
-                  <h3 class="book-title"><a href="#">{{ book.title }}</a></h3>
+                  <h3 class="book-title"><a href="{% url 'books:card' book.id %}" class="book-card-link"
+                                            style="text-decoration: none; text-align: center;">{{ book.title }}</a></h3>
                   <div class="book-author">
                     <a href="#">{{ book.author.name }}</a>
                   </div>
@@ -174,13 +177,15 @@
                     <a href="{% url 'books:basket_add' book.id %}" class="add-to-cart-btn">
                       <i class="fas fa-shopping-cart"></i><span>Купить</span>
                     </a>
-                    <button class="wishlist-btn" data-book-id="{{ book.id }}"><i class="far fa-bookmark"></i></button>
+                     <a href="{% url 'users:add_to_mybooks' book.id %}" class="wishlist-btn" title="Добавить в мои книги">
+                    <i class="far fa-bookmark"></i>
+                     </a>
                   </div>
                 </div>
 
               {% empty %}
                 <p>Книг не найдено.</p>
-              {% endfor %}
+            {% endfor %}
             </div>
 
             <div class="pagination">

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,8 +61,11 @@
                         <a href="#" class="user-action">
                             <i class="far fa-clipboard"></i><span>Заказы</span>
                         </a>
-                        <a href="#" class="user-action">
+                        <a href="{% url 'users:mybooks' %}" class="user-action">
                             <i class="fas fa-book-open"></i><span>Мои книги</span>
+                            {% if user.is_authenticated %}
+                                <span class="cart-count" id="myBooksCount">{{ user.my_books.count }}</span>
+                            {% endif %}
                         </a>
 
                         <form action="{% url 'users:logout_view' %}" method="post" style="display: inline;">
@@ -79,11 +83,21 @@
             </div>
         </div>
     </header>
-
     <div class="content-wrapper">
         <div class="bookshelf">
             <header class="reading-room">
-                <h1 class="book-title">Тут будет какая-нибудь фотокарточка с книгой месяца и её описанием</h1>
+                <h2 class="month-book-label">Книга месяца</h2>
+                <div class="book-of-month">
+                    <div class="book-info">
+                        <h1 class="book-title">Название книги месяца</h1>
+                        <p class="book-author">Имя автора</p>
+                        <p class="book-description">Краткое описание книги, которое заинтересует читателя. Здесь может быть несколько предложений. Это описание может быть более подробным, чтобы читатель захотел узнать о книге больше.</p>
+                        <a href="#" class="read-more-btn">Узнать больше</a>
+                    </div>
+                    <div class="book-image">
+                        <img src="{% static 'vendor/img/profile.png' %}" alt="Книга месяца" style="width: 200px; height: auto; max-width: 100%;">
+                    </div>
+                </div>
             </header>
 
             <main class="library-hall">

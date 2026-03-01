@@ -403,7 +403,7 @@
         <h2 class="section-title">Профиль</h2>
 
         <div class="profile-avatar">
-          <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'vendor/img/profile.jpg' %}{% endif %}">
+          <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'vendor/img/profile.png' %}{% endif %}">
         </div>
 
         <form method="post" action="{% url 'users:profile' %}" enctype="multipart/form-data" class="profile-form">

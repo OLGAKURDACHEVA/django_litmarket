@@ -21,12 +21,17 @@
           position: relative;
         }
 
+        .logo {
+          text-decoration: none;
+        }
+
         .logo-section {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
           gap: 2px;
           flex-shrink: 0;
+          text-decoration: none;
         }
 
         .logo-text {
@@ -35,6 +40,7 @@
           font-size: 1.8rem;
           margin: 0;
           line-height: 1.2;
+          text-decoration: none;
         }
 
         .region-selector {
@@ -290,7 +296,9 @@
             <div class="header-content">
                 <div class="logo-section">
                     <div class="logo">
-                        <h1 class="logo-text">LitMarket</h1>
+                        <a href="{% url 'index' %}">
+                            <h1 class="logo-text">LitMarket</h1>
+                        </a>
                     </div>
                     <div class="region-selector">
                         <span class="region">Россия, Москва <i class="fas fa-chevron-down"></i></span>

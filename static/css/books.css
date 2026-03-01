@@ -405,6 +405,7 @@
       border-radius: 4px;
       font-size: 0.9rem;
       color: #6b2c2c;
+      text-decoration: none;
     }
 
     .price-inputs input:focus {
@@ -568,6 +569,7 @@
       font-size: 18px;
       font-weight: 700;
       color: #6b2c2c;
+      text-decoration: none;
     }
 
     .book-title {
@@ -575,6 +577,7 @@
       font-size: 16px;
       font-weight: 600;
       line-height: 1.3;
+      text-decoration: none;
     }
 
     .book-title a {
@@ -771,7 +774,6 @@
     .back-to-top:hover {
         color: #8B3A3A;
         background-color: white;
-        transform: translateY(-3px);
     }
 
     .footer-top {
