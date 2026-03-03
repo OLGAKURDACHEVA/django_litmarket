@@ -35,25 +35,82 @@
             padding: 5px 20px;
         }
 
-        .breadcrumbs {
+        .navigation-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin: 20px 0;
+            min-height: 33px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 0.9rem;
             color: #8B3A3A;
             white-space: nowrap;
         }
 
-        .breadcrumbs a {
+        .nav-links a {
             color: #6b2c2c;
             text-decoration: none;
         }
 
-        .breadcrumbs a:hover {
+        .nav-links a:hover {
             color: #8B3A3A;
             text-decoration: underline;
         }
 
-        .breadcrumbs span {
+        .nav-links span {
             color: #8B3A3A;
+        }
+
+        .message-container {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .alert-messages {
+            padding: 8px 30px 8px 10px;
+            border: 1px solid #6b2c2c;
+            background-color: transparent;
+            color: #6b2c2c;
+            font-size: 0.85rem;
+            max-width: 600px;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .message-content {
+            flex: 1;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            color: #6b2c2c;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        .message-checkbox {
+            display: none;
+        }
+
+        .message-checkbox:checked + .alert-messages {
+            display: none;
         }
 
         .product-container {
@@ -211,6 +268,16 @@
         .bookmark-btn.active {
             background: #6b2c2c;
             color: white;
+            border-color: #6b2c2c;
+        }
+
+        .bookmark-btn.active i {
+            color: white;
+        }
+
+        .bookmark-btn.active:hover {
+            background: #8B3A3A;
+            border-color: #8B3A3A;
         }
 
         .btn-outline {
@@ -225,6 +292,7 @@
             display: inline-block;
             white-space: nowrap;
             font-size: 0.95rem;
+            transition: all 0.2s;
         }
 
         .btn-outline:hover {
@@ -232,16 +300,22 @@
             color: white;
         }
 
+        .btn-outline:active {
+            background: #4f2121;
+            border-color: #4f2121;
+            transform: translateY(1px);
+        }
+
         .product-specs {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px 30px;
-            margin-bottom: 30px;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #e8dfd6;
-            width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px 30px;
+        margin-bottom: 30px;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #e8dfd6;
+        width: 100%;
         }
 
         .spec-item {
@@ -251,8 +325,24 @@
             padding-bottom: 5px;
         }
 
-        .spec-item:last-child {
+        .spec-item-double {
             grid-column: span 2;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dotted #e8dfd6;
+            padding-bottom: 5px;
+        }
+
+        .spec-double-left {
+            display: flex;
+            justify-content: space-between;
+            width: 48%;
+        }
+
+        .spec-double-right {
+            display: flex;
+            justify-content: space-between;
+            width: 48%;
         }
 
         .spec-label {
@@ -291,17 +381,56 @@
         .share-icons a:hover {
             color: #8B3A3A;
         }
+
+        @media (max-width: 768px) {
+            .navigation-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .message-container {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .alert-messages {
+                max-width: 100%;
+                white-space: normal;
+            }
+        }
     </style>
 </head>
 <body>
+    {% include "books/toolbar.html" %}
     <div class="content-wrapper">
-        {% include "books/toolbar.html" %}
         <div class="container">
-            <div class="breadcrumbs">
-                <a href="{% url 'index' %}">Главная</a> >
-                <a href="{% url 'books:index' %}">Каталог</a> >
-                <a href="#">{{ book.catalog_id }}</a> >
-                <span>{{ book.title }}</span>
+            <div class="navigation-row">
+                <div class="nav-links">
+                    <a href="{% url 'index' %}">Главная</a> >
+                    <a href="{% url 'books:index' %}">Каталог</a> >
+                    <a href="{% url 'books:index' %}?category_name={{ book.catalog_id.category|urlencode }}">
+                        {{ book.catalog_id.category }}
+                    </a> >
+                    <a href="{% url 'books:index' %}?genre={{ book.catalog_id.id }}">
+                        {{ book.catalog_id.genre }}
+                    </a> >
+                    <span>{{ book.title }}</span>
+                </div>
+
+                {% if messages %}
+                <div class="message-container">
+                    {% for message in messages %}
+                    <div>
+                        <input type="checkbox" class="message-checkbox" id="msg-{{ forloop.counter }}">
+                        <div class="alert-messages">
+                            <div class="message-content">{{ message }}</div>
+                            <label for="msg-{{ forloop.counter }}" class="close-btn">&times;</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
 
             <div class="product-container">
@@ -325,7 +454,17 @@
                     </div>
 
                     <div class="purchased-info">
-                        <i class="fas fa-shopping-bag"></i> Купили {{ book.purchased_count|default:"4" }} человека
+                        <i class="fas fa-shopping-bag"></i>
+                        Купили {{ purchased_count|default:"0" }}
+                        {% with count=purchased_count|default:0 %}
+                            {% if count == 1 %}
+                                человек
+                            {% elif count >= 2 and count <= 4 %}
+                                человека
+                            {% else %}
+                                человек
+                            {% endif %}
+                        {% endwith %}
                     </div>
 
                     <div class="product-description">
@@ -336,9 +475,21 @@
                         <div class="availability-row">
                             <div class="availability-price">{{ book.price }} ₽</div>
                             <div class="availability-actions">
-                                <button class="bookmark-btn" onclick="toggleBookmark(this)" data-book-id="{{ book.id }}">
-                                    <i class="far fa-bookmark"></i>
-                                </button>
+                                {% if user.is_authenticated %}
+                                    {% if book.id in user_books_ids %}
+                                        <a href="{% url 'users:remove_from_mybooks' book.id %}" class="bookmark-btn active" title="Удалить из моих книг">
+                                            <i class="fas fa-bookmark"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'users:add_to_mybooks' book.id %}" class="bookmark-btn" title="Добавить в мои книги">
+                                            <i class="far fa-bookmark"></i>
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'users:login' %}?next={{ request.path }}" class="bookmark-btn" title="Войдите, чтобы добавить">
+                                        <i class="far fa-bookmark"></i>
+                                    </a>
+                                {% endif %}
                                 <a href="{% url 'books:basket_add' book.id %}" class="btn-outline">Купить</a>
                             </div>
                         </div>
@@ -349,30 +500,46 @@
                             <span class="spec-label">Год публикации:</span>
                             <span class="spec-value">{{ book.publication_year|default:"Не известно" }}</span>
                         </div>
-                        <div class="spec-item">
-                            <span class="spec-label">Издание:</span>
-                            <span class="spec-value">{{ book.publisher|default:"Не известно" }}</span>
-                        </div>
-                        <div class="spec-item">
-                            <span class="spec-label">Бренд:</span>
-                            <span class="spec-value">{{ book.publisher_brand|default:"Не известно" }}</span>
-                        </div>
+
                         <div class="spec-item">
                             <span class="spec-label">Возрастные ограничения:</span>
                             <span class="spec-value">{{ book.age_restriction }}+</span>
                         </div>
+
                         <div class="spec-item">
-                            <span class="spec-label">Категория | Жанр:</span>
-                            <span class="spec-value">{{ book.catalog_id }}</span>
+                            <span class="spec-label">Бренд:</span>
+                            <span class="spec-value">{{ book.publisher_brand|default:"Не известно" }}</span>
+                        </div>
+
+                        <div class="spec-item">
+                            <span class="spec-label">Издание:</span>
+                            <span class="spec-value">{{ book.publisher.name|default:"Не известно" }}</span>
+                        </div>
+
+                        <div class="spec-item-double">
+                            <div class="spec-double-left">
+                                <span class="spec-label">Категория:</span>
+                                <span class="spec-value">{{ book.catalog_id.category }}</span>
+                            </div>
+                            <div class="spec-double-right">
+                                <span class="spec-label">Жанр:</span>
+                                <span class="spec-value">{{ book.catalog_id.genre }}</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="share-block">
+                   <div class="share-block">
                         <span class="share-label">Поделиться с друзьями:</span>
                         <div class="share-icons">
-                            <a href="https://vk.com/"><i class="fab fa-vk"></i></a>
-                            <a href="https://telegram.org/"><i class="fab fa-telegram"></i></a>
-                            <a href="https://www.whatsapp.com/"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://vk.com/share.php?url={{ request.build_absolute_uri|urlencode }}&title={{ book.title|urlencode }}&comment={{ book.author.name|urlencode }}" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-vk"></i>
+                            </a>
+                            <a href="https://t.me/share/url?url={{ request.build_absolute_uri|urlencode }}&text={{ book.title|urlencode }}%20—%20{{ book.author.name|urlencode }}" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-telegram"></i>
+                            </a>
+                            <a href="https://api.whatsapp.com/send?text={{ request.build_absolute_uri|urlencode }}%20-%20{{ book.title|urlencode }}%20{{ book.author.name|urlencode }}" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -381,21 +548,5 @@
     </div>
 
     {% include "books/footer.html" %}
-
-    <script>
-        function toggleBookmark(button) {
-            button.classList.toggle('active');
-            const icon = button.querySelector('i');
-            const text = button.querySelector('span');
-
-            if (button.classList.contains('active')) {
-                icon.className = 'fas fa-bookmark';
-                text.textContent = 'В моих книгах';
-            } else {
-                icon.className = 'far fa-bookmark';
-                text.textContent = 'В закладки';
-            }
-        }
-    </script>
 </body>
 </html>

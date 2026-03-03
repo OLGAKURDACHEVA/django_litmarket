@@ -110,20 +110,34 @@
           max-width: 800px;
         }
 
+        .search-input:-webkit-autofill {
+            box-shadow: 0 0 0 1000px #f9f9f9 inset !important;
+            -webkit-text-fill-color: #6b2c2c !important;
+            border-color: #6b2c2c;
+        }
+
+        .search-input:-webkit-autofill:focus {
+            box-shadow: 0 0 0 1000px white inset !important;
+            -webkit-text-fill-color: #6b2c2c !important;
+            border-color: #6b2c2c;
+        }
+
         .search-box {
           display: flex;
           width: 100%;
           margin-bottom: 8px;
+          border: 1px solid #6b2c2c;
+          border-radius: 6px;
+          overflow: hidden;
+          background-color: #f9f9f9;
         }
 
         .search-input {
           flex: 1;
           padding: 10px 15px;
-          border: 1px solid #6b2c2c;
-          border-right: none;
-          border-radius: 6px 0 0 6px;
+          border: none;
           font-size: 0.95rem;
-          background-color: #f9f9f9;
+          background-color: transparent;
           color: #6b2c2c;
           width: 100%;
         }
@@ -140,13 +154,17 @@
 
         .search-btn {
           background-color: #6b2c2c;
-          border: 1px solid #6b2c2c;
+          border: none;
           border-radius: 0 6px 6px 0;
           padding: 0 20px;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+
+        .search-btn:hover {
+          background-color: #8B3A3A;
         }
 
         .search-btn i {
@@ -297,7 +315,6 @@
           }
         }
 
-        /* Медиа-запросы, влияющие на header */
         @media (max-width: 1200px) {
           .catalog-search {
             max-width: 600px;
@@ -374,26 +391,26 @@
 
                 <a href="{% url 'books:index' %}" class="catalog-btn">Каталог</a>
 
-                <div class="catalog-search">
-                    <div class="search-box">
-                        <input type="text" placeholder="Найти в LitMarket" class="search-input">
-                        <button class="search-btn"><i class="fas fa-search"></i></button>
-                    </div>
+                  <div class="catalog-search">
+                    <form method="get" action="{% url 'books:index' %}" class="search-form">
+                      <div class="search-box">
+                        <input type="text" name="search" placeholder="Найти в LitMarket" class="search-input" value="{{ search_query }}" />
+                        <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
+                      </div>
+                    </form>
 
                     <ul class="nav-menu">
                         <li class="nav-item"><a href="#" class="nav-link">Сертификаты</a></li>
                         <li class="nav-item"><a href="#" class="nav-link">Программа лояльности</a></li>
                         <li class="nav-item"><a href="#" class="nav-link">Чат</a></li>
                         <li class="nav-item"><a href="#" class="nav-link">Ресейл</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Доставка</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Оплата</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Контакты</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">Оплата и Доставка</a></li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link">Ещё <i class="fas fa-chevron-down"></i></a>
                             <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item">Поддержка</a>
                                 <a href="#" class="dropdown-item">Карта сайта</a>
-                                <a href="#" class="dropdown-item">Вся помощь</a>
+                                <a href="#" class="dropdown-item">Поддержка</a>
+                                <a href="#" class="dropdown-item">Контакты</a>
                             </div>
                         </li>
                     </ul>

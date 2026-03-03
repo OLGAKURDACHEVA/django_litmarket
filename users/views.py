@@ -54,7 +54,7 @@ def profile(request):
         form = UserProfileForm(request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "Профиль обновлен успешно!")
+            messages.success(request, message="Профиль обновлен успешно!")
             return HttpResponseRedirect(reverse('users:profile'))
     else:
         form = UserProfileForm(instance=request.user)
@@ -63,12 +63,10 @@ def profile(request):
     total_quantity = sum(basket.quantity for basket in baskets)
     total_sum = sum(basket.sum() for basket in baskets)
 
-    context = {
-        'form': form,
-        'baskets': baskets,
-        'total_quantity': total_quantity,
-        'total_sum': total_sum,
-    }
+
+    context = {'form': form, 'baskets': Basket.objects.filter(user=request.user),
+               'total_quantity': total_quantity, 'total_sum': total_sum,
+               }
     return render(request, 'users/profile.html', context)
 
 def basket(request):
@@ -120,6 +118,7 @@ def mybooks(request):
     }
     return render(request, 'users/mybooks.html', context)
 
+
 @login_required
 def add_to_mybooks(request, book_id):
     book = get_object_or_404(Book, id=book_id)
@@ -130,7 +129,18 @@ def add_to_mybooks(request, book_id):
 def remove_from_mybooks(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     MyBooks.objects.filter(user=request.user, book=book).delete()
-    return redirect('users:mybooks')
+    # Возвращаем на предыдущую страницу (откуда пришли)
+    return redirect(request.META.get('HTTP_REFERER', 'books:index'))
+
+@login_required
+def toggle_mybooks(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    my_book, created = MyBooks.objects.get_or_create(user=request.user, book=book)
+
+    if not created:
+        my_book.delete()
+
+    return redirect(request.META.get('HTTP_REFERER', 'books:index'))
 
 @login_required
 def move_to_cart(request, book_id):
