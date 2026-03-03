@@ -1,19 +1,15 @@
- <div class="cart-card">
+<div class="cart-card">
       {% if baskets %}
         <div class="cart-header">
           <h2 class="section-title">Корзина</h2>
           <span class="cart-count">Всего: {{ total_quantity }}</span>
         </div>
-        
+
         {% for basket in baskets %}
           <div class="cart-items">
             <div class="cart-item">
               <div class="item-image">
-                {% if basket.book.cover_image %}
-                  <img src="{{ basket.book.cover_image_url }}" alt="{{ basket.book.title }}">
-                {% else %}
-                  <i class="fas fa-book"></i>
-                {% endif %}
+                  <img src="{{ basket.book.cover_image_url.url }}" alt="#">
               </div>
               <div class="item-info">
                 <div class="item-title">{{ basket.book.title|truncatechars:20 }}</div>
@@ -21,7 +17,7 @@
               </div>
               <div class="item-details">
                 <div class="item-quantity">
-                  <button class="quantity-btn">−</button>
+                  <a href="{% url 'books:basket_remove' basket.book.id %}" class="quantity-btn">−</a>
                   <span class="quantity-value">{{ basket.quantity }} шт</span>
                   <a href="{% url 'books:basket_add' basket.book.id %}" class="quantity-plus-btn">+</a>
                 </div>

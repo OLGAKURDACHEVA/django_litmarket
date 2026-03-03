@@ -4,13 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Регистрация в LitMarket</title>
-  <!-- Шрифты и иконки -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Базовые стили из первого CSS */
     * {
       margin: 0;
       padding: 0;
@@ -29,7 +27,6 @@
       padding: 20px;
     }
 
-    /* Логотип */
     .auth-logo {
       display: flex;
       flex-direction: column;
@@ -45,7 +42,6 @@
       line-height: 1.2;
     }
 
-    /* Карточка регистрации - компактная, без теней */
     .register-card {
       background-color: #ffffff;
       width: 100%;
@@ -54,7 +50,6 @@
       border: 1px solid #e8dfd6;
     }
 
-    /* Заголовок */
     .register-title {
       font-family: "Inter", sans-serif;
       font-size: 1.6rem;
@@ -64,19 +59,16 @@
       margin-bottom: 20px;
     }
 
-    /* Двухколоночная сетка для полей */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
 
-    /* Поля на всю ширину */
     .form-full-width {
       grid-column: span 2;
     }
 
-    /* Поля формы */
     .form-group {
       margin-bottom: 0;
     }
@@ -104,7 +96,6 @@
       z-index: 1;
     }
 
-    /* Стили для полей ввода */
     .form-input,
     input[type="text"],
     input[type="password"],
@@ -137,7 +128,6 @@
       font-size: 0.9rem;
     }
 
-    /* Стили для Django форм */
     input[name="first_name"],
     input[name="last_name"],
     input[name="username"],
@@ -164,7 +154,6 @@
       border-color: #6b2c2c;
     }
 
-    /* Кнопка регистрации */
     .register-btn {
       width: 100%;
       padding: 12px 20px;
@@ -183,7 +172,6 @@
       border-color: #8B3A3A;
     }
 
-    /* Ссылка на авторизацию */
     .login-link {
       text-align: center;
       margin-top: 20px;
@@ -205,7 +193,6 @@
       text-decoration: underline;
     }
 
-    /* Стили для ошибок формы */
     .error-messages {
       color: #b22222;
       background-color: #ffe4e1;
@@ -225,7 +212,6 @@
       margin-bottom: 4px;
     }
 
-    /* Адаптивность для мобильных */
     @media (max-width: 640px) {
       .register-card {
         padding: 20px 15px;
@@ -270,9 +256,7 @@
         </div>
       {% endif %}
 
-      <!-- Двухколоночная сетка для полей -->
       <div class="form-grid">
-        <!-- Имя (левая колонка) -->
         <div class="form-group">
           <label class="form-label" for="{{ form.first_name.id_for_label }}">Имя</label>
           <div class="input-wrapper">
@@ -283,7 +267,6 @@
           </div>
         </div>
 
-        <!-- Фамилия (правая колонка) -->
         <div class="form-group">
           <label class="form-label" for="{{ form.last_name.id_for_label }}">Фамилия</label>
           <div class="input-wrapper">
@@ -305,7 +288,6 @@
           </div>
         </div>
 
-        <!-- Email (правая колонка) -->
         <div class="form-group">
           <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
           <div class="input-wrapper">
@@ -316,7 +298,6 @@
           </div>
         </div>
 
-        <!-- Пароль (левая колонка) -->
         <div class="form-group">
           <label class="form-label" for="{{ form.password1.id_for_label }}">Пароль</label>
           <div class="input-wrapper">
@@ -326,7 +307,6 @@
           </div>
         </div>
 
-        <!-- Подтверждение пароля (правая колонка) -->
         <div class="form-group">
           <label class="form-label" for="{{ form.password2.id_for_label }}">Подтверждение пароля</label>
           <div class="input-wrapper">
@@ -335,12 +315,10 @@
                    class="form-input" placeholder="Повторите пароль">
           </div>
         </div>
-      </div> <!-- Закрытие form-grid -->
+      </div>
 
-      <!-- Кнопка регистрации (на всю ширину) -->
       <button type="submit" class="register-btn">Создать аккаунт</button>
 
-      <!-- Ссылка на авторизацию -->
       <div class="login-link">
         <span>Уже есть аккаунт?</span>
         <a href="{% url 'users:login' %}">Авторизоваться</a>

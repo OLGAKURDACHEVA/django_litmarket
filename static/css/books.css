@@ -13,7 +13,7 @@
       background-color: #f9f9f9;
       color: #6b2c2c;
       line-height: 1.5;
-      padding-top: 140px;
+      padding-top: 110px;
       overflow-x: hidden;
     }
 
@@ -32,7 +32,6 @@
       background-color: #ffffff;
       z-index: 999;
       width: 100%;
-
     }
 
     .header-content {
@@ -418,7 +417,28 @@
       opacity: 0.5;
     }
 
-    .apply-filters,
+    .apply-filters {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      box-sizing: border-box;
+      background: transparent;
+      color: #6b2c2c;
+      transition: all 0.3s ease;
+    }
+
+    .apply-filters:hover {
+      background-color: #6b2c2c;
+      color: white;
+    }
+
     .reset-filters {
       width: 100%;
       padding: 12px;
@@ -426,28 +446,17 @@
       font-weight: 600;
       cursor: pointer;
       font-size: 0.95rem;
-      border: none;
-      margin-bottom: 10px;
-    }
-
-    .apply-filters {
-      background: #6b2c2c;
-      color: #fff;
-    }
-
-    .apply-filters:hover {
-      background: #8B3A3A;
-    }
-
-    .reset-filters {
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
+      box-sizing: border-box;
       background: transparent;
       color: #6b2c2c;
-      border: 1px solid #e8dfd6;
     }
 
     .reset-filters:hover {
-      background: #f5ede4;
-      color: #8B3A3A;
+      background-color: #6b2c2c;
+      color: white;
     }
 
     .catalog-main {
@@ -497,6 +506,33 @@
     .toggle-filters:hover {
       background: #f5ede4;
       color: #8B3A3A;
+    }
+
+    .view-all-btn {
+      margin-right: 10px;
+      color #8B3A3A;
+      text-decoration: none;
+    }
+
+    .view-all {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      color: #6b2c2c;
+      font-weight: 700;
+      font-size: 1rem;
+      border: 2px solid #6b2c2c;
+      border-radius: 6px;
+      text-decoration: none;
+      padding: 0 15px;
+      white-space: nowrap;
+    }
+
+    .view-all:hover {
+      background-color: #6b2c2c;
+      color: white;
+      text-decoration: none;
     }
 
     .sort-by {
@@ -659,6 +695,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      text-decoration: none;
     }
 
     .wishlist-btn:hover {
@@ -675,7 +712,6 @@
       margin-top: 40px;
       flex-wrap: wrap;
       color: #8B3A3A;
-
     }
 
     .pagination-btn,
@@ -739,6 +775,40 @@
       color: #fff;
     }
 
+    .my-books-btn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #6b2c2c;
+      font-size: 0.8rem;
+      min-width: 70px;
+      padding: 5px 0;
+    }
+
+    .my-books-btn:hover {
+      color: #8B3A3A;
+    }
+
+    .my-books-btn i {
+      font-size: 1.2rem;
+      margin-bottom: 2px;
+    }
+
+    .my-books-btn .cart-count {
+      position: absolute;
+      top: -5px;
+      right: 5px;
+      background: #8B3A3A;
+      color: #fff;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      min-width: 18px;
+      text-align: center;
+    }
+
     .bookstore-footer {
       background-color: #6b2c2c;
       color: white;
@@ -772,8 +842,8 @@
     }
 
     .back-to-top:hover {
-        color: #8B3A3A;
-        background-color: white;
+      color: #8B3A3A;
+      background-color: white;
     }
 
     .footer-top {
@@ -1007,5 +1077,64 @@
 
       .add-to-cart-btn {
         padding: 8px;
+      }
+
+      .view-all {
+        width: auto;
+        height: 42px;
+        padding: 0 15px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .sort-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .view-all-btn {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+
+      .view-all {
+        width: 100%;
+      }
+
+      .sort-by {
+        width: 100%;
+      }
+
+      .sort-by select {
+        width: 100%;
+      }
+
+      .my-books-btn {
+        min-width: 50px;
+      }
+
+      .my-books-btn span {
+        display: none;
+      }
+
+      .my-books-btn i {
+        font-size: 1.3rem;
+        margin-bottom: 0;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .books-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1800px) {
+      .container {
+        max-width: 1600px;
+      }
+
+      .books-grid {
+        grid-template-columns: repeat(5, 1fr);
       }
     }

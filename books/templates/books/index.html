@@ -58,10 +58,10 @@
                         <a href="{% url 'users:profile' %}" class="user-action">
                             <i class="far fa-user"></i><span>{{ user.username }}</span>
                         </a>
-                        <a href="#" class="user-action">
+                        <a href="{% url 'users:order_list' %}" class="user-action">
                             <i class="far fa-clipboard"></i><span>Заказы</span>
                         </a>
-                        <a href="{% url 'users:mybooks' %}" class="user-action">
+                        <a href="{% url 'users:mybooks' %}" class="user-action my-books-btn">
                             <i class="fas fa-book-open"></i><span>Мои книги</span>
                             {% if user.is_authenticated %}
                                 <span class="cart-count" id="myBooksCount">{{ user.my_books.count }}</span>
@@ -100,59 +100,59 @@
                 </div>
             </header>
 
-            <main class="library-hall">
-                <section class="literary-section">
-                    <h2 class="section-title">Новые поступления</h2>
-                    <p class="section-subtitle">Свежие книги, которые стоит прочитать первыми.</p>
-                    <div class="divider"></div>
-                </section>
+<!--            <main class="library-hall">-->
+<!--                <section class="literary-section">-->
+<!--                    <h2 class="section-title">Новые поступления</h2>-->
+<!--                    <p class="section-subtitle">Свежие книги, которые стоит прочитать первыми.</p>-->
+<!--                    <div class="divider"></div>-->
+<!--                </section>-->
 
-                <section class="literary-section">
-                    <h2 class="section-title">Бестселлеры месяца</h2>
-                    <p class="section-subtitle">Книги, завоевавшие сердца читателей.</p>
-                    <div class="divider"></div>
-                </section>
+<!--                <section class="literary-section">-->
+<!--                    <h2 class="section-title">Бестселлеры месяца</h2>-->
+<!--                    <p class="section-subtitle">Книги, завоевавшие сердца читателей.</p>-->
+<!--                    <div class="divider"></div>-->
+<!--                </section>-->
 
-                <section class="reading-features">
-                    <h2 class="section-title">Возможности</h2>
-                    <ul class="feature-list">
-                        <li class="feature-item">Авторские подборки</li>
-                        <li class="feature-item">Редкие издания</li>
-                        <li class="feature-item">Поиск по аннотациям</li>
-                        <li class="feature-item">Подарочные издания</li>
-                    </ul>
-                    <div class="divider"></div>
-                </section>
+<!--                <section class="reading-features">-->
+<!--                    <h2 class="section-title">Возможности</h2>-->
+<!--                    <ul class="feature-list">-->
+<!--                        <li class="feature-item">Авторские подборки</li>-->
+<!--                        <li class="feature-item">Редкие издания</li>-->
+<!--                        <li class="feature-item">Поиск по аннотациям</li>-->
+<!--                        <li class="feature-item">Подарочные издания</li>-->
+<!--                    </ul>-->
+<!--                    <div class="divider"></div>-->
+<!--                </section>-->
 
-                <section class="resource-section">
-                    <h2 class="section-title">Ресурсы</h2>
-                    <ul class="resource-grid">
-                        <li class="resource-item">Аудиокниги</li>
-                        <li class="resource-item">Электронные версии</li>
-                        <li class="resource-item">Журналы</li>
-                        <li class="resource-item">Коллекционные издания</li>
-                    </ul>
-                    <div class="divider"></div>
+<!--                <section class="resource-section">-->
+<!--                    <h2 class="section-title">Ресурсы</h2>-->
+<!--                    <ul class="resource-grid">-->
+<!--                        <li class="resource-item">Аудиокниги</li>-->
+<!--                        <li class="resource-item">Электронные версии</li>-->
+<!--                        <li class="resource-item">Журналы</li>-->
+<!--                        <li class="resource-item">Коллекционные издания</li>-->
+<!--                    </ul>-->
+<!--                    <div class="divider"></div>-->
 
-                    <h2 class="section-title">Категории мб убрать их в каталог</h2>
-                    <ul class="category-list">
-                        <li class="category-item">Бизнес-литература</li>
-                        <li class="category-item">Образовательные книги</li>
-                        <li class="category-item">Государственные издания</li>
-                        <li class="category-item">Художественная литература</li>
-                    </ul>
-                    <div class="divider"></div>
-                </section>
+<!--                    <h2 class="section-title">Категории мб убрать их в каталог</h2>-->
+<!--                    <ul class="category-list">-->
+<!--                        <li class="category-item">Бизнес-литература</li>-->
+<!--                        <li class="category-item">Образовательные книги</li>-->
+<!--                        <li class="category-item">Государственные издания</li>-->
+<!--                        <li class="category-item">Художественная литература</li>-->
+<!--                    </ul>-->
+<!--                    <div class="divider"></div>-->
+<!--                </section>-->
 
-                <section class="about-section">
-                    <h2 class="section-title">О лавке</h2>
-                    <ul class="about-list">
-                        <li class="about-item">О компании</li>
-                        <li class="about-item">Конфиденциальность</li>
-                        <li class="about-item">Условия сотрудничества</li>
-                    </ul>
-                </section>
-            </main>
+<!--                <section class="about-section">-->
+<!--                    <h2 class="section-title">О лавке</h2>-->
+<!--                    <ul class="about-list">-->
+<!--                        <li class="about-item">О компании</li>-->
+<!--                        <li class="about-item">Конфиденциальность</li>-->
+<!--                        <li class="about-item">Условия сотрудничества</li>-->
+<!--                    </ul>-->
+<!--                </section>-->
+<!--            </main>-->
 
             <footer class="bookstore-footer">
                 <div class="footer-container">
@@ -172,7 +172,7 @@
                             <h4 class="footer-column-title">Информация</h4>
                             <a href="#" class="footer-column-link">Сертификаты</a>
                             <a href="#" class="footer-column-link">Программа лояльности</a>
-                            <a href="#" class="footer-column-link">Пользовательское соглашение</a>
+                            <a href="{% url 'books:agreement' %}" class="footer-column-link">Пользовательское соглашение</a>
                             <a href="#" class="footer-column-link">Оплата и доставка</a>
                             <a href="#" class="footer-column-link">Ресейл</a>
                         </div>
@@ -195,7 +195,7 @@
 
                     <div class="footer-bottom">
                         <p class="copyright">© 2026, ООО «ЛитМаркет». Все права защищены.
-                            Использование материалов сайта возможно только с активной ссылкой на litmarket.ru.</p>
+                            Использование материалов сайта возможно только с активной ссылкой на litmarket.</p>
                     </div>
                 </div>
             </footer>

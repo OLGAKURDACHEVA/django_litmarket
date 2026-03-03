@@ -9,7 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * {
+
+     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -32,6 +33,10 @@
     }
 
     .back-button-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
       margin-bottom: 15px;
     }
 
@@ -56,6 +61,54 @@
 
     .back-btn i {
       font-size: 0.8rem;
+    }
+
+    .alert-messages {
+      padding: 8px 30px 8px 10px;
+      border: 1px solid #6b2c2c;
+      background-color: transparent;
+      color: #6b2c2c;
+      position: relative;
+      font-size: 0.85rem;
+      max-width: 600px;
+      border-radius: 0;
+      flex-shrink: 1;
+      min-height: 33px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .alert-messages .error-list {
+      flex: 1;
+    }
+
+    .alert-messages .error-item {
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+
+    .alert-messages .error-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .alert-messages p {
+      margin: 0;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.1rem;
+      color: #6b2c2c;
+      cursor: pointer;
+      opacity: 0.7;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    .close-btn:hover {
+      opacity: 1;
     }
 
     .profile-cart-container {
@@ -157,28 +210,6 @@
 
     .save-btn:hover {
       background-color: #8B3A3A;
-    }
-
-    .alert {
-      padding: 8px 30px 8px 10px;
-      margin-bottom: 15px;
-      background-color: #f9f9f9;
-      border: 1px solid #6b2c2c;
-      font-size: 0.8rem;
-      position: relative;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 50%;
-      right: 8px;
-      transform: translateY(-50%);
-      background: transparent;
-      border: none;
-      font-size: 1.1rem;
-      color: #6b2c2c;
-      cursor: pointer;
-      opacity: 0.7;
     }
 
     .cart-header {
@@ -350,10 +381,21 @@
     }
 
     @media (max-width: 768px) {
+      .back-button-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .alert-messages {
+        margin-left: 0;
+        max-width: 100%;
+      }
+
       .profile-cart-container {
         grid-template-columns: 1fr;
         gap: 15px;
       }
+
       body {
         padding: 15px;
       }
@@ -365,13 +407,16 @@
         align-items: flex-start;
         gap: 8px;
       }
+
       .item-details {
         width: 100%;
         text-align: left;
       }
+
       .item-quantity {
         justify-content: flex-start;
       }
+
       .profile-card, .cart-card {
         padding: 12px;
       }
@@ -380,7 +425,6 @@
 </head>
 <body>
   {% load static %}
-
   <div class="profile-wrapper">
     <div class="back-button-container">
       <a href="{% url 'index' %}" class="back-btn">
@@ -389,17 +433,31 @@
       <a href="{% url 'books:index' %}" class="back-btn">
         <i class="fas fa-chevron-left"></i> В каталог
       </a>
+
+      {% if messages or form.errors %}
+      <div class="alert-messages">
+        {% if messages %}
+          {% for msg in messages %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        {% endif %}
+
+        {% if form.errors %}
+            <div class="error-list">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <div class="error-item">{{ error }}</div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <button type="button" class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+      </div>
+      {% endif %}
     </div>
 
     <div class="profile-cart-container">
       <div class="profile-card">
-        {% if messages %}
-          <div class="alert">
-            {% for msg in messages %}{{ msg }}{% endfor %}
-            <button type="button" class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
-          </div>
-        {% endif %}
-
         <h2 class="section-title">Профиль</h2>
 
         <div class="profile-avatar">
@@ -432,8 +490,9 @@
         </form>
       </div>
 
-    <div class="cart-card">
+      <div class="cart-card">
         {% include "books/basket.html" %}
+      </div>
     </div>
   </div>
 </body>

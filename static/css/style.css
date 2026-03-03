@@ -223,11 +223,10 @@
     }
 
     .user-actions {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-shrink: 0;
-        margin-right: 50px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-direction: row;
     }
 
     .user-action {
@@ -237,120 +236,95 @@
         text-decoration: none;
         color: #6b2c2c;
         font-size: 0.8rem;
-        transition: color 0.2s;
         background: none;
         border: none;
         cursor: pointer;
+        min-width: 60px;
+    }
+
+    .user-action button {
+        background: none;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #6b2c2c;
     }
 
     .user-action:hover {
-        color: #8B3A3A;
+      color: #8B3A3A;
     }
 
-    .content-wrapper {
-        padding: 20px;
-        width: 100%;
+    .user-action i {
+      font-size: 1.2rem;
+      margin-bottom: 2px;
     }
 
-    .bookshelf {
-        max-width: 1300px;
-        margin: 0 auto;
-        padding: 20px;
+    .my-books-btn {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #6b2c2c;
+      font-size: 0.8rem;
+      min-width: 70px;
+      padding: 5px 0;
     }
 
-   .reading-room {
-        background: linear-gradient(135deg, #fff9f0, #f5ede4);
-        padding: 5px 40px;
-        border-radius: 12px;
-        margin-bottom: 40px;
-        border: 1px solid #e8dfd6;
-   }
-
-    .month-book-label {
-        font-size: 3rem;
-        color: #6b2c2c;
-        margin-bottom: 10px;
-        font-weight: 600;
+    .my-books-btn:hover {
+      color: #8B3A3A;
     }
 
-    .book-of-month {
-        display: flex;
-        gap: 40px;
-        align-items: flex-start;
+    .my-books-btn i {
+      font-size: 1.2rem;
+      margin-bottom: 2px;
     }
 
-    .book-info {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
+    .cart-count {
+      background: #8B3A3A;
+      color: #fff;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      min-width: 18px;
+      text-align: center;
     }
 
-    .book-title {
-        font-size: 2.2rem;
-        color: #8dfd6;
-        margin-bottom: 15px;
-        font-weight: 700;
-    }
+    @media (max-width: 480px) {
+      .user-action span {
+        display: none;
+      }
 
-    .book-author {
+      .user-action i {
         font-size: 1.3rem;
-        color: #6b2c2c;
-        margin-bottom: 20px;
+        margin-bottom: 0;
+      }
+
+      .my-books-btn {
+        min-width: auto;
+      }
     }
 
-    .book-description {
-        font-size: 1.1rem;
-        color: #8dfd6;
-        line-height: 1.6;
-        margin-bottom: 25px;
-    }
+    @media (max-width: 360px) {
+      .my-books-btn {
+        min-width: 50px;
+      }
 
-    .read-more-btn {
-        display: inline-block;
-        padding: 12px 30px;
-        background-color: #6b2c2c;
-        color: white;
-        text-decoration: none;
-        border-radius: 6px;
-        font-size: 1.1rem;
-        font-weight: 500;
-        align-self: flex-start;
-        border: none;
-        margin-bottom: 15px;
-        border: 2px solid #6b2c2c;
-    }
+      .my-books-btn span {
+        display: none;
+      }
 
-    .read-more-btn:hover {
-        background-color: white;
-        color: #8B3A3A;
-        border: 2px solid #6b2c2c;
-
-    }
-
-    .book-image {
-        flex: 0 0 280px;
-    }
-
-    .book-image img {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-    }
-
-    @media (max-width: 768px) {
-        .book-of-month {
-            flex-direction: column;
-        }
-
-        .book-image {
-            flex: 0 0 auto;
-            max-width: 280px;
-            margin: 0 auto;
-        }
-
-        .read-more-btn {
-            align-self: center;
-        }
+      .my-books-btn i {
+        font-size: 1.3rem;
+        margin-bottom: 0;
+      }
     }
 
     .library-hall {
@@ -377,6 +351,103 @@
         height: 1px;
         background-color: #e8dfd6;
         margin: 40px 0;
+    }
+
+    .reading-room {
+        background-color: #f9f5f0;
+        border-radius: 6px;
+        padding: 40px;
+        margin-bottom: 30px;
+        border: 1px solid #e8dfd6;
+
+    }
+
+    .month-book-label {
+        font-size: 2rem;
+        color: #8B3A3A;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    .book-of-month {
+        display: flex;
+        gap: 40px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .book-info {
+        flex: 2;
+        min-width: 300px;
+    }
+
+    .book-title {
+        font-size: 1.5rem;
+        color: #8B3A3A;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
+
+    .book-author {
+        font-size: 1.3rem;
+        color: #8B3A3A;
+        margin-bottom: 20px;
+    }
+
+    .book-description {
+        font-size: 1.1rem;
+        color: #8B3A3A;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+
+    .read-more-btn {
+        display: inline-block;
+        background-color: #6b2c2c;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        border: 2px solid #8B3A3A;
+    }
+
+    .read-more-btn:hover {
+        background-color: white;
+        color: #8B3A3A;
+        border: 2px solid #8B3A3A;
+    }
+
+    .book-image {
+        flex: 1;
+        min-width: 200px;
+        text-align: center;
+    }
+
+    .book-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+
+    @media (max-width: 768px) {
+        .reading-room {
+            padding: 30px 20px;
+        }
+
+        .book-of-month {
+            flex-direction: column-reverse;
+        }
+
+        .book-title {
+            font-size: 2rem;
+        }
+
+        .book-author {
+            font-size: 1.1rem;
+        }
     }
 
     .feature-list, .resource-grid, .category-list, .about-list {

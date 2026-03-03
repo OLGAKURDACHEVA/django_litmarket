@@ -90,9 +90,7 @@ class Basket(models.Model):
     def sum(self):
         return self.quantity * self.book.price
 
-
 class MyBooks(models.Model):
-    """Модель для хранения книг пользователя в закладках"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='my_books')
     book = models.ForeignKey('Book', on_delete=models.CASCADE, related_name='in_my_books')
     added_at = models.DateTimeField(auto_now_add=True)
@@ -104,3 +102,66 @@ class MyBooks(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.book.title}"
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('processing', 'В обработке'),
+        ('confirmed', 'Подтвержден'),
+        ('shipped', 'Отправлен'),
+        ('delivered', 'Доставлен'),
+        ('cancelled', 'Отменен'),
+    ]
+
+    PAYMENT_METHODS = [
+        ('card', 'Картой онлайн'),
+        ('cash', 'Наличными'),
+        ('sbp', 'СБП'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    order_number = models.CharField(max_length=50, unique=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='processing')
+    total_sum = models.DecimalField(max_digits=10, decimal_places=2)
+    pickup_point = models.CharField(max_length=255)
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS)
+    comment = models.TextField(blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.order_number:
+            from datetime import datetime
+            date_str = datetime.now().strftime('%Y%m%d')
+            last_order = Order.objects.filter(
+                order_number__startswith=date_str
+            ).order_by('-order_number').first()
+
+            if last_order:
+                last_num = int(last_order.order_number.split('-')[-1])
+                new_num = last_num + 1
+            else:
+                new_num = 1
+
+            self.order_number = f"{date_str}-{self.user.id}-{new_num:03d}"
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Заказ № {self.order_number} - {self.user.username}"
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    book = models.ForeignKey(Book, on_delete=models.PROTECT)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        if not self.price:
+            self.price = self.book.price
+        super().save(*args, **kwargs)
+
+    def sum(self):
+        return self.quantity * self.price
+
+    def __str__(self):
+        return f"{self.book.title} x{self.quantity}"

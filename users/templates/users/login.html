@@ -188,7 +188,6 @@
     <form action="{% url 'users:login' %}" method="post">
       {% csrf_token %}
 
-      <!-- Поле "Имя пользователя" -->
       <div class="form-group">
         <label class="form-label" for="{{ form.username.id_for_label }}">Имя пользователя</label>
         <div class="input-wrapper">
@@ -199,7 +198,6 @@
         </div>
       </div>
 
-      <!-- Поле "Пароль" -->
       <div class="form-group">
         <label class="form-label" for="{{ form.password.id_for_label }}">Пароль</label>
         <div class="input-wrapper">
@@ -209,10 +207,8 @@
         </div>
       </div>
 
-      <!-- Кнопка входа -->
       <button type="submit" class="auth-btn">Авторизоваться</button>
 
-      <!-- Ссылка "Забыли пароль?" -->
       <div class="auth-links">
         <a href="#" class="forgot-link">Забыли пароль?</a>
       </div>

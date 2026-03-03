@@ -5,9 +5,10 @@ from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import logout
-from books.models import Basket, MyBooks, Book
+from books.models import Book, Basket, MyBooks, Order, OrderItem
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 
 def login(request):
@@ -53,7 +54,7 @@ def profile(request):
         form = UserProfileForm(request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, message="Профиль обновлен успешно!")
+            messages.success(request, "Профиль обновлен успешно!")
             return HttpResponseRedirect(reverse('users:profile'))
     else:
         form = UserProfileForm(instance=request.user)
@@ -62,10 +63,12 @@ def profile(request):
     total_quantity = sum(basket.quantity for basket in baskets)
     total_sum = sum(basket.sum() for basket in baskets)
 
-
-    context = {'form': form, 'baskets': Basket.objects.filter(user=request.user),
-               'total_quantity': total_quantity, 'total_sum': total_sum,
-               }
+    context = {
+        'form': form,
+        'baskets': baskets,
+        'total_quantity': total_quantity,
+        'total_sum': total_sum,
+    }
     return render(request, 'users/profile.html', context)
 
 def basket(request):
@@ -80,6 +83,28 @@ def checkout(request):
     total_sum = sum(basket.sum() for basket in baskets)
     total_quantity = baskets.count()
 
+    if request.method == 'POST':
+        pickup_point = request.POST.get('pickup_point')
+        payment_method = request.POST.get('payment_method')
+        comment = request.POST.get('comment', '')
+        order = Order.objects.create(
+            user=request.user,
+            total_sum=total_sum,
+            pickup_point=pickup_point,
+            payment_method=payment_method,
+            comment=comment
+        )
+        for basket in baskets:
+            OrderItem.objects.create(
+                order=order,
+                book=basket.book,
+                quantity=basket.quantity,
+                price=basket.book.price
+            )
+        baskets.delete()
+        messages.success(request, f'Заказ № {order.order_number} успешно оформлен!')
+        return redirect('users:order_list')
+
     context = {
         'baskets': baskets,
         'total_sum': total_sum,
@@ -87,9 +112,7 @@ def checkout(request):
     }
     return render(request, 'users/checkout.html', context)
 
-
 def mybooks(request):
-    """Страница Мои книги"""
     my_books = MyBooks.objects.filter(user=request.user).select_related('book', 'book__author')
     context = {
         'my_books': [item.book for item in my_books],
@@ -97,32 +120,24 @@ def mybooks(request):
     }
     return render(request, 'users/mybooks.html', context)
 
-
 @login_required
 def add_to_mybooks(request, book_id):
-    """Добавление книги в Мои книги"""
     book = get_object_or_404(Book, id=book_id)
     MyBooks.objects.get_or_create(user=request.user, book=book)
     return redirect(request.META.get('HTTP_REFERER', 'books:index'))
 
-
 @login_required
 def remove_from_mybooks(request, book_id):
-    """Удаление книги из Мои книги"""
     book = get_object_or_404(Book, id=book_id)
     MyBooks.objects.filter(user=request.user, book=book).delete()
-    return redirect('users:mybooks')  # указываем users:mybooks
-
+    return redirect('users:mybooks')
 
 @login_required
 def move_to_cart(request, book_id):
-    """Перемещение книги из Мои книги в корзину"""
     book = get_object_or_404(Book, id=book_id)
 
-    # Удаляем из Мои книги
     MyBooks.objects.filter(user=request.user, book=book).delete()
 
-    # Добавляем в корзину
     basket, created = Basket.objects.get_or_create(
         user=request.user,
         book=book,
@@ -134,16 +149,82 @@ def move_to_cart(request, book_id):
 
     return redirect('users:mybooks')
 
-
 @login_required
 def clear_mybooks(request):
-    """Очистка всех книг из Мои книги"""
     MyBooks.objects.filter(user=request.user).delete()
     return redirect('users:mybooks')
 
-
 @login_required
 def mybooks_count(request):
-    """API для получения количества книг в Мои книги"""
     count = MyBooks.objects.filter(user=request.user).count()
     return JsonResponse({'count': count})
+
+@login_required
+def order_list(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    status = request.GET.get('status')
+    if status and status != 'all':
+        orders = orders.filter(status=status)
+
+    paginator = Paginator(orders, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'orders': page_obj,
+        'current_status': status or 'all',
+    }
+    return render(request, 'users/order_list.html', context)
+
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    context = {
+        'order': order
+    }
+    return render(request, 'users/order_detail.html', context)
+
+@login_required
+def order_repeat(request, order_id):
+    if request.method == 'POST':
+        order = get_object_or_404(Order, id=order_id, user=request.user)
+
+        for item in order.items.all():
+            basket, created = Basket.objects.get_or_create(
+                user=request.user,
+                book=item.book,
+                defaults={'quantity': item.quantity}
+            )
+            if not created:
+                basket.quantity += item.quantity
+                basket.save()
+
+        messages.success(request, f'Товары из заказа №{order.order_number} добавлены в корзину')
+
+    return redirect('users:basket')
+
+@login_required
+def order_review(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user, status='delivered')
+
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment')
+
+        # Создание отзыва (нужна модель Review)
+        # Review.objects.create(
+        #     user=request.user,
+        #     book=order.items.first().book,
+        #     rating=rating,
+        #     comment=comment
+        # )
+
+        messages.success(request, 'Спасибо за ваш отзыв!')
+        return redirect('users:order_list')
+
+    context = {
+        'order': order
+    }
+    return render(request, 'users/review_form.html', context)
