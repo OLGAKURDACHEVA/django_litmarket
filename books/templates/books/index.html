@@ -10,6 +10,84 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            padding-top: 110px;
+        }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background-color: #ffffff;
+        }
+
+        .message-container {
+            position: fixed;
+            top: 110px; /* Располагаем сразу под шапкой */
+            left: 0;
+            right: 0;
+            z-index: 998;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+            padding: 0 20px;
+        }
+
+        .alert-messages {
+            padding: 6px 30px 6px 12px;
+            border: 1px solid #6b2c2c;
+            background-color: #f9f9f9;
+            color: #6b2c2c;
+            font-size: 0.85rem;
+            max-width: 600px;
+            border-radius: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            pointer-events: auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            color: #6b2c2c;
+            cursor: pointer;
+            opacity: 0.7;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        .reading-room {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 180px;
+            }
+
+            .message-container {
+                top: 180px;
+            }
+
+            .alert-messages {
+                white-space: normal;
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -86,6 +164,18 @@
             </div>
         </div>
     </header>
+
+    <!-- Блок сообщений с фиксированным позиционированием под шапкой -->
+    {% if messages %}
+    <div class="message-container">
+        {% for message in messages %}
+        <div class="alert-messages">
+            <span class="message-content">{{ message }}</span>
+            <button type="button" class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <div class="content-wrapper">
         <div class="container">

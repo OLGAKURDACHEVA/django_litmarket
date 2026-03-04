@@ -34,9 +34,84 @@
       max-width: 1200px;
       margin: 0 auto;
     }
+
+    .navigation-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 15px;
+      background-color: transparent;
+      border: 1px solid #6b2c2c;
+      color: #6b2c2c;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      border-radius: 4px;
+    }
+
+    .nav-btn:hover {
+      background-color: #6b2c2c;
+      color: white;
+    }
+
+    .alert-messages {
+      padding: 8px 35px 8px 15px;
+      border: 1px solid #6b2c2c;
+      background-color: transparent;
+      color: #6b2c2c;
+      font-size: 0.8rem;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .message-content {
+      flex: 1;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      font-size: 1rem;
+      color: #6b2c2c;
+      cursor: pointer;
+      opacity: 0.7;
+      padding: 0 2px;
+      line-height: 1;
+    }
+
+    .close-btn:hover {
+      opacity: 1;
+    }
+
+    .message-checkbox {
+      display: none;
+    }
+
+    .message-checkbox:checked + .alert-messages {
+      display: none;
+    }
+
     .my-books-wrapper {
       width: 100%;
     }
+
     .my-books-header {
       display: flex;
       align-items: center;
@@ -69,31 +144,6 @@
       color: #6b2c2c;
       font-weight: 600;
       font-size: 0.9rem;
-    }
-
-    .navigation-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .nav-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 15px;
-      background-color: transparent;
-      border: 1px solid #6b2c2c;
-      color: #6b2c2c;
-      font-size: 0.85rem;
-      text-decoration: none;
-      transition: all 0.2s;
-      border-radius: 4px;
-    }
-
-    .nav-btn:hover {
-      background-color: #6b2c2c;
-      color: white;
     }
 
     .my-books-container {
@@ -297,7 +347,6 @@
       color: white;
     }
 
-    /* Пустое состояние */
     .empty-books {
       text-align: center;
       padding: 50px 20px;
@@ -350,6 +399,16 @@
         padding: 15px;
       }
 
+      .navigation-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .alert-messages {
+        white-space: normal;
+        max-width: 100%;
+      }
+
       .book-item {
         flex-direction: column;
         align-items: flex-start;
@@ -385,10 +444,6 @@
         justify-content: center;
       }
 
-      .navigation-buttons {
-        flex-wrap: wrap;
-      }
-
       .nav-btn {
         flex: 1;
         justify-content: center;
@@ -398,13 +453,27 @@
 </head>
 <body>
   <div class="container">
-    <div class="navigation-buttons">
-      <a href="{% url 'index' %}" class="nav-btn">
-        <i class="fas fa-chevron-left"></i> На главную
-      </a>
-      <a href="{% url 'books:index' %}" class="nav-btn">
-        <i class="fas fa-chevron-left"></i> В каталог
-      </a>
+    <div class="navigation-section">
+      <div class="navigation-buttons">
+        <a href="{% url 'index' %}" class="nav-btn">
+          <i class="fas fa-chevron-left"></i> На главную
+        </a>
+        <a href="{% url 'books:index' %}" class="nav-btn">
+          <i class="fas fa-chevron-left"></i> В каталог
+        </a>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+        <div>
+          <input type="checkbox" class="message-checkbox" id="msg-{{ forloop.counter }}">
+          <div class="alert-messages">
+            <div class="message-content">{{ message }}</div>
+            <label for="msg-{{ forloop.counter }}" class="close-btn">&times;</label>
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
     </div>
 
     <div class="my-books-wrapper">
@@ -456,7 +525,7 @@
                     <span>В корзину</span>
                   </a>
 
-                  <a href="{% url 'users:remove_from_mybooks' book.id %}" class="remove-btn" title="Удалить из моих книг" onclick="return confirm('Удалить книгу из Мои книги?')">
+                  <a href="{% url 'users:remove_from_mybooks' book.id %}" class="remove-btn" title="Удалить из моих книг">
                     <i class="fas fa-trash"></i>
                   </a>
                 </div>
@@ -470,7 +539,7 @@
                 Всего книг: <span>{{ my_books|length }}</span>
               </div>
 
-              <a href="{% url 'users:clear_mybooks' %}" class="clear-all-btn" onclick="return confirm('Очистить все книги из закладок?')">
+              <a href="{% url 'users:clear_mybooks' %}" class="clear-all-btn">
                 <i class="fas fa-trash-alt"></i>
                 Очистить всё
               </a>
@@ -487,15 +556,5 @@
       </div>
     </div>
   </div>
-
-  <script>
-    document.querySelectorAll('.remove-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        if (!confirm('Удалить книгу из "Мои книги"?')) {
-          e.preventDefault();
-        }
-      });
-    });
-  </script>
 </body>
 </html>

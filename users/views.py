@@ -129,7 +129,7 @@ def add_to_mybooks(request, book_id):
 def remove_from_mybooks(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     MyBooks.objects.filter(user=request.user, book=book).delete()
-    # Возвращаем на предыдущую страницу (откуда пришли)
+    messages.success(request, f'Книга "{book.title}" удалена из Моих книг')
     return redirect(request.META.get('HTTP_REFERER', 'books:index'))
 
 @login_required
@@ -156,12 +156,17 @@ def move_to_cart(request, book_id):
     if not created:
         basket.quantity += 1
         basket.save()
+        messages.success(request, f'Количество книги "{book.title}" в корзине увеличено до {basket.quantity}')
+    else:
+        messages.success(request, f'Книга "{book.title}" перемещена в корзину')
 
     return redirect('users:mybooks')
 
 @login_required
 def clear_mybooks(request):
+    count = MyBooks.objects.filter(user=request.user).count()
     MyBooks.objects.filter(user=request.user).delete()
+    messages.success(request, f'Все книги ({count}) удалены из Моих книг')
     return redirect('users:mybooks')
 
 @login_required

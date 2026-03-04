@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,10 +65,6 @@
       gap: 16px;
     }
 
-    .form-full-width {
-      grid-column: span 2;
-    }
-
     .form-group {
       margin-bottom: 0;
     }
@@ -105,7 +101,7 @@
       border: 1px solid #6b2c2c;
       font-size: 0.95rem;
       font-family: "Inter", sans-serif;
-      background-color: #f9f9f9;
+      background-color: #ffffff;
       color: #6b2c2c;
       border-radius: 0;
     }
@@ -115,7 +111,7 @@
     input[type="password"]:focus,
     input[type="email"]:focus {
       outline: none;
-      background-color: white;
+      background-color: #ffffff;
       border-color: #6b2c2c;
     }
 
@@ -128,30 +124,38 @@
       font-size: 0.9rem;
     }
 
-    input[name="first_name"],
-    input[name="last_name"],
-    input[name="username"],
-    input[name="password1"],
-    input[name="password2"],
-    input[name="email"] {
-      width: 100%;
-      padding: 10px 12px 10px 38px;
-      border: 1px solid #6b2c2c;
-      font-size: 0.95rem;
-      font-family: "Inter", sans-serif;
-      background-color: #f9f9f9;
-      color: #6b2c2c;
+    .form-input:-webkit-autofill,
+    .form-input:-webkit-autofill:hover,
+    .form-input:-webkit-autofill:focus,
+    .form-input:-webkit-autofill:active,
+    input[type="text"]:-webkit-autofill,
+    input[type="text"]:-webkit-autofill:hover,
+    input[type="text"]:-webkit-autofill:focus,
+    input[type="text"]:-webkit-autofill:active,
+    input[type="password"]:-webkit-autofill,
+    input[type="password"]:-webkit-autofill:hover,
+    input[type="password"]:-webkit-autofill:focus,
+    input[type="password"]:-webkit-autofill:active,
+    input[type="email"]:-webkit-autofill,
+    input[type="email"]:-webkit-autofill:hover,
+    input[type="email"]:-webkit-autofill:focus,
+    input[type="email"]:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+      box-shadow: 0 0 0 1000px #ffffff inset !important;
+      -webkit-text-fill-color: #6b2c2c !important;
+      caret-color: #6b2c2c;
+      border-color: #6b2c2c;
+      background-color: #ffffff !important;
     }
 
-    input[name="first_name"]:focus,
-    input[name="last_name"]:focus,
-    input[name="username"]:focus,
-    input[name="password1"]:focus,
-    input[name="password2"]:focus,
-    input[name="email"]:focus {
-      outline: none;
-      background-color: white;
-      border-color: #6b2c2c;
+    .form-input:-webkit-autofill:focus,
+    input[type="text"]:-webkit-autofill:focus,
+    input[type="password"]:-webkit-autofill:focus,
+    input[type="email"]:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+      box-shadow: 0 0 0 1000px #ffffff inset !important;
+      -webkit-text-fill-color: #6b2c2c !important;
+      background-color: #ffffff !important;
     }
 
     .register-btn {
@@ -165,6 +169,7 @@
       font-family: "Inter", sans-serif;
       cursor: pointer;
       margin-top: 20px;
+      transition: background-color 0.2s;
     }
 
     .register-btn:hover {
@@ -193,23 +198,73 @@
       text-decoration: underline;
     }
 
-    .error-messages {
-      color: #b22222;
-      background-color: #ffe4e1;
-      padding: 10px;
-      margin-bottom: 20px;
+    .alert-message {
+      padding: 8px 30px 8px 10px;
       border: 1px solid #6b2c2c;
+      background-color: transparent;
+      color: #6b2c2c;
       font-size: 0.85rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 0;
       grid-column: span 2;
+      position: relative;
     }
 
-    .error-messages ul {
-      list-style: none;
-      padding-left: 0;
+    .alert-message i:first-child {
+      color: #6b2c2c;
+      font-size: 1rem;
     }
 
-    .error-messages li {
-      margin-bottom: 4px;
+    .alert-message.error {
+      border-color: #b22222;
+      color: #b22222;
+    }
+
+    .alert-message.error i:first-child {
+      color: #b22222;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.1rem;
+      color: #6b2c2c;
+      cursor: pointer;
+      opacity: 0.7;
+      padding: 0 4px;
+      line-height: 1;
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .close-btn:hover {
+      opacity: 1;
+    }
+
+    .message-checkbox {
+      display: none;
+      background-color: #ffffff;
+    }
+
+    .message-checkbox:checked + .alert-message {
+      display: none;
+    }
+
+    .form-input.error {
+      border-color: #b22222;
+      background-color: #ffffff;
+    }
+
+    .field-error {
+      color: #b22222;
+      font-size: 0.75rem;
+      margin-top: 3px;
+      padding-left: 5px;
     }
 
     @media (max-width: 640px) {
@@ -223,12 +278,12 @@
         gap: 12px;
       }
 
-      .form-full-width {
-        grid-column: span 1;
-      }
-
       .register-title {
         font-size: 1.4rem;
+      }
+
+      .alert-message {
+        grid-column: span 1;
       }
     }
   </style>
@@ -245,15 +300,43 @@
       {% csrf_token %}
 
       {% if form.errors %}
-        <div class="error-messages">
-          <ul>
-            {% for field, errors in form.errors.items %}
-              {% for error in errors %}
-                <li>{{ error }}</li>
-              {% endfor %}
-            {% endfor %}
-          </ul>
-        </div>
+        {% for field, errors in form.errors.items %}
+          {% for error in errors %}
+            {% if 'already exists' in error or 'already taken' in error or 'уже существует' in error or 'already registered' in error %}
+              <div>
+                <input type="checkbox" class="message-checkbox" id="msg-{{ forloop.parentloop.counter }}-{{ forloop.counter }}">
+                <div class="alert-message error">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>
+                    {% if field == 'username' %}
+                      Пользователь с таким именем уже существует.
+                    {% elif field == 'email' %}
+                      Пользователь с таким email уже зарегистрирован.
+                    {% else %}
+                      {{ error }}
+                    {% endif %}
+                  </span>
+                  <label for="msg-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" class="close-btn">&times;</label>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      {% endif %}
+
+      {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == 'success' %}
+            <div>
+              <input type="checkbox" class="message-checkbox" id="msg-success-{{ forloop.counter }}">
+              <div class="alert-message">
+                <i class="fas fa-check-circle"></i>
+                <span>{{ message }}</span>
+                <label for="msg-success-{{ forloop.counter }}" class="close-btn">&times;</label>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
       {% endif %}
 
       <div class="form-grid">
@@ -262,9 +345,15 @@
           <div class="input-wrapper">
             <i class="fas fa-user input-icon"></i>
             <input type="text" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}"
-                   class="form-input" placeholder="Введите имя"
+                   class="form-input {% if form.first_name.errors %}error{% endif %}"
+                   placeholder="Введите имя"
                    {% if form.first_name.value %}value="{{ form.first_name.value }}"{% endif %}>
           </div>
+          {% if form.first_name.errors %}
+            {% for error in form.first_name.errors %}
+              <div class="field-error">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
         </div>
 
         <div class="form-group">
@@ -272,20 +361,31 @@
           <div class="input-wrapper">
             <i class="fas fa-user input-icon"></i>
             <input type="text" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}"
-                   class="form-input" placeholder="Введите фамилию"
+                   class="form-input {% if form.last_name.errors %}error{% endif %}"
+                   placeholder="Введите фамилию"
                    {% if form.last_name.value %}value="{{ form.last_name.value }}"{% endif %}>
           </div>
+          {% if form.last_name.errors %}
+            {% for error in form.last_name.errors %}
+              <div class="field-error">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
         </div>
 
-        <!-- Имя пользователя (левая колонка) -->
         <div class="form-group">
           <label class="form-label" for="{{ form.username.id_for_label }}">Имя пользователя</label>
           <div class="input-wrapper">
             <i class="fas fa-at input-icon"></i>
             <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}"
-                   class="form-input" placeholder="Введите логин"
+                   class="form-input {% if form.username.errors %}error{% endif %}"
+                   placeholder="Введите логин"
                    {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
           </div>
+          {% if form.username.errors %}
+            {% for error in form.username.errors %}
+              <div class="field-error">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
         </div>
 
         <div class="form-group">
@@ -293,9 +393,15 @@
           <div class="input-wrapper">
             <i class="fas fa-envelope input-icon"></i>
             <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}"
-                   class="form-input" placeholder="Введите email"
+                   class="form-input {% if form.email.errors %}error{% endif %}"
+                   placeholder="Введите email"
                    {% if form.email.value %}value="{{ form.email.value }}"{% endif %}>
           </div>
+          {% if form.email.errors %}
+            {% for error in form.email.errors %}
+              <div class="field-error">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
         </div>
 
         <div class="form-group">
@@ -303,8 +409,14 @@
           <div class="input-wrapper">
             <i class="fas fa-lock input-icon"></i>
             <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}"
-                   class="form-input" placeholder="Введите пароль">
+                   class="form-input {% if form.password1.errors %}error{% endif %}"
+                   placeholder="Введите пароль">
           </div>
+          {% if form.password1.errors %}
+            {% for error in form.password1.errors %}
+              <div class="field-error">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
         </div>
 
         <div class="form-group">
@@ -312,8 +424,14 @@
           <div class="input-wrapper">
             <i class="fas fa-lock input-icon"></i>
             <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}"
-                   class="form-input" placeholder="Повторите пароль">
+                   class="form-input {% if form.password2.errors %}error{% endif %}"
+                   placeholder="Повторите пароль">
           </div>
+          {% if form.password2.errors %}
+            {% for error in form.password2.errors %}
+              <div class="field-error">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
         </div>
       </div>
 

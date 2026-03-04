@@ -16,51 +16,7 @@
         padding-top: 140px;
         overflow-x: hidden;
     }
-.main-header .catalog-search .search-form .search-box {
-    display: flex !important;
-    width: 100% !important;
-    margin-bottom: 8px !important;
-    border: 2px solid #6b2c2c !important;
-    border-radius: 30px !important;
-    overflow: hidden !important;
-    background-color: #f9f9f9 !important;
-}
 
-.main-header .catalog-search .search-form .search-input {
-    flex: 1 !important;
-    padding: 12px 20px !important;
-    border: none !important;
-    font-size: 1rem !important;
-    background-color: #f9f9f9 !important;
-    color: #6b2c2c !important;
-    width: 100% !important;
-    outline: none !important;
-}
-
-.main-header .catalog-search .search-form .search-input::placeholder {
-    color: #6b2c2c !important;
-    opacity: 0.7 !important;
-}
-
-.main-header .catalog-search .search-form .search-btn {
-    background-color: #6b2c2c !important;
-    border: none !important;
-    border-radius: 0 30px 30px 0 !important;
-    padding: 0 25px !important;
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.main-header .catalog-search .search-form .search-btn:hover {
-    background-color: #8B3A3A !important;
-}
-
-.main-header .catalog-search .search-form .search-btn i {
-    color: white !important;
-    font-size: 1.1rem !important;
-}
     .container {
         max-width: 1400px;
         margin: 0 auto;
@@ -229,13 +185,6 @@
     .search-input:-webkit-autofill {
         box-shadow: 0 0 0 1000px #ffffff inset !important;
         -webkit-text-fill-color: #6b2c2c !important;
-        border-color: #6b2c2c;
-    }
-
-    .search-input:-webkit-autofill:focus {
-        box-shadow: 0 0 0 1000px #ffffff inset !important;
-        -webkit-text-fill-color: #6b2c2c !important;
-        border-color: #6b2c2c;
     }
 
     .nav-menu {
@@ -370,32 +319,6 @@
         text-align: center;
     }
 
-    .library-hall {
-        background-color: white;
-        padding: 40px;
-        border-radius: 10px;
-        border: 1px solid #e8dfd6;
-    }
-
-    .section-title {
-        font-size: 2rem;
-        color: #2c3e50;
-        margin-bottom: 10px;
-        font-weight: 600;
-    }
-
-    .section-subtitle {
-        font-size: 1.1rem;
-        color: #666;
-        margin-bottom: 20px;
-    }
-
-    .divider {
-        height: 1px;
-        background-color: #e8dfd6;
-        margin: 40px 0;
-    }
-
     .reading-room {
         background-color: #f9f5f0;
         border-radius: 6px;
@@ -425,7 +348,7 @@
         min-width: 300px;
     }
 
-    .book-title {
+    .book-info .book-title {
         font-size: 1.5rem;
         color: #8B3A3A;
         margin-bottom: 15px;
@@ -474,139 +397,23 @@
         border-radius: 8px;
     }
 
-    .feature-list, .resource-grid, .category-list, .about-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        list-style: none;
-    }
-
-    .feature-item, .resource-item, .category-item, .about-item {
-        background-color: #f9f9f9;
-        padding: 20px;
-        border-radius: 8px;
-        text-align: center;
-        border: 1px solid #eee;
-        transition: all 0.3s;
-    }
-
-    .feature-item:hover, .resource-item:hover, .category-item:hover, .about-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        border-color: #6b2c2c;
-    }
-
-    .bookstore-footer {
-        background-color: #6b2c2c;
-        color: white;
-        padding: 40px 0 20px;
-        margin-top: 50px;
-        position: relative;
-        border-radius: 10px 10px 0 0;
-    }
-
-    .footer-container {
-        max-width: 1300px;
-        margin: 0 auto;
-        padding: 0 20px;
-        position: relative;
-    }
-
-    .back-to-top {
-        position: absolute;
-        top: -20px;
-        right: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 50px;
-        height: 50px;
-        background: transparent;
-        border: 2px solid white;
-        color: white;
-        font-size: 1.3rem;
-        border-radius: 6px;
-        text-decoration: none;
-        transition: all 0.3s;
-    }
-
-    .back-to-top:hover {
-        color: #8B3A3A;
-        background-color: white;
-    }
-
-    .footer-top {
-        padding-bottom: 30px;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        margin-bottom: 30px;
-        text-align: center;
-    }
-
-    .footer-welcome h3 {
-        font-size: 1.3rem;
-        margin-bottom: 5px;
-        color: white;
-    }
-
-    .footer-subtitle {
-        color: rgba(255,255,255,0.9);
-    }
-
-    .footer-middle {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 40px;
-        margin-bottom: 30px;
-    }
-
-    .footer-column {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .footer-column-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-        color: white;
-    }
-
-    .footer-column-link {
-        color: rgba(255,255,255,0.8);
-        text-decoration: none;
-        margin-bottom: 12px;
-        font-size: 0.9rem;
-        transition: color 0.2s;
-    }
-
-    .footer-column-link:hover {
-        color: white;
-    }
-
-    .payment-systems {
-        display: flex;
-        gap: 15px;
+    .section-title {
         font-size: 2rem;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        font-weight: 600;
     }
 
-    .payment-systems i {
-        color: white;
-        opacity: 0.9;
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: #666;
+        margin-bottom: 20px;
     }
 
-    .footer-bottom {
-        padding-top: 20px;
-        border-top: 1px solid rgba(255,255,255,0.1);
-        text-align: center;
-        width: 100%;
-    }
-
-    .copyright {
-        color: white;
-        font-size: 0.85rem;
-        line-height: 1.5;
-        width: 100%;
-        max-width: 100%;
+    .divider {
+        height: 1px;
+        background-color: #e8dfd6;
+        margin: 40px 0;
     }
 
     .books-grid {
@@ -716,34 +523,124 @@
         background-color: #8B3A3A;
     }
 
-    .wishlist-btn {
-        width: 36px;
-        height: 36px;
-        border: 1px solid #6b2c2c;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #6b2c2c;
-        text-decoration: none;
-        transition: all 0.2s;
-    }
-
-    .wishlist-btn:hover {
-        background-color: #6b2c2c;
-        color: white;
-    }
-
-    .wishlist-btn.active {
-        background-color: #6b2c2c;
-        color: white;
-    }
-
     .no-books {
         grid-column: 1 / -1;
         text-align: center;
         padding: 40px;
         color: #666;
+    }
+
+    .bookstore-footer {
+        background-color: #6b2c2c;
+        color: white;
+        padding: 40px 0 20px;
+        margin-top: 50px;
+        position: relative;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .footer-container {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0 20px;
+        position: relative;
+    }
+
+    .back-to-top {
+        position: absolute;
+        top: -20px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        background: transparent;
+        border: 2px solid white;
+        color: white;
+        font-size: 1.3rem;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .back-to-top:hover {
+        color: #8B3A3A;
+        background-color: white;
+    }
+
+    .footer-top {
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .footer-welcome h3 {
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+        color: white;
+    }
+
+    .footer-welcome a {
+        color: rgba(255,255,255,0.9);
+    }
+
+    .footer-middle {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        margin-bottom: 30px;
+    }
+
+    .footer-column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer-column-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .footer-column-link {
+        color: rgba(255,255,255,0.8);
+        text-decoration: none;
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+        transition: color 0.2s;
+    }
+
+    .footer-column-link:hover {
+        color: white;
+    }
+
+    .payment-systems {
+        display: flex;
+        gap: 15px;
+        font-size: 2rem;
+    }
+
+    .payment-systems i {
+        color: white;
+        opacity: 0.9;
+    }
+
+    .footer-bottom {
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        text-align: center;
+        width: 100%;
+    }
+
+    .copyright {
+        color: white;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        width: 100%;
+        max-width: 100%;
     }
 
     @media (max-width: 1200px) {
@@ -796,7 +693,7 @@
         .catalog-btn {
             margin-left: 0;
         }
-        .reading-room, .library-hall {
+        .reading-room {
             padding: 30px 20px;
         }
         .footer-middle {
@@ -817,9 +714,6 @@
         }
         .nav-menu {
             gap: 8px;
-        }
-        .feature-list, .resource-grid, .category-list, .about-list {
-            grid-template-columns: 1fr;
         }
         .books-grid {
             grid-template-columns: 1fr;

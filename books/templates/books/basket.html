@@ -1,44 +1,44 @@
 <div class="cart-card">
-      {% if baskets %}
-        <div class="cart-header">
-          <h2 class="section-title">Корзина</h2>
-          <span class="cart-count">Всего: {{ total_quantity }}</span>
-        </div>
-
-        {% for basket in baskets %}
-          <div class="cart-items">
-            <div class="cart-item">
-              <div class="item-image">
-                  <img src="{{ basket.book.cover_image_url.url }}" alt="#">
-              </div>
-              <div class="item-info">
-                <div class="item-title">{{ basket.book.title|truncatechars:20 }}</div>
-                <div class="item-desc">{{ basket.book.author|truncatechars:15 }}</div>
-              </div>
-              <div class="item-details">
-                <div class="item-quantity">
-                  <a href="{% url 'books:basket_remove' basket.book.id %}" class="quantity-btn">−</a>
-                  <span class="quantity-value">{{ basket.quantity }} шт</span>
-                  <a href="{% url 'books:basket_add' basket.book.id %}" class="quantity-plus-btn">+</a>
-                </div>
-                <div class="item-price">{{ basket.sum }} ₽</div>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-
-        <div class="cart-total">
-          <span>Итого:</span>
-          <span class="total-amount">{{ total_sum }} ₽</span>
-        </div>
-
-        <a href="{% url 'users:checkout' %}" class="checkout-btn">
-          <i class="fas fa-shopping-cart"></i> Оформить
-        </a>
-      {% else %}
-        <div class="empty-cart">
-          <h2>Корзина пуста</h2>
-        </div>
-      {% endif %}
+  {% if baskets %}
+    <div class="cart-header">
+      <h2 class="section-title">Корзина</h2>
+      <span class="cart-count">Всего: {{ total_quantity }}</span>
     </div>
-  </div>
+
+    {% for basket in baskets %}
+      <div class="cart-items">
+        <div class="cart-item">
+          <div class="item-image">
+              <img src="{{ basket.book.cover_image_url.url }}" alt="#">
+          </div>
+          <div class="item-info">
+            <div class="item-title">{{ basket.book.title|truncatechars:20 }}</div>
+            <div class="item-desc">{{ basket.book.author|truncatechars:15 }}</div>
+          </div>
+          <div class="item-details">
+            <div class="item-quantity">
+              <a href="{% url 'books:basket_remove' basket.book.id %}" class="quantity-btn">−</a>
+              <span class="quantity-value">{{ basket.quantity }} шт</span>
+              <a href="{% url 'books:basket_add' basket.book.id %}" class="quantity-plus-btn">+</a>
+            </div>
+            <div class="item-price">{{ basket.sum }} ₽</div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    <div class="cart-total">
+      <span>Итого:</span>
+      <span class="total-amount">{{ total_sum }} ₽</span>
+    </div>
+
+    <a href="{% url 'users:checkout' %}" class="checkout-btn">
+      <i class="fas fa-shopping-cart"></i> Оформить
+    </a>
+  {% else %}
+    <div class="empty-cart">
+      <h2>Ваша корзина пока пуста</h2>
+      <i class="fas fa-shopping-cart"></i>
+    </div>
+  {% endif %}
+</div>

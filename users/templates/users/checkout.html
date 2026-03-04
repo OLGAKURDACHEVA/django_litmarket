@@ -362,7 +362,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Телефон</label>
-                            <input type="tel" name="phone" class="form-input" placeholder="+7 (999) 999-99-99" required>
+                            <input type="tel" name="phone" class="form-input" id="phoneInput" placeholder="+7 (999) 999-99-99" required>
                         </div>
 
                         <div class="form-group">
@@ -390,16 +390,16 @@
                         <div id="cardDetails" class="card-details">
                             <div class="form-group">
                                 <label class="form-label">Номер карты</label>
-                                <input type="text" name="card_number" class="form-input" placeholder="0000 0000 0000 0000">
+                                <input type="text" name="card_number" class="form-input" id="cardNumberInput" placeholder="0000 0000 0000 0000">
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label class="form-label">Срок</label>
-                                    <input type="text" name="card_expiry" class="form-input" placeholder="MM/ГГ">
+                                    <input type="text" name="card_expiry" class="form-input" id="cardExpiryInput" placeholder="ММ/ГГ">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">CVV</label>
-                                    <input type="text" name="card_cvv" class="form-input" placeholder="123">
+                                    <input type="text" name="card_cvv" class="form-input" id="cardCvvInput" placeholder="123" maxlength="3">
                                 </div>
                             </div>
                         </div>
@@ -485,22 +485,92 @@
     </div>
 
     <script>
-        // Показываем/скрываем поля карты
-        document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const cardDetails = document.getElementById('cardDetails');
-                cardDetails.style.display = this.value === 'card' ? 'block' : 'none';
-            });
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInput = document.getElementById('phoneInput');
+            const cardNumberInput = document.getElementById('cardNumberInput');
+            const cardExpiryInput = document.getElementById('cardExpiryInput');
+            const cardDetails = document.getElementById('cardDetails');
 
-        // Выбор пункта выдачи
-        document.querySelectorAll('.delivery-point').forEach(point => {
-            point.addEventListener('click', function() {
-                document.querySelectorAll('.delivery-point').forEach(p => {
-                    p.classList.remove('selected');
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 0) {
+                    if (value.substring(0, 1) !== '7') {
+                        value = '7' + value;
+                    }
+                    let formattedValue = '+7';
+                    if (value.length > 1) {
+                        formattedValue += ' (' + value.substring(1, 4);
+                    }
+                    if (value.length >= 5) {
+                        formattedValue += ') ' + value.substring(4, 7);
+                    }
+                    if (value.length >= 8) {
+                        formattedValue += '-' + value.substring(7, 9);
+                    }
+                    if (value.length >= 10) {
+                        formattedValue += '-' + value.substring(9, 11);
+                    }
+                    e.target.value = formattedValue;
+                } else {
+                    e.target.value = '';
+                }
+            });
+
+            cardNumberInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
+                let formattedValue = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
+                }
+                e.target.value = formattedValue.substring(0, 19);
+            });
+
+            cardExpiryInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    let month = value.substring(0, 2);
+                    if (parseInt(month) > 12) {
+                        month = '12';
+                    }
+                    if (value.length >= 4) {
+                        e.target.value = month + '/' + value.substring(2, 4);
+                    } else {
+                        e.target.value = month + '/' + value.substring(2);
+                    }
+                } else {
+                    e.target.value = value;
+                }
+            });
+
+            cardCvvInput.addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\D/g, '').substring(0, 3);
+            });
+
+            document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    cardDetails.style.display = this.value === 'card' ? 'block' : 'none';
                 });
-                this.classList.add('selected');
-                this.querySelector('input').checked = true;
+            });
+
+            document.querySelectorAll('.delivery-point').forEach(point => {
+                point.addEventListener('click', function() {
+                    document.querySelectorAll('.delivery-point').forEach(p => {
+                        p.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    this.querySelector('input').checked = true;
+                });
+            });
+
+            document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+                const phone = phoneInput.value.replace(/\D/g, '');
+                if (phone.length !== 11) {
+                    e.preventDefault();
+                    alert('Пожалуйста, введите корректный номер телефона');
+                }
             });
         });
     </script>
