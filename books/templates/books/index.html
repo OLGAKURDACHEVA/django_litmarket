@@ -1,175 +1,28 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title|title }}</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/toolbar.css">
+    <link rel="stylesheet" href="/static/css/footer.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            padding-top: 110px;
-        }
-
-        .main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 999;
-            background-color: #ffffff;
-        }
-
-        .message-container {
-            position: fixed;
-            top: 105px;
-            left: 0;
-            right: 0;
-            z-index: 998;
-            display: flex;
-            justify-content: center;
-            pointer-events: none;
-            padding: 0 20px;
-        }
-
-        .alert-messages {
-            padding: 6px 30px 6px 12px;
-            border: 1px solid #6b2c2c;
-            background-color: #f9f9f9;
-            color: #6b2c2c;
-            font-size: 0.85rem;
-            max-width: 600px;
-            border-radius: 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            pointer-events: auto;
-            margin: 0 auto;
-        }
-
-        .close-btn {
-            background: transparent;
-            border: none;
-            font-size: 1.1rem;
-            color: #6b2c2c;
-            cursor: pointer;
-            opacity: 0.7;
-            padding: 0 4px;
-            line-height: 1;
-        }
-
-        .close-btn:hover {
-            opacity: 1;
-        }
-
-        .reading-room {
-            margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding-top: 180px;
-            }
-
-            .message-container {
-                top: 180px;
-            }
-
-            .alert-messages {
-                white-space: normal;
-                max-width: 100%;
-                width: 100%;
-            }
-        }
-    </style>
 </head>
 <body>
-    <header class="main-header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo-section">
-                    <div class="logo">
-                        <a href="{% url 'index' %}">
-                            <h1 class="logo-text">LitMarket</h1>
-                        </a>
-                    </div>
-                    <div class="region-selector">
-                        <span class="region">Россия, Москва <i class="fas fa-chevron-down"></i></span>
-                    </div>
-                </div>
-
-                <a href="{% url 'books:agreement' %}" class="age-block">18+</a>
-                <a href="{% url 'books:index' %}" class="catalog-btn">Каталог</a>
-
-                <div class="catalog-search">
-                    <form method="get" action="{% url 'books:index' %}" class="search-form">
-                        <div class="search-box">
-                            <input type="text" name="search" placeholder="Найти в LitMarket"
-                                   class="search-input" value="{{ search_query|default:'' }}">
-                            <button type="submit" class="search-btn">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-
-                    <ul class="nav-menu">
-                        <li class="nav-item"><a href="#" class="nav-link">Сертификаты</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Программа лояльности</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Чат</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Ресейл</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Оплата и Доставка</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Карта сайта</a></li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link">Ещё <i class="fas fa-chevron-down"></i></a>
-                            <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item">Поддержка</a>
-                                <a href="#" class="dropdown-item">Контакты</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="user-actions">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'users:profile' %}" class="user-action">
-                            <i class="far fa-user"></i><span>{{ user.username }}</span>
-                        </a>
-                        <a href="{% url 'users:order_list' %}" class="user-action">
-                            <i class="far fa-clipboard"></i><span>Заказы</span>
-                        </a>
-                        <a href="{% url 'users:mybooks' %}" class="user-action my-books-btn">
-                            <i class="fas fa-book-open"></i><span>Мои книги</span>
-                            {% if user.is_authenticated %}
-                                <span class="cart-count" id="myBooksCount">{{ user.my_books.count }}</span>
-                            {% endif %}
-                        </a>
-                        <form action="{% url 'users:logout_view' %}" method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="user-action">
-                                <i class="fas fa-sign-out-alt"></i><span>Выйти</span>
-                            </button>
-                        </form>
-                    {% else %}
-                        <a href="{% url 'users:login' %}" class="user-action">
-                            <i class="far fa-user"></i><span>Войти</span>
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </header>
+    {% include "books/toolbar.html" %}
 
     {% if messages %}
     <div class="message-container">
         {% for message in messages %}
-        <div class="alert-messages">
-            <span class="message-content">{{ message }}</span>
-            <button type="button" class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+        <div class="alert-message">
+            <i class="fas fa-info-circle"></i>
+            <span>{{ message }}</span>
+            <button type="button" class="message-close-btn" onclick="this.parentElement.remove();">&times;</button>
         </div>
         {% endfor %}
     </div>
@@ -177,20 +30,37 @@
 
     <div class="content-wrapper">
         <div class="container">
-            <div class="reading-room">
-                <h2 class="month-book-label">Книга месяца</h2>
-                <div class="book-of-month">
-                    <div class="book-info">
-                        <h1 class="book-title">Название книги месяца</h1>
-                        <p class="book-author">Имя автора</p>
-                        <p class="book-description">Краткое описание книги, которое заинтересует читателя. Здесь может быть несколько предложений. Это описание может быть более подробным, чтобы читатель захотел узнать о книге больше.</p>
-                        <a href="#" class="read-more-btn">Узнать больше</a>
-                    </div>
-                    <div class="book-image">
+          <div class="hero-section">
+            <h2 class="hero-title">
+                {% if book_of_month %}
+                    КНИГА {{ current_month_name|default:"МЕСЯЦА" }}
+                {% else %}
+                    КНИГА МЕСЯЦА
+                {% endif %}
+            </h2>
+            <div class="hero-content">
+                <div class="hero-info">
+                    {% if book_of_month %}
+                        <h2>{{ book_of_month.title }}</h2>
+                        <p class="hero-author">{{ book_of_month.author.name }}</p>
+                        <p class="hero-description">{{ book_of_month.description|truncatechars:200 }}</p>
+                        <a href="{% url 'books:card' book_of_month.id %}" class="hero-btn">Узнать больше</a>
+                    {% else %}
+                        <h2>Название книги месяца</h2>
+                        <p class="hero-author">Имя автора</p>
+                        <p class="hero-description">Краткое описание книги, которое заинтересует читателя. Здесь может быть несколько предложений. Это описание может быть более подробным, чтобы читатель захотел узнать о книге больше.</p>
+                        <a href="#" class="hero-btn">Узнать больше</a>
+                    {% endif %}
+                </div>
+                <div class="hero-image">
+                    {% if book_of_month and book_of_month.cover_image_url %}
+                        <img src="{{ book_of_month.cover_image_url.url }}" alt="{{ book_of_month.title }}">
+                    {% else %}
                         <img src="{% static 'vendor/img/profile.png' %}" alt="Книга месяца">
-                    </div>
+                    {% endif %}
                 </div>
             </div>
+        </div>
 
             {% if search_query %}
             <div class="search-results">
@@ -234,53 +104,139 @@
                     {% endfor %}
                 </div>
             </div>
+            {% else %}
+            <div class="collections-section">
+                <div class="collections-tabs">
+                    <div class="tabs-wrapper">
+                        <button class="collection-tab active" data-collection="popular">Популярные книги</button>
+                        <button class="collection-tab" data-collection="new">Новинки</button>
+                        <button class="collection-tab" data-collection="recommended">Рекомендуем</button>
+                    </div>
+                    <a href="{% url 'books:index' %}" class="view-all-link">
+                        Смотреть все <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="collection-content active" id="collection-popular">
+                    <div class="books-row">
+                        {% for book in popular_books|slice:":4" %}
+                        <div class="book-card">
+                            <a href="{% url 'books:card' book.id %}">
+                                <div class="book-cover">
+                                    <img src="{{ book.cover_image_url.url }}" alt="{{ book.title }}">
+                                </div>
+                            </a>
+                            <div class="book-price">
+                                <span class="current-price">{{ book.price }} ₽</span>
+                            </div>
+                            <h3 class="book-title">
+                                <a href="{% url 'books:card' book.id %}">{{ book.title|truncatechars:30 }}</a>
+                            </h3>
+                            <div class="book-author">
+                                <a href="#">{{ book.author.name }}</a>
+                            </div>
+                            <div class="book-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-count">4.8</span>
+                            </div>
+                            <div class="book-actions">
+                                <a href="{% url 'books:basket_add' book.id %}" class="add-to-cart-btn">
+                                    <i class="fas fa-shopping-cart"></i><span>Купить</span>
+                                </a>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>Нет популярных книг</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="collection-content" id="collection-new">
+                    <div class="books-row">
+                        {% for book in new_books|slice:":4" %}
+                        <div class="book-card">
+                            <a href="{% url 'books:card' book.id %}">
+                                <div class="book-cover">
+                                    <img src="{{ book.cover_image_url.url }}" alt="{{ book.title }}">
+                                </div>
+                            </a>
+                            <div class="book-price">
+                                <span class="current-price">{{ book.price }} ₽</span>
+                            </div>
+                            <h3 class="book-title">
+                                <a href="{% url 'books:card' book.id %}">{{ book.title|truncatechars:30 }}</a>
+                            </h3>
+                            <div class="book-author">
+                                <a href="#">{{ book.author.name }}</a>
+                            </div>
+                            <div class="book-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-count">4.8</span>
+                            </div>
+                            <div class="book-actions">
+                                <a href="{% url 'books:basket_add' book.id %}" class="add-to-cart-btn">
+                                    <i class="fas fa-shopping-cart"></i><span>Купить</span>
+                                </a>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>Нет новинок</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="collection-content" id="collection-recommended">
+                    <div class="books-row">
+                        {% for book in recommended_books|slice:":4" %}
+                        <div class="book-card">
+                            <a href="{% url 'books:card' book.id %}">
+                                <div class="book-cover">
+                                    <img src="{{ book.cover_image_url.url }}" alt="{{ book.title }}">
+                                </div>
+                            </a>
+                            <div class="book-price">
+                                <span class="current-price">{{ book.price }} ₽</span>
+                            </div>
+                            <h3 class="book-title">
+                                <a href="{% url 'books:card' book.id %}">{{ book.title|truncatechars:30 }}</a>
+                            </h3>
+                            <div class="book-author">
+                                <a href="#">{{ book.author.name }}</a>
+                            </div>
+                            <div class="book-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-count">4.8</span>
+                            </div>
+                            <div class="book-actions">
+                                <a href="{% url 'books:basket_add' book.id %}" class="add-to-cart-btn">
+                                    <i class="fas fa-shopping-cart"></i><span>Купить</span>
+                                </a>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>Нет рекомендуемых книг</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
             {% endif %}
         </div>
     </div>
 
-    <footer class="bookstore-footer">
-        <div class="footer-container">
-            <a href="#" class="back-to-top" title="Наверх"><i class="fas fa-arrow-up"></i></a>
+    {% include "books/footer.html" %}
 
-            <div class="footer-top">
-                <div class="footer-welcome">
-                    <h3>Добро пожаловать на LitMarket!</h3>
-                    <a href="#" class="footer-column-link">Карта сайта</a>
-                </div>
-            </div>
-
-            <div class="footer-middle">
-                <div class="footer-column">
-                    <h4 class="footer-column-title">Информация</h4>
-                    <a href="#" class="footer-column-link">Сертификаты</a>
-                    <a href="#" class="footer-column-link">Программа лояльности</a>
-                    <a href="{% url 'books:agreement' %}" class="footer-column-link">Пользовательское соглашение</a>
-                    <a href="#" class="footer-column-link">Оплата и доставка</a>
-                    <a href="#" class="footer-column-link">Ресейл</a>
-                </div>
-
-                <div class="footer-column">
-                    <h4 class="footer-column-title">Контакты</h4>
-                    <a href="#" class="footer-column-link">Чат</a>
-                    <a href="#" class="footer-column-link">Контактная информация</a>
-                    <a href="#" class="footer-column-link">Поддержка</a>
-                </div>
-
-                <div class="footer-column">
-                    <h4 class="footer-column-title">Мы принимаем</h4>
-                    <div class="payment-systems">
-                        <i class="fab fa-cc-visa"></i>
-                        <i class="fab fa-cc-mastercard"></i>
-                        <i class="fab fa-cc-mir"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p class="copyright">© 2026, ООО «ЛитМаркет». Все права защищены. Использование материалов сайта возможно только с активной ссылкой на litmarket.</p>
-            </div>
-        </div>
-    </footer>
     <script>
         window.addEventListener("scroll", function() {
             const header = document.querySelector(".main-header");
@@ -301,6 +257,30 @@
                 if (dropdownMenu) dropdownMenu.style.display = "none";
             });
         });
+
+        document.querySelectorAll('.collection-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.collection-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                document.querySelectorAll('.collection-content').forEach(c => c.classList.remove('active'));
+
+                const collectionId = this.getAttribute('data-collection');
+                document.getElementById(`collection-${collectionId}`).classList.add('active');
+            });
+        });
+
+         document.addEventListener('DOMContentLoaded', function() {
+            const messages = document.querySelectorAll('.alert-message');
+            messages.forEach(function(message) {
+                setTimeout(function() {
+                    if (message.parentNode) {
+                        message.remove();
+                    }
+                }, 3000);
+            });
+        });
+
     </script>
 </body>
 </html>

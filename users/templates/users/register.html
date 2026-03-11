@@ -4,289 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Регистрация в LitMarket</title>
+  <link rel="stylesheet" href="/static/css/register.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "Inter", sans-serif;
-      background-color: #f9f9f9;
-      color: #6b2c2c;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .auth-logo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      margin-bottom: 15px;
-    }
-
-    .auth-logo-text {
-      font-weight: 700;
-      color: #6b2c2c;
-      font-size: 1.8rem;
-      line-height: 1.2;
-    }
-
-    .register-card {
-      background-color: #ffffff;
-      width: 100%;
-      max-width: 600px;
-      padding: 25px 25px;
-      border: 1px solid #e8dfd6;
-    }
-
-    .register-title {
-      font-family: "Inter", sans-serif;
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: #6b2c2c;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .form-group {
-      margin-bottom: 0;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #6b2c2c;
-      margin-bottom: 4px;
-    }
-
-    .input-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .input-icon {
-      position: absolute;
-      left: 12px;
-      color: #6b2c2c;
-      opacity: 0.7;
-      font-size: 0.95rem;
-      z-index: 1;
-    }
-
-    .form-input,
-    input[type="text"],
-    input[type="password"],
-    input[type="email"] {
-      width: 100%;
-      padding: 10px 12px 10px 38px;
-      border: 1px solid #6b2c2c;
-      font-size: 0.95rem;
-      font-family: "Inter", sans-serif;
-      background-color: #ffffff;
-      color: #6b2c2c;
-      border-radius: 0;
-    }
-
-    .form-input:focus,
-    input[type="text"]:focus,
-    input[type="password"]:focus,
-    input[type="email"]:focus {
-      outline: none;
-      background-color: #ffffff;
-      border-color: #6b2c2c;
-    }
-
-    .form-input::placeholder,
-    input[type="text"]::placeholder,
-    input[type="password"]::placeholder,
-    input[type="email"]::placeholder {
-      color: #6b2c2c;
-      opacity: 0.5;
-      font-size: 0.9rem;
-    }
-
-    .form-input:-webkit-autofill,
-    .form-input:-webkit-autofill:hover,
-    .form-input:-webkit-autofill:focus,
-    .form-input:-webkit-autofill:active,
-    input[type="text"]:-webkit-autofill,
-    input[type="text"]:-webkit-autofill:hover,
-    input[type="text"]:-webkit-autofill:focus,
-    input[type="text"]:-webkit-autofill:active,
-    input[type="password"]:-webkit-autofill,
-    input[type="password"]:-webkit-autofill:hover,
-    input[type="password"]:-webkit-autofill:focus,
-    input[type="password"]:-webkit-autofill:active,
-    input[type="email"]:-webkit-autofill,
-    input[type="email"]:-webkit-autofill:hover,
-    input[type="email"]:-webkit-autofill:focus,
-    input[type="email"]:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
-      box-shadow: 0 0 0 1000px #ffffff inset !important;
-      -webkit-text-fill-color: #6b2c2c !important;
-      caret-color: #6b2c2c;
-      border-color: #6b2c2c;
-      background-color: #ffffff !important;
-    }
-
-    .form-input:-webkit-autofill:focus,
-    input[type="text"]:-webkit-autofill:focus,
-    input[type="password"]:-webkit-autofill:focus,
-    input[type="email"]:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
-      box-shadow: 0 0 0 1000px #ffffff inset !important;
-      -webkit-text-fill-color: #6b2c2c !important;
-      background-color: #ffffff !important;
-    }
-
-    .register-btn {
-      width: 100%;
-      padding: 12px 20px;
-      background-color: #6b2c2c;
-      color: white;
-      border: 1px solid #6b2c2c;
-      font-size: 1rem;
-      font-weight: 500;
-      font-family: "Inter", sans-serif;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: background-color 0.2s;
-    }
-
-    .register-btn:hover {
-      background-color: #8B3A3A;
-      border-color: #8B3A3A;
-    }
-
-    .login-link {
-      text-align: center;
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #e8dfd6;
-      font-size: 0.85rem;
-      color: #6b2c2c;
-    }
-
-    .login-link a {
-      color: #6b2c2c;
-      font-weight: 600;
-      text-decoration: none;
-      margin-left: 5px;
-    }
-
-    .login-link a:hover {
-      color: #8B3A3A;
-      text-decoration: underline;
-    }
-
-    .alert-message {
-      padding: 8px 30px 8px 10px;
-      border: 1px solid #6b2c2c;
-      background-color: transparent;
-      color: #6b2c2c;
-      font-size: 0.85rem;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 0;
-      grid-column: span 2;
-      position: relative;
-    }
-
-    .alert-message i:first-child {
-      color: #6b2c2c;
-      font-size: 1rem;
-    }
-
-    .alert-message.error {
-      border-color: #b22222;
-      color: #b22222;
-    }
-
-    .alert-message.error i:first-child {
-      color: #b22222;
-    }
-
-    .close-btn {
-      background: transparent;
-      border: none;
-      font-size: 1.1rem;
-      color: #6b2c2c;
-      cursor: pointer;
-      opacity: 0.7;
-      padding: 0 4px;
-      line-height: 1;
-      position: absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .close-btn:hover {
-      opacity: 1;
-    }
-
-    .message-checkbox {
-      display: none;
-      background-color: #ffffff;
-    }
-
-    .message-checkbox:checked + .alert-message {
-      display: none;
-    }
-
-    .form-input.error {
-      border-color: #b22222;
-      background-color: #ffffff;
-    }
-
-    .field-error {
-      color: #b22222;
-      font-size: 0.75rem;
-      margin-top: 3px;
-      padding-left: 5px;
-    }
-
-    @media (max-width: 640px) {
-      .register-card {
-        padding: 20px 15px;
-        max-width: 100%;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .register-title {
-        font-size: 1.4rem;
-      }
-
-      .alert-message {
-        grid-column: span 1;
-      }
-    }
-  </style>
 </head>
 <body>
   <div class="register-card">
@@ -296,28 +18,23 @@
 
     <h1 class="register-title">Создать аккаунт</h1>
 
-    <form action="{% url 'users:register' %}" method="post">
-      {% csrf_token %}
-
+    <div class="messages-container">
       {% if form.errors %}
         {% for field, errors in form.errors.items %}
           {% for error in errors %}
             {% if 'already exists' in error or 'already taken' in error or 'уже существует' in error or 'already registered' in error %}
-              <div>
-                <input type="checkbox" class="message-checkbox" id="msg-{{ forloop.parentloop.counter }}-{{ forloop.counter }}">
-                <div class="alert-message error">
-                  <i class="fas fa-exclamation-circle"></i>
-                  <span>
-                    {% if field == 'username' %}
-                      Пользователь с таким именем уже существует.
-                    {% elif field == 'email' %}
-                      Пользователь с таким email уже зарегистрирован.
-                    {% else %}
-                      {{ error }}
-                    {% endif %}
-                  </span>
-                  <label for="msg-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" class="close-btn">&times;</label>
-                </div>
+              <div class="alert-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>
+                  {% if field == 'username' %}
+                    Пользователь с таким именем уже существует.
+                  {% elif field == 'email' %}
+                    Пользователь с таким email уже зарегистрирован.
+                  {% else %}
+                    {{ error }}
+                  {% endif %}
+                </span>
+                <button type="button" class="message-close-btn" onclick="this.parentElement.remove();">&times;</button>
               </div>
             {% endif %}
           {% endfor %}
@@ -327,17 +44,18 @@
       {% if messages %}
         {% for message in messages %}
           {% if message.tags == 'success' %}
-            <div>
-              <input type="checkbox" class="message-checkbox" id="msg-success-{{ forloop.counter }}">
-              <div class="alert-message">
-                <i class="fas fa-check-circle"></i>
-                <span>{{ message }}</span>
-                <label for="msg-success-{{ forloop.counter }}" class="close-btn">&times;</label>
-              </div>
+            <div class="alert-message">
+              <i class="fas fa-check-circle"></i>
+              <span>{{ message }}</span>
+              <button type="button" class="message-close-btn" onclick="this.parentElement.remove();">&times;</button>
             </div>
           {% endif %}
         {% endfor %}
       {% endif %}
+    </div>
+
+    <form action="{% url 'users:register' %}" method="post">
+      {% csrf_token %}
 
       <div class="form-grid">
         <div class="form-group">
@@ -443,5 +161,18 @@
       </div>
     </form>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const messages = document.querySelectorAll('.alert-message');
+      messages.forEach(function(message) {
+        setTimeout(function() {
+          if (message.parentNode) {
+            message.remove();
+          }
+        }, 5000);
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подарочные сертификаты | LitMarket</title>
+    <link rel="stylesheet" href="/static/css/books.css?v=2" />
+    <link rel="stylesheet" href="/static/css/toolbar.css?v=2" />
+    <link rel="stylesheet" href="/static/css/certificates.css?v=2" />
+    <link rel="stylesheet" href="/static/css/footer.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    {% include "books/toolbar.html" %}
+    <div class="container">
+        <div class="certificate-page">
+            <h1 class="page-title">Книга — лучший подарок</h1>
+            <p class="page-subtitle">Чтобы угадать с сюрпризом, выберите один из сертификатов LitMarket.</p>
+
+            <div class="cert-types">
+                <div class="cert-type-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Электронный сертификат</h3>
+                    <p>Мгновенная доставка на email</p>
+                </div>
+                <div class="cert-type-card">
+                    <i class="fas fa-building"></i>
+                    <h3>Корпоративные сертификаты</h3>
+                    <p>Для сотрудников и партнёров</p>
+                </div>
+            </div>
+
+            <div class="gift-section">
+                <div class="gift-content">
+                    <h2>Порадуйте близких</h2>
+                    <p>Приобретите электронный подарочный сертификат LitMarket.</p>
+                </div>
+                <a href="#" class="gift-button">Купить сертификат</a>
+            </div>
+
+            <div class="rules-block">
+                <p><i class="fas fa-balance-scale"></i> <strong>Юридическая информация:</strong> Ознакомьтесь с полными <a href="{% url 'books:certificate_rules' %}">правилами покупки и использования электронных сертификатов LitMarket</a>.</p>
+            </div>
+
+            <div class="corporate-section">
+                <h2>Корпоративные подарочные сертификаты</h2>
+                <div class="corporate-card">
+                    <p>Корпоративные подарочные сертификаты LitMarket — простой способ порадовать сотрудников!</p>
+                    <p>Для юридических лиц с оплатой по безналичному расчету мы выпускаем сертификаты в электронном формате.</p>
+
+                    <div class="corporate-email">
+                        <i class="far fa-envelope"></i> certificate@bookcenter.ru
+                    </div>
+
+                    <p>Оформить корпоративный заказ очень просто: отправьте заявку и реквизиты вашей организации на электронную почту.</p>
+
+                    <div class="work-time">
+                        <i class="far fa-clock"></i> Прием заявок осуществляется с понедельника по пятницу с 9.00 до 18.00 по Москве.
+                    </div>
+
+                    <div class="contract-link">
+                        <a href="#"><i class="fas fa-file-contract"></i> Типовые условия договора купли-продажи электронных подарочных сертификатов</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include "books/footer.html" %}
+</body>
+</html>

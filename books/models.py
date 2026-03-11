@@ -165,3 +165,35 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.book.title} x{self.quantity}"
+
+class BookOfTheMonth(models.Model):
+    MONTH_CHOICES = [
+        (1, 'Январь'),
+        (2, 'Февраль'),
+        (3, 'Март'),
+        (4, 'Апрель'),
+        (5, 'Май'),
+        (6, 'Июнь'),
+        (7, 'Июль'),
+        (8, 'Август'),
+        (9, 'Сентябрь'),
+        (10, 'Октябрь'),
+        (11, 'Ноябрь'),
+        (12, 'Декабрь'),
+    ]
+
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='book_of_month')
+    month = models.IntegerField(choices=MONTH_CHOICES, verbose_name='Месяц')
+    year = models.PositiveIntegerField(verbose_name='Год')
+    is_active = models.BooleanField(default=True, verbose_name='Активно')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Книга месяца'
+        verbose_name_plural = 'Книги месяца'
+        unique_together = ['month', 'year']
+
+    def __str__(self):
+        month_name = dict(self.MONTH_CHOICES)[self.month]
+        return f"{self.book.title} - {month_name} {self.year}"

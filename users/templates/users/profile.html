@@ -1,517 +1,131 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Профиль и корзина | LitMarket</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-
-     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "Inter", sans-serif;
-      background-color: #f9f9f9;
-      color: #6b2c2c;
-      min-height: 100vh;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .profile-wrapper {
-      max-width: 1000px;
-      width: 100%;
-    }
-
-    .back-button-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 15px;
-    }
-
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      background-color: transparent;
-      border: 1px solid #6b2c2c;
-      color: #6b2c2c;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .back-btn:hover {
-      background-color: #6b2c2c;
-      color: white;
-    }
-
-    .back-btn i {
-      font-size: 0.8rem;
-    }
-
-    .alert-messages {
-      padding: 5px 60px 5px 10px;
-      border: 1px solid #6b2c2c;
-      background-color: transparent;
-      color: #6b2c2c;
-      position: relative;
-      font-size: 0.85rem;
-      max-width: 600px;
-      border-radius: 0;
-      flex-shrink: 1;
-      min-height: 33px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .alert-messages .error-list {
-      flex: 1;
-    }
-
-    .alert-messages .error-item {
-      margin-bottom: 2px;
-      line-height: 1.3;
-    }
-
-    .alert-messages .error-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .alert-messages p {
-      margin: 0;
-    }
-
-    .close-btn {
-      background: transparent;
-      border: none;
-      font-size: 1.1rem;
-      color: #6b2c2c;
-      cursor: pointer;
-      opacity: 0.7;
-      padding: 0 4px;
-      line-height: 1;
-    }
-
-    .close-btn:hover {
-      opacity: 1;
-    }
-
-    .profile-cart-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      width: 100%;
-    }
-
-    .profile-card, .cart-card {
-      background-color: #ffffff;
-      padding: 15px;
-      border: 1px solid #e8dfd6;
-    }
-
-    .section-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #6b2c2c;
-      margin-bottom: 15px;
-      padding-bottom: 5px;
-      border-bottom: 2px solid #6b2c2c;
-      display: inline-block;
-    }
-
-    .profile-avatar {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    .profile-avatar img {
-      border: 2px solid #6b2c2c;
-      object-fit: cover;
-      width: 70px;
-      height: 70px;
-    }
-
-    .profile-form .form-group {
-      margin-bottom: 12px;
-    }
-
-    .profile-form .form-label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #6b2c2c;
-      margin-bottom: 2px;
-    }
-
-    .profile-form input[type="text"],
-    .profile-form input[type="email"] {
-      width: 100%;
-      padding: 8px 10px;
-      border: 1px solid #6b2c2c;
-      font-size: 0.85rem;
-      background-color: #f9f9f9;
-      color: #6b2c2c;
-    }
-
-    .profile-form input[type="text"]:focus,
-    .profile-form input[type="email"]:focus {
-      outline: none;
-      background-color: white;
-    }
-
-    .profile-form input[type="file"] {
-      width: 100%;
-      padding: 4px 0;
-      font-size: 0.8rem;
-    }
-
-    .profile-form input[type="file"]::file-selector-button {
-      background-color: #f9f9f9;
-      border: 1px solid #6b2c2c;
-      padding: 5px 10px;
-      margin-right: 10px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #6b2c2c;
-      cursor: pointer;
-    }
-
-    .profile-form input[type="file"]::file-selector-button:hover {
-      background-color: #6b2c2c;
-      color: white;
-    }
-
-    .save-btn {
-      width: 100%;
-      background-color: #6b2c2c;
-      color: white;
-      border: 1px solid #6b2c2c;
-      padding: 8px 15px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    .save-btn:hover {
-      background-color: #8B3A3A;
-    }
-
-    .cart-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-    }
-
-    .cart-count {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 24px;
-      padding: 0 8px;
-      border: 1px solid #6b2c2c;
-      background-color: #f9f9f9;
-      color: #6b2c2c;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .cart-items {
-      margin-bottom: 10px;
-    }
-
-    .cart-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid #e8dfd6;
-    }
-
-    .empty-cart {
-    text-align: center;
-    padding: 50px 20px;
-  }
-
-  .empty-cart h2 {
-    color: #6b2c2c;
-    font-size: 1.5rem;
-    margin-bottom: 25px;
-    font-weight: 500;
-  }
-
-  .empty-cart i {
-    font-size: 80px;
-    color: #6b2c2c;
-    opacity: 0.3;
-  }
-
-    .item-image {
-      width: 40px;
-      height: 55px;
-      background-color: #f9f9f9;
-      border: 1px solid #e8dfd6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .item-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .item-image i {
-      font-size: 1.2rem;
-      color: #6b2c2c;
-      opacity: 0.5;
-    }
-
-    .item-info {
-      flex: 2;
-    }
-
-    .item-title {
-      font-weight: 600;
-      color: #6b2c2c;
-      font-size: 0.8rem;
-      margin-bottom: 2px;
-    }
-
-    .item-desc {
-      font-size: 0.7rem;
-      color: #6b2c2c;
-      opacity: 0.8;
-    }
-
-    .item-details {
-      flex: 1;
-      text-align: right;
-    }
-
-    .item-quantity {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 4px;
-      margin-bottom: 2px;
-    }
-
-    .quantity-btn,
-    .quantity-plus-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-      border: 1px solid #6b2c2c;
-      background: none;
-      color: #6b2c2c;
-      font-weight: 600;
-      font-size: 0.8rem;
-      text-decoration: none;
-    }
-
-    .quantity-btn:hover,
-    .quantity-plus-btn:hover {
-      background-color: #6b2c2c;
-      color: white;
-    }
-
-    .quantity-value {
-      font-weight: 500;
-      color: #6b2c2c;
-      min-width: 40px;
-      text-align: center;
-      font-size: 0.75rem;
-    }
-
-    .item-price {
-      font-weight: 600;
-      color: #6b2c2c;
-      font-size: 0.8rem;
-    }
-
-    .cart-total {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #6b2c2c;
-      padding: 8px 0;
-      border-top: 2px solid #6b2c2c;
-      margin: 10px 0;
-    }
-
-    .total-amount {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .checkout-btn {
-      width: 100%;
-      background-color: #6b2c2c;
-      color: white;
-      border: 1px solid #6b2c2c;
-      padding: 8px 15px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      text-decoration: none;
-    }
-
-    .checkout-btn:hover {
-      background-color: #8B3A3A;
-    }
-
-    .empty-cart {
-      text-align: center;
-      padding: 20px 0;
-    }
-
-    .empty-cart h2 {
-      font-size: 1rem;
-      color: #6b2c2c;
-      opacity: 0.7;
-      font-weight: 500;
-    }
-
-    @media (max-width: 768px) {
-      .back-button-container {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .alert-messages {
-        margin-left: 0;
-        max-width: 100%;
-      }
-
-      .profile-cart-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-
-      body {
-        padding: 15px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .cart-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-
-      .item-details {
-        width: 100%;
-        text-align: left;
-      }
-
-      .item-quantity {
-        justify-content: flex-start;
-      }
-
-      .profile-card, .cart-card {
-        padding: 12px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль | LitMarket</title>
+    <link rel="stylesheet" href="{% static 'css/toolbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  {% load static %}
-  <div class="profile-wrapper">
-    <div class="back-button-container">
-      <a href="{% url 'index' %}" class="back-btn">
-        <i class="fas fa-chevron-left"></i> На главную
-      </a>
-      <a href="{% url 'books:index' %}" class="back-btn">
-        <i class="fas fa-chevron-left"></i> В каталог
-      </a>
-
-      {% if messages or form.errors %}
-      <div class="alert-messages">
-        {% if messages %}
-          {% for msg in messages %}
-            <p>{{ msg }}</p>
-          {% endfor %}
-        {% endif %}
-
-        {% if form.errors %}
-            <div class="error-list">
-                {% for field, errors in form.errors.items %}
-                    {% for error in errors %}
-                        <div class="error-item">{{ error }}</div>
-                    {% endfor %}
+    {% include "books/toolbar.html" %}
+    <div class="container">
+        {% if messages or form.errors %}
+        <div class="messages-container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert-message">
+                        <i class="fas fa-info-circle"></i>
+                        <span>{{ message }}</span>
+                        <button type="button" class="message-close-btn" onclick="this.parentElement.remove();">&times;</button>
+                    </div>
                 {% endfor %}
-            </div>
-        {% endif %}
-        <button type="button" class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
-      </div>
-      {% endif %}
-    </div>
+            {% endif %}
 
-    <div class="profile-cart-container">
-      <div class="profile-card">
-        <h2 class="section-title">Профиль</h2>
-
-        <div class="profile-avatar">
-          <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'vendor/img/profile.png' %}{% endif %}">
+            {% if form.errors %}
+                <div class="alert-message error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div class="error-list">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <div class="error-item">{{ error }}</div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="message-close-btn" onclick="this.parentElement.remove();">&times;</button>
+                </div>
+            {% endif %}
         </div>
+        {% endif %}
 
-        <form method="post" action="{% url 'users:profile' %}" enctype="multipart/form-data" class="profile-form">
-          {% csrf_token %}
-          <div class="form-group">
-            <label class="form-label" for="{{ form.first_name.id_for_label }}">Имя</label>
-            {{ form.first_name }}
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="{{ form.last_name.id_for_label }}">Фамилия</label>
-            {{ form.last_name }}
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="{{ form.image.id_for_label }}">Фото</label>
-            {{ form.image }}
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="{{ form.username.id_for_label }}">Логин</label>
-            {{ form.username }}
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
-            {{ form.email }}
-          </div>
-          <button type="submit" class="save-btn">Сохранить</button>
-        </form>
-      </div>
+        <div class="profile-wrapper"
+            <div class="profile-header">
+                <h1>
+                    <i class="fas fa-user-circle"></i>
+                    Профиль пользователя
+                </h1>
+            </div>
 
-      <div class="cart-card">
-        {% include "books/basket.html" %}
-      </div>
+            <div class="profile-container">
+                <div class="profile-content">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar">
+                            <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'vendor/img/profile.png' %}{% endif %}" alt="Фото профиля">
+                        </div>
+
+                        <div class="avatar-upload">
+                            <label class="form-label" for="{{ form.image.id_for_label }}">Фото профиля</label>
+                            {{ form.image }}
+
+                        </div>
+                    </div>
+
+                    <div class="profile-form-section">
+                        <form method="post" action="{% url 'users:profile' %}" enctype="multipart/form-data" class="profile-form">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ form.first_name.id_for_label }}">Имя</label>
+                                    {{ form.first_name }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ form.last_name.id_for_label }}">Фамилия</label>
+                                    {{ form.last_name }}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ form.username.id_for_label }}">Логин</label>
+                                    <input type="text" name="{{ form.username.name }}" value="{{ form.username.value }}" id="{{ form.username.id_for_label }}" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
+                                    <input type="email" name="{{ form.email.name }}" value="{{ form.email.value }}" id="{{ form.email.id_for_label }}" readonly>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="save-btn">
+                                <i class="fas fa-save"></i> Сохранить изменения
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Авто-скрытие сообщений через 5 секунд
+            const messages = document.querySelectorAll('.alert-message');
+            messages.forEach(function(message) {
+                setTimeout(function() {
+                    if (message.parentNode) {
+                        message.remove();
+                    }
+                }, 5000);
+            });
+
+            // Отображение имени выбранного файла
+            const fileInput = document.querySelector('input[type="file"]');
+            const fileNameDisplay = document.getElementById('file-name-display');
+
+            if (fileInput && fileNameDisplay) {
+                fileInput.addEventListener('change', function(e) {
+                    if (this.files && this.files.length > 0) {
+                        fileNameDisplay.textContent = this.files[0].name;
+                    } else {
+                        fileNameDisplay.textContent = 'Не выбран ни один файл';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

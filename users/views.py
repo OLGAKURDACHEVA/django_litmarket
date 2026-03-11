@@ -69,8 +69,23 @@ def profile(request):
                }
     return render(request, 'users/profile.html', context)
 
+@login_required
 def basket(request):
-    return render(request, 'basket.html')
+    if request.user.is_authenticated:
+        baskets = Basket.objects.filter(user=request.user)
+        total_sum = sum(basket.sum() for basket in baskets)
+        total_quantity = sum(basket.quantity for basket in baskets)
+    else:
+        baskets = []
+        total_sum = 0
+        total_quantity = 0
+
+    context = {
+        'baskets': baskets,
+        'total_sum': total_sum,
+        'total_quantity': total_quantity,
+    }
+    return render(request, 'users/basket.html', context)
 
 @login_required
 def checkout(request):
@@ -110,6 +125,7 @@ def checkout(request):
     }
     return render(request, 'users/checkout.html', context)
 
+
 def mybooks(request):
     my_books = MyBooks.objects.filter(user=request.user).select_related('book', 'book__author')
     context = {
@@ -117,7 +133,6 @@ def mybooks(request):
         'title': 'Мои книги',
     }
     return render(request, 'users/mybooks.html', context)
-
 
 @login_required
 def add_to_mybooks(request, book_id):

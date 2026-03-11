@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата и доставка | LitMarket</title>
+    <link rel="stylesheet" href="/static/css/toolbar.css?v=2" />
+    <link rel="stylesheet" href="/static/css/footer.css">
+    <link rel="stylesheet" href="/static/css/delivery.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+    {% include "books/toolbar.html" %}
+    <div class="container">
+        <div class="delivery-page">
+            <h1 class="page-title">Оплата и доставка</h1>
+
+            <div class="delivery-header">
+                <p>Заказы, сделанные на сайте cifan.gorod.ru, отправляются с московского склада. Заказы, оформленные с доставки в магазины сети, тоже едут со склада. Поэтому сроки доставки напрямую зависят от расстояния между Москвой и пунктом назначения.</p>
+            </div>
+
+            <div class="location-block">
+                <h3>Крд аналём</h3>
+                <p class="location">Россия, Москва</p>
+            </div>
+
+            <div class="who-can-order">
+                <h3>Кто может оформить</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox"> Объявите покупателя, физическое лица</label>
+                    <label><input type="checkbox"> Компании и организации, юридическое лицо</label>
+                </div>
+            </div>
+
+            <h2 class="section-title">Способы доставки</h2>
+
+            <div class="delivery-methods">
+                <div class="delivery-card">
+                    <div class="delivery-card-header">
+                        <h3>В магазине</h3>
+                        <span class="store-count">70 магазина</span>
+                    </div>
+                    <div class="delivery-card-content">
+                        <div class="delivery-row">
+                            <span class="delivery-label">Корр. приватизац ...</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">В среду, 11 мар.</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">Стоимость ......</span>
+                            <span class="delivery-value free">Бесплатно</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">Способ оплаты ......</span>
+                            <span class="delivery-value">Картой или наличными при получении или картой на сайте</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">Срок хранения ......</span>
+                            <span class="delivery-value">1 дней</span>
+                        </div>
+                        <a href="#" class="map-link">Посмотреть на карте</a>
+                    </div>
+                </div>
+
+                <div class="delivery-card">
+                    <div class="delivery-card-header">
+                        <h3>В пункте выдачи</h3>
+                        <span class="store-count">3737 пунктов</span>
+                    </div>
+                    <div class="delivery-card-content">
+                        <div class="delivery-row">
+                            <span class="delivery-label">Корр. приватизац ...</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">В четверг, 12 мар.</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">Стоимость ......</span>
+                            <span class="delivery-value">от 200 ₽</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">Способ оплаты ......</span>
+                            <span class="delivery-value">Картой или наличными при получении или картой на сайте</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">Срок хранения ......</span>
+                            <span class="delivery-value">7 дней</span>
+                        </div>
+                        <a href="#" class="map-link">Посмотреть на карте</a>
+                    </div>
+                </div>
+
+                <div class="delivery-card">
+                    <div class="delivery-card-header">
+                        <h3>Курьером</h3>
+                    </div>
+                    <div class="delivery-card-content">
+                        <div class="delivery-row">
+                            <span class="delivery-label">Корр. приватизац ...</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">В среду, 11 мар.</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">Стоимость ......</span>
+                            <span class="delivery-value">от 300 ₽</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">Способ оплаты ......</span>
+                            <span class="delivery-value">Картой на сайте или наличными при получении</span>
+                        </div>
+                        <a href="#" class="details-link">Узнать детали доставки</a>
+                        <a href="#" class="map-link">Посмотреть на карте</a>
+                    </div>
+                </div>
+
+                <div class="delivery-card">
+                    <div class="delivery-card-header">
+                        <h3>Почтой РФ</h3>
+                    </div>
+                    <div class="delivery-card-content">
+                        <div class="delivery-row">
+                            <span class="delivery-label">Стоимость доставки сообщаем при оформлении заказа.</span>
+                        </div>
+                        <div class="delivery-row">
+                            <span class="delivery-label">Способ оплаты ......</span>
+                            <span class="delivery-value">Картой на сайте</span>
+                        </div>
+                        <a href="#" class="details-link">Узнать детали доставки</a>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Способы оплаты</h2>
+
+            <div class="payment-methods">
+                <div class="payment-card">
+                    <h3>Оплата на сайте</h3>
+                    <p>Принимаем карты МИР, Мастер кард и Виза;</p>
+                    <div class="payment-icons">
+                        <span>МИР</span>
+                        <span>VISA®</span>
+                    </div>
+                </div>
+
+                <div class="payment-card">
+                    <h3>Оплата при получении</h3>
+                    <p>В магазинах сети – наличными или картами МИР, Мастер кард и Виза; в пунктах выдачи и курьера – у каждой службы по размеру. При оформлении заказа покажем доступные способы оплаты для выбранной службы.</p>
+                    <a href="#" class="details-link">Подробнее об оплате банковской картой</a>
+                </div>
+            </div>
+
+            <div class="legal-info">
+                <h2>Юридическим лицам</h2>
+                <p>Счета за интернет заказы юридические лица получают на электронную почту, указанную при оформлении. Счёт придёт после передачи заказа в доставку. Вместе с заказом будут предоставлены документы: счёт, товарная накладная ТОРГ Т2, счёт фактура.</p>
+            </div>
+
+            <div class="refund-info">
+                <h2>Возврат денег</h2>
+                <p>Если вы оплатили интернет заказ банковской картой на сайте и не забрали его, заполните заявление на возврат. Перейдите его в офис через любой магазин сети или отправьте по адресу: 117105, г. Москва, вн.тер.с. муниципальный округ Донской, вл. Варшавское, д. 9 стр. 1, ООО «Новый Киевский Центр».</p>
+            </div>
+        </div>
+    </div>
+    {% include "books/footer.html" %}
+</body>
+</html>

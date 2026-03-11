@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Корзина | LitMarket</title>
+    <link rel="stylesheet" href="{% static 'css/toolbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/basket.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+</head>
+<body>
+
+    {% include "books/toolbar.html" %}
+    <div class="container">
+        {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="alert-message">
+                        <i class="fas fa-info-circle"></i>
+                        <span>{{ message }}</span>
+                        <button type="button" class="message-close-btn" onclick="this.parentElement.remove();">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="cart-wrapper">
+            <div class="cart-header">
+                <h1>
+                    <i class="fas fa-shopping-cart"></i>
+                    Корзина
+                </h1>
+                <span class="cart-count-header">Всего: {{ total_quantity|default:0 }}</span>
+            </div>
+
+            <div class="cart-container">
+                {% if baskets %}
+                    <div class="cart-items">
+                        {% for basket in baskets %}
+                            <div class="cart-item">
+                                <div class="cart-item-image">
+                                    {% if basket.book.cover_image_url %}
+                                        <img src="{{ basket.book.cover_image_url.url }}" alt="{{ basket.book.title }}">
+                                    {% else %}
+                                        <i class="fas fa-book"></i>
+                                    {% endif %}
+                                </div>
+
+                                <div class="cart-item-info">
+                                    <div class="cart-item-title">
+                                        <a href="{% url 'books:card' basket.book.id %}">{{ basket.book.title|truncatechars:30 }}</a>
+                                    </div>
+                                    <div class="cart-item-author">
+                                        <a href="#">{{ basket.book.author.name|truncatechars:25 }}</a>
+                                    </div>
+                                </div>
+
+                                <div class="cart-item-actions">
+                                    <span class="cart-item-price">{{ basket.book.price }} ₽</span>
+
+                                    <div class="cart-item-quantity">
+                                        <a href="{% url 'books:basket_remove' basket.book.id %}" class="quantity-btn" title="Уменьшить">
+                                            <i class="fas fa-minus"></i>
+                                        </a>
+                                        <span class="quantity-value">{{ basket.quantity }}</span>
+                                        <a href="{% url 'books:basket_add' basket.book.id %}" class="quantity-plus-btn" title="Увеличить">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
+
+                                    <span class="cart-item-sum">{{ basket.sum }} ₽</span>
+
+                                    <a href="{% url 'books:basket_remove' basket.book.id %}?remove=all" class="remove-item-btn" title="Удалить из корзины">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="cart-summary">
+                        <div class="summary-stats">
+                            <div class="total-items">
+                                Всего товаров: <span>{{ total_quantity }}</span>
+                            </div>
+                            <div class="total-sum">
+                                Общая сумма: <span>{{ total_sum }} ₽</span>
+                            </div>
+                        </div>
+
+                        <div class="summary-actions">
+                            <a href="{% url 'books:basket_clear' %}" class="clear-all-btn">
+                                <i class="fas fa-trash"></i>
+                                Очистить корзину
+                            </a>
+                            <a href="{% url 'users:checkout' %}" class="checkout-btn">
+                                <i class="fas fa-shopping-cart"></i>
+                                Оформить заказ
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h2>Ваша корзина пока пуста</h2>
+                        <p>Добавьте книги в корзину, чтобы оформить заказ</p>
+                        <a href="{% url 'books:index' %}" class="browse-catalog-btn">Перейти в каталог</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messages = document.querySelectorAll('.alert-message');
+            messages.forEach(function(message) {
+                setTimeout(function() {
+                    if (message.parentNode) {
+                        message.remove();
+                    }
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>

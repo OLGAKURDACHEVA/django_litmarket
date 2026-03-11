@@ -2,16 +2,66 @@ from statistics import quantiles
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from books.models import Book, Catalog, Basket
+from books.models import Book, Catalog, Basket, BookOfTheMonth
+from datetime import datetime
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib import messages
 
-
 def index(request):
+
+    all_books = Book.objects.all()
+
+    current_date = datetime.now()
+    current_month = current_date.month
+    current_year = current_date.year
+
+    try:
+        book_of_month_entry = BookOfTheMonth.objects.get(
+            month=current_month,
+            year=current_year,
+            is_active=True
+        )
+        book_of_month = book_of_month_entry.book
+        print(f"Найдена книга месяца: {book_of_month.title}")
+    except BookOfTheMonth.DoesNotExist:
+        print("Книга месяца на текущий месяц не найдена")
+        book_of_month_entry = BookOfTheMonth.objects.filter(
+            is_active=True
+        ).order_by('-year', '-month').first()
+
+        if book_of_month_entry:
+            book_of_month = book_of_month_entry.book
+            print(f"Найдена последняя активная книга месяца: {book_of_month.title}")
+        else:
+            book_of_month = None
+            print("Активных книг месяца не найдено")
+
+    popular_books = all_books.order_by('-id')[:8]
+
+    if all_books.count() > 8:
+        new_books = all_books.order_by('-id')[8:16]
+    else:
+        new_books = all_books[:4]
+
+    if all_books.count() > 16:
+        recommended_books = all_books[16:24]
+    else:
+        recommended_books = all_books[:4]
+
+    if all_books.count() < 8:
+        popular_books = all_books[:4]
+        new_books = all_books[:4]
+        recommended_books = all_books[:4]
+
     context = {
         'title': 'Litmarket | Книжный уголок',
+        'popular_books': popular_books,
+        'new_books': new_books,
+        'recommended_books': recommended_books,
+        'book_of_month': book_of_month,
     }
+
     return render(request, "books/index.html", context)
 
 def books(request, category_id=None, page=1):
@@ -99,6 +149,10 @@ def books(request, category_id=None, page=1):
     if 'page' in current_params:
         current_params.pop('page')
 
+    user_books_ids = []
+    if request.user.is_authenticated:
+        user_books_ids = request.user.my_books.values_list('book_id', flat=True)
+
     context = {
         'title': 'Litmarket | Каталог книг',
         'books': books_paginator,
@@ -116,10 +170,12 @@ def books(request, category_id=None, page=1):
         'current_category_name': current_category_name,
         'current_genre_name': current_genre_name,
         'current_params': current_params.urlencode(),
+        'user_books_ids': list(user_books_ids),  # Добавлено
     }
 
     return render(request, "books/books.html", context)
 
+@login_required
 def basket_add(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     basket, created = Basket.objects.get_or_create(
@@ -140,19 +196,40 @@ def basket_add(request, book_id):
 @login_required
 def basket_remove(request, book_id):
     book = get_object_or_404(Book, id=book_id)
+
+    remove_all = request.GET.get('remove') == 'all'
+
     baskets = Basket.objects.filter(user=request.user, book=book)
 
     if baskets.exists():
         basket = baskets.first()
-        if basket.quantity > 1:
-            basket.quantity -= 1
-            basket.save()
-        else:
+
+        if remove_all:
             basket.delete()
+            messages.success(request, f'Книга "{book.title}" полностью удалена из корзины')
+        else:
+            if basket.quantity > 1:
+                basket.quantity -= 1
+                basket.save()
+                messages.success(request, f'Количество книг "{book.title}" уменьшено до {basket.quantity}')
+            else:
+                basket.delete()
+                messages.success(request, f'Книга "{book.title}" удалена из корзины')
     else:
         messages.error(request, 'Товар не найден в корзине')
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def basket_clear(request):
+    if request.method == 'POST' or request.method == 'GET':
+        count = Basket.objects.filter(user=request.user).count()
+        Basket.objects.filter(user=request.user).delete()
+        if count > 0:
+            messages.success(request, f'Корзина успешно очищена. Удалено книг: {count}')
+        else:
+            messages.info(request, 'Корзина уже пуста')
+    return redirect('users:basket')
 
 def agreement(request):
     return render(request, 'books/agreement.html')
@@ -179,3 +256,22 @@ def card(request, book_id):
         'purchased_count': purchased_count,
     }
     return render(request, 'books/card.html', context)
+
+def delivery_info(request):
+    title = 'Оплата и доставка'
+    content = {
+        'title': title,
+    }
+    return render(request, 'books/delivery.html', content)
+
+def loyalty_program(request):
+    return render(request, 'books/loyalty_program.html')
+
+def loyalty_rules(request):
+    return render(request, 'books/loyalty_rules.html')
+
+def certificates(request):
+    return render(request, 'books/certificates.html')
+
+def certificate_rules(request):
+    return render(request, 'books/certificate_rules.html')

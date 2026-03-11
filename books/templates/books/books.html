@@ -1,42 +1,114 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ title|title }}</title>
-    <link rel="stylesheet" href="/static/css/books.css?v=2" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-  </head>
-  <body>
-    <header class="main-header">
-      <div class="container">
-        <div class="header-content">
-          <div class="logo-section">
-            <div class="logo">
-              <a href="{% url 'index' %}">
-                <span class="logo-text">LitMarket</span>
-              </a>
-            </div>
-            <div class="region-selector">
-              <span class="region">Россия, Москва <i class="fas fa-chevron-down"></i></span>
-            </div>
-          </div>
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>{{ title|title }}</title>
+      <link rel="stylesheet" href="/static/css/books.css?v=2" />
+      <link rel="stylesheet" href="/static/css/toolbar.css?v=2" />
+      <link rel="stylesheet" href="/static/css/footer.css?v=2" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
+    </head>
+      <style>
+      .messages-container {
+          margin: 0 auto 30px auto !important;
+          max-width: 800px !important;
+          width: 100% !important;
+          display: block !important;
+      }
 
-          <a href="{% url 'books:agreement' %}" class="age-block">18+</a>
+      .alert-message {
+          padding: 16px 24px !important;
+          background-color: #f8f0e5 !important;
+          border: 2px solid #6b2c2c !important;
+          color: #6b2c2c !important;
+          font-size: 1.1rem !important;
+          display: flex !important;
+          align-items: center !important;
+          gap: 12px !important;
+          margin-bottom: 10px !important;
+          border-radius: 8px !important;
+      }
 
-          <div class="catalog-search">
-            <form method="get" action="{% url 'books:index' %}" class="search-form">
-              <div class="search-box">
-                <input type="text" name="search" placeholder="Найти в LitMarket" class="search-input" value="{{ search_query }}" />
+      .alert-message i {
+          font-size: 1.4rem !important;
+          color: #6b2c2c !important;
+          display: inline-block !important;
+      }
+
+      .alert-message span {
+          flex: 1 !important;
+          color: #6b2c2c !important;
+      }
+
+      .message-close-btn {
+          background: none !important;
+          border: none !important;
+          font-size: 1.5rem !important;
+          cursor: pointer !important;
+          color: #6b2c2c !important;
+          padding: 0 0.5rem !important;
+          transition: all 0.2s !important;
+          line-height: 1 !important;
+          opacity: 0.7 !important;
+          display: inline-block !important;
+      }
+
+      .message-close-btn:hover {
+          opacity: 1 !important;
+          color: #8b3a3a !important;
+      }
+
+      @keyframes slideDown {
+          from {
+              opacity: 0;
+              transform: translateY(-20px);
+          }
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
+  </style>
+    <body>
+      {% include "books/toolbar.html" %}
+
+      <div class="content-wrapper">
+        <div class="container">
+          {% if messages %}
+            <div class="messages-container">
+              {% for message in messages %}
+                <div class="alert-message">
+                  <i class="fas fa-info-circle"></i>
+                  <span>{{ message }}</span>
+                  <button type="button" class="message-close-btn" onclick="this.parentElement.remove();">&times;</button>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <div class="catalog-container">
+            <aside class="catalog-sidebar" id="catalogSidebar">
+              <div class="sidebar-header">
+                <h2>Категории</h2>
+                <button class="toggle-sidebar" id="toggleSidebar"><i class="fas fa-times"></i></button>
+              </div>
+              <form method="get" action="{% url 'books:index' %}" id="filterForm">
+                {% if search_query %}
+                  <input type="hidden" name="search" value="{{ search_query }}">
+                {% endif %}
+                {% if current_sort and current_sort != 'default' %}
+                  <input type="hidden" name="sort" value="{{ current_sort }}">
+                {% endif %}
                 {% if current_category %}
                   <input type="hidden" name="category" value="{{ current_category }}">
                 {% endif %}
@@ -46,340 +118,258 @@
                 {% if current_category_name %}
                   <input type="hidden" name="category_name" value="{{ current_category_name }}">
                 {% endif %}
-                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
-              </div>
-            </form>
 
-            <ul class="nav-menu">
-              <li class="nav-item"><a href="#" class="nav-link">Сертификаты</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Программа лояльности</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Чат</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Ресейл</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Оплата и Доставка</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Карта сайта</a></li>
-              <li class="nav-item dropdown">
-                <a href="#" class="nav-link">Ещё <i class="fas fa-chevron-down"></i></a>
-                <div class="dropdown-menu">
-                    <a href="#" class="dropdown-item">Поддержка</a>
-                    <a href="#" class="dropdown-item">Контакты</a>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div class="user-actions">
-            {% if user.is_authenticated %}
-              <a href="{% url 'users:profile' %}" class="user-action">
-                <i class="far fa-user"></i><span>{{ user.username }}</span>
-              </a>
-              <a href="{% url 'users:order_list' %}" class="user-action">
-                  <i class="far fa-clipboard"></i><span>Заказы</span>
-              </a>
-              <a href="{% url 'users:mybooks' %}" class="user-action my-books-btn">
-                <i class="fas fa-book-open"></i><span>Мои книги</span>
-                {% if user.is_authenticated %}
-                    <span class="cart-count" id="myBooksCount">{{ user.my_books.count }}</span>
-                {% endif %}
-              </a>
-              <form action="{% url 'users:logout_view' %}" method="post" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit" class="user-action" style="background: none; border: none; padding: 0; font: inherit; cursor: pointer;">
-                  <i class="fas fa-sign-out-alt"></i><span>Выйти</span>
-                </button>
-              </form>
-            {% else %}
-              <a href="{% url 'users:login' %}" class="user-action">
-                <i class="far fa-user"></i><span>Войти</span>
-              </a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <div class="content-wrapper">
-      <div class="container">
-        <div class="catalog-container">
-          <aside class="catalog-sidebar" id="catalogSidebar">
-            <div class="sidebar-header">
-              <h2>Категории</h2>
-              <button class="toggle-sidebar" id="toggleSidebar"><i class="fas fa-times"></i></button>
-            </div>
-            <form method="get" action="{% url 'books:index' %}" id="filterForm">
-              {% if search_query %}
-                <input type="hidden" name="search" value="{{ search_query }}">
-              {% endif %}
-              {% if current_sort and current_sort != 'default' %}
-                <input type="hidden" name="sort" value="{{ current_sort }}">
-              {% endif %}
-              {% if current_category %}
-                <input type="hidden" name="category" value="{{ current_category }}">
-              {% endif %}
-              {% if current_genre %}
-                <input type="hidden" name="genre" value="{{ current_genre }}">
-              {% endif %}
-              {% if current_category_name %}
-                <input type="hidden" name="category_name" value="{{ current_category_name }}">
-              {% endif %}
-
-              <div class="categories">
-                {% for category in categories %}
-                  <div class="category-item">
-                    <div class="category-header">
-                      <span>{{ category.category }}</span>
-                      <i class="fas fa-chevron-down toggle-genres"></i>
+                <div class="categories">
+                  {% for category in categories %}
+                    <div class="category-item">
+                      <div class="category-header">
+                        <span>{{ category.category }}</span>
+                        <i class="fas fa-chevron-down toggle-genres"></i>
+                      </div>
+                      <div class="genres-list">
+                        {% for genre in category.genres %}
+                          <label class="genre-checkbox">
+                            <input type="checkbox" name="genre" value="{{ genre.id }}"
+                                   {% if genre.id|stringformat:"s" in selected_genres %}checked{% endif %}>
+                            <span>{{ genre.genre }}</span>
+                          </label>
+                        {% endfor %}
+                      </div>
                     </div>
-                    <div class="genres-list">
-                      {% for genre in category.genres %}
-                        <label class="genre-checkbox">
-                          <input type="checkbox" name="genre" value="{{ genre.id }}"
-                                 {% if genre.id|stringformat:"s" in selected_genres %}checked{% endif %}>
-                          <span>{{ genre.genre }}</span>
-                        </label>
-                      {% endfor %}
+                  {% endfor %}
+                </div>
+
+                <div class="price-filter">
+                  <h3>Цена, ₽</h3>
+                  <div class="price-inputs">
+                    <input type="number" name="min_price" placeholder="От" min="0" value="{{ min_price }}" />
+                  </div>
+                  <div class="price-inputs">
+                    <input type="number" name="max_price" placeholder="До" min="0" value="{{ max_price }}" />
+                  </div>
+                </div>
+
+                <button type="submit" class="apply-filters">Применить фильтры</button>
+                <a href="{% url 'books:index' %}" class="reset-filters">Сбросить всё</a>
+              </form>
+            </aside>
+
+            <main class="catalog-main">
+              <div class="catalog-header">
+                <div class="catalog-info">
+                  <h1>Каталог книг</h1>
+                  <span class="book-count">Найдено: {{ total_count }}</span>
+
+                  {% if current_category or current_genre or current_category_name %}
+                  <div class="current-filter" style="margin-left: 20px; font-size: 0.9rem; color: #8B3A3A;">
+                    {% if current_category_name %}
+                      <span>Категория: <strong>{{ current_category_name }}</strong></span>
+                    {% elif current_category %}
+                      <span>Категория: <strong>{{ current_category_name }}</strong></span>
+                    {% endif %}
+                    {% if current_genre %}
+                      <span>Жанр: <strong>{{ current_genre_name }}</strong></span>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                </div>
+
+                <div class="sort-controls">
+                  <button class="toggle-filters" id="toggleFilters"><i class="fas fa-filter"></i> Фильтры</button>
+
+                  <div class="view-all-btn">
+                    <a href="{% url 'books:index' %}" class="view-all">Все книги</a>
+                  </div>
+
+                  <div class="sort-by">
+                    <span class="sort-label">Сортировать:</span>
+                    <div class="sort-links">
+                      {% url 'books:index' as base_url %}
+                      {% with base_params="" %}
+                        <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}&{% endif %}{% if current_genre %}genre={{ current_genre }}&{% endif %}{% if current_category_name %}category_name={{ current_category_name|urlencode }}&{% endif %}{% for genre in selected_genres %}&genre={{ genre }}{% endfor %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}&sort=default"
+                           class="sort-link {% if current_sort == 'default' or not current_sort %}active{% endif %}">
+                          По умолчанию
+                        </a>
+                        <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}&{% endif %}{% if current_genre %}genre={{ current_genre }}&{% endif %}{% if current_category_name %}category_name={{ current_category_name|urlencode }}&{% endif %}{% for genre in selected_genres %}&genre={{ genre }}{% endfor %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}&sort=title-asc"
+                           class="sort-link {% if current_sort == 'title-asc' %}active{% endif %}">
+                          Название (А-Я)
+                        </a>
+                        <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}&{% endif %}{% if current_genre %}genre={{ current_genre }}&{% endif %}{% if current_category_name %}category_name={{ current_category_name|urlencode }}&{% endif %}{% for genre in selected_genres %}&genre={{ genre }}{% endfor %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}&sort=title-desc"
+                           class="sort-link {% if current_sort == 'title-desc' %}active{% endif %}">
+                          Название (Я-А)
+                        </a>
+                        <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}&{% endif %}{% if current_genre %}genre={{ current_genre }}&{% endif %}{% if current_category_name %}category_name={{ current_category_name|urlencode }}&{% endif %}{% for genre in selected_genres %}&genre={{ genre }}{% endfor %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}&sort=price-asc"
+                           class="sort-link {% if current_sort == 'price-asc' %}active{% endif %}">
+                          Сначала дешевые
+                        </a>
+                        <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}&{% endif %}{% if current_genre %}genre={{ current_genre }}&{% endif %}{% if current_category_name %}category_name={{ current_category_name|urlencode }}&{% endif %}{% for genre in selected_genres %}&genre={{ genre }}{% endfor %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}&sort=price-desc"
+                           class="sort-link {% if current_sort == 'price-desc' %}active{% endif %}">
+                          Сначала дорогие
+                        </a>
+                      {% endwith %}
                     </div>
                   </div>
+                </div>
+              </div>
+
+              <div class="books-grid">
+                {% for book in books %}
+                  <div class="book-card">
+                    <a href="{% url 'books:card' book.id %}">
+                      <div class="book-cover">
+                        <img src="{{ book.cover_image_url.url }}" alt="{{ book.title }}" />
+                      </div>
+                    </a>
+                    <div class="book-price">
+                      <span class="current-price">{{ book.price }} ₽</span>
+                    </div>
+                    <h3 class="book-title">
+                      <a href="{% url 'books:card' book.id %}" class="book-card-link">
+                        {{ book.title }}
+                      </a>
+                    </h3>
+                    <div class="book-author">
+                      <a href="#">{{ book.author.name }}</a>
+                    </div>
+                    <div class="book-rating">
+                      <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                      </div>
+                      <span class="rating-count">4.8</span>
+                    </div>
+                      <div class="book-actions">
+                          <a href="{% url 'books:basket_add' book.id %}" class="add-to-cart-btn">
+                              <i class="fas fa-shopping-cart"></i><span>Купить</span>
+                          </a>
+
+                          {% if user.is_authenticated %}
+                              {% if book.id in user_books_ids %}
+                                  <a href="{% url 'users:remove_from_mybooks' book.id %}" class="wishlist-btn active" title="Удалить из закладок">
+                                      <i class="fas fa-bookmark"></i>
+                                  </a>
+                              {% else %}
+                                  <a href="{% url 'users:add_to_mybooks' book.id %}" class="wishlist-btn" title="Добавить в закладки">
+                                      <i class="far fa-bookmark"></i>
+                                  </a>
+                              {% endif %}
+                          {% else %}
+                              <a href="{% url 'users:login' %}?next={{ request.path }}" class="wishlist-btn" title="Войдите, чтобы добавить в закладки">
+                                  <i class="far fa-bookmark"></i>
+                              </a>
+                          {% endif %}
+                      </div>
+                  </div>
+                {% empty %}
+                  <p class="no-books">Книг не найдено.</p>
                 {% endfor %}
               </div>
 
-              <div class="price-filter">
-                <h3>Цена, ₽</h3>
-                <div class="price-inputs">
-                  <input type="number" name="min_price" placeholder="От" min="0" value="{{ min_price }}" />
-                </div>
-                <div class="price-inputs">
-                  <input type="number" name="max_price" placeholder="До" min="0" value="{{ max_price }}" />
-                </div>
-              </div>
-
-              <button type="submit" class="apply-filters">Применить фильтры</button>
-              <a href="{% url 'books:index' %}" class="reset-filters">Сбросить всё</a>
-            </form>
-          </aside>
-
-          <main class="catalog-main">
-            <div class="catalog-header">
-              <div class="catalog-info">
-                <h1>Каталог книг</h1>
-                <span class="book-count">Найдено: {{ total_count }}</span>
-
-                {% if current_category or current_genre or current_category_name %}
-                <div class="current-filter" style="margin-left: 20px; font-size: 0.9rem; color: #8B3A3A;">
-                  {% if current_category_name %}
-                    <span>Категория: <strong>{{ current_category_name }}</strong></span>
-                  {% elif current_category %}
-                    <span>Категория: <strong>{{ current_category_name }}</strong></span>
-                  {% endif %}
-                  {% if current_genre %}
-                    <span>Жанр: <strong>{{ current_genre_name }}</strong></span>
-                  {% endif %}
-                </div>
-                {% endif %}
-
-                {% if messages %}
-                  {% for message in messages %}
-                  <div>
-                      <input type="checkbox" class="message-checkbox" id="msg-{{ forloop.counter }}">
-                      <div class="alert-messages">
-                          <div class="message-content">{{ message }}</div>
-                          <label for="msg-{{ forloop.counter }}" class="close-btn">&times;</label>
-                      </div>
-                  </div>
-                  {% endfor %}
-                {% endif %}
-              </div>
-
-              <div class="sort-controls">
-                <button class="toggle-filters" id="toggleFilters"><i class="fas fa-filter"></i> Фильтры</button>
-
-                <div class="view-all-btn">
-                  <a href="{% url 'books:index' %}" class="view-all">Все книги</a>
-                </div>
-
-                <div class="sort-by">
-                  <span class="sort-label">Сортировать:</span>
-                  <div class="sort-links">
-                    {% url 'books:index' as base_url %}
-                    {% with base_params="" %}
-                      <!-- ИСПРАВЛЕНО: добавил category_name во все ссылки сортировки -->
-                      <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}&{% endif %}{% if current_genre %}genre={{ current_genre }}&{% endif %}{% if current_category_name %}category_name={{ current_category_name|urlencode }}&{% endif %}{% for genre in selected_genres %}&genre={{ genre }}{% endfor %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}&sort=default"
-                         class="sort-link {% if current_sort == 'default' or not current_sort %}active{% endif %}">
-                        По умолчанию
-                      </a>
-                      <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}&{% endif %}{% if current_genre %}genre={{ current_genre }}&{% endif %}{% if current_category_name %}category_name={{ current_category_name|urlencode }}&{% endif %}{% for genre in selected_genres %}&genre={{ genre }}{% endfor %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}&sort=title-asc"
-                         class="sort-link {% if current_sort == 'title-asc' %}active{% endif %}">
-                        Название (А-Я)
-                      </a>
-                      <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}&{% endif %}{% if current_genre %}genre={{ current_genre }}&{% endif %}{% if current_category_name %}category_name={{ current_category_name|urlencode }}&{% endif %}{% for genre in selected_genres %}&genre={{ genre }}{% endfor %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}&sort=title-desc"
-                         class="sort-link {% if current_sort == 'title-desc' %}active{% endif %}">
-                        Название (Я-А)
-                      </a>
-                      <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}&{% endif %}{% if current_genre %}genre={{ current_genre }}&{% endif %}{% if current_category_name %}category_name={{ current_category_name|urlencode }}&{% endif %}{% for genre in selected_genres %}&genre={{ genre }}{% endfor %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}&sort=price-asc"
-                         class="sort-link {% if current_sort == 'price-asc' %}active{% endif %}">
-                        Сначала дешевые
-                      </a>
-                      <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if current_category %}category={{ current_category }}&{% endif %}{% if current_genre %}genre={{ current_genre }}&{% endif %}{% if current_category_name %}category_name={{ current_category_name|urlencode }}&{% endif %}{% for genre in selected_genres %}&genre={{ genre }}{% endfor %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}&sort=price-desc"
-                         class="sort-link {% if current_sort == 'price-desc' %}active{% endif %}">
-                        Сначала дорогие
-                      </a>
-                    {% endwith %}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="books-grid">
-              {% for book in books %}
-                <div class="book-card">
-                  <a href="{% url 'books:card' book.id %}">
-                    <div class="book-cover">
-                      <img src="{{ book.cover_image_url.url }}" alt="{{ book.title }}" />
-                    </div>
-                  </a>
-                  <div class="book-price">
-                    <span class="current-price">{{ book.price }} ₽</span>
-                  </div>
-                  <h3 class="book-title">
-                    <a href="{% url 'books:card' book.id %}" class="book-card-link">
-                      {{ book.title }}
-                    </a>
-                  </h3>
-                  <div class="book-author">
-                    <a href="#">{{ book.author.name }}</a>
-                  </div>
-                  <div class="book-rating">
-                    <div class="stars">
-                      <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                      <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <span class="rating-count">4.8</span>
-                  </div>
-                  <div class="book-actions">
-                    <a href="{% url 'books:basket_add' book.id %}" class="add-to-cart-btn">
-                      <i class="fas fa-shopping-cart"></i><span>Купить</span>
-                    </a>
-
-                    {% if user.is_authenticated %}
-                      {% if book.id in user_books_ids %}
-                        <a href="{% url 'users:remove_from_mybooks' book.id %}" class="wishlist-btn active">
-                            <i class="fas fa-bookmark"></i>
-                        </a>
-                      {% else %}
-                        <a href="{% url 'users:add_to_mybooks' book.id %}" class="wishlist-btn">
-                            <i class="far fa-bookmark"></i>
-                        </a>
-                      {% endif %}
+              <div class="pagination">
+                <div class="pagination-btn prev">
+                    {% if books.has_previous %}
+                        <i class="fas fa-chevron-left {% if not books.previous_page_number %} disabled {% endif %}" ></i>
+                        <a href="{% url 'books:page' books.previous_page_number %}?{{ current_params }}">Назад</a>
                     {% else %}
-                      <a href="{% url 'users:login' %}?next={{ request.path }}" class="wishlist-btn" title="Войдите, чтобы добавить">
-                        <i class="far fa-bookmark"></i>
-                      </a>
+                        <i class="fas fa-chevron-left disabled"></i>
+                        <span>Назад</span>
                     {% endif %}
-                  </div>
                 </div>
-              {% empty %}
-                <p class="no-books">Книг не найдено.</p>
-              {% endfor %}
-            </div>
 
-            <div class="pagination">
-              <div class="pagination-btn prev">
-                  {% if books.has_previous %}
-                      <i class="fas fa-chevron-left"></i>
-                      <a href="{% url 'books:page' books.previous_page_number %}?{{ current_params }}">Назад</a>
-                  {% else %}
-                      <i class="fas fa-chevron-left disabled"></i>
-                      <span>Назад</span>
-                  {% endif %}
-              </div>
+                <div class="page-numbers">
+                    {% for page_num in books.paginator.page_range %}
+                        <a href="{% url 'books:page' page_num %}?{{ current_params }}"
+                           class="page-number {% if page_num == books.number %}active{% endif %}">
+                            {{ page_num }}
+                        </a>
+                    {% endfor %}
+                </div>
 
-              <div class="page-numbers">
-                  {% for page_num in books.paginator.page_range %}
-                      <a href="{% url 'books:page' page_num %}?{{ current_params }}"
-                         class="page-number {% if page_num == books.number %}active{% endif %}">
-                          {{ page_num }}
-                      </a>
-                  {% endfor %}
+                <div class="pagination-btn next {% if not books.next_page_number %} disabled {% endif %}">
+                    {% if books.has_next %}
+                        <a href="{% url 'books:page' books.next_page_number %}?{{ current_params }}">Вперед</a>
+                        <i class="fas fa-chevron-right"></i>
+                    {% else %}
+                        <span>Вперед</span>
+                        <i class="fas fa-chevron-right disabled"></i>
+                    {% endif %}
+                </div>
               </div>
-
-              <div class="pagination-btn next">
-                  {% if books.has_next %}
-                      <a href="{% url 'books:page' books.next_page_number %}?{{ current_params }}">Вперед</a>
-                      <i class="fas fa-chevron-right"></i>
-                  {% else %}
-                      <span>Вперед</span>
-                      <i class="fas fa-chevron-right disabled"></i>
-                  {% endif %}
-              </div>
-            </div>
-          </main>
+            </main>
+          </div>
         </div>
       </div>
-    </div>
-    {% include "books/footer.html" %}
-    <script>
-      // Фиксированная шапка при скролле
-      window.addEventListener("scroll", function() {
-        const header = document.querySelector(".main-header");
-        if (window.scrollY > 50) {
-          header.classList.add("scrolled");
-        } else {
-          header.classList.remove("scrolled");
-        }
-      });
-
-      // Выпадающее меню
-      document.querySelectorAll(".dropdown").forEach(item => {
-        item.addEventListener("mouseenter", function() {
-          const dropdownMenu = this.querySelector(".dropdown-menu");
-          if (dropdownMenu) dropdownMenu.style.display = "block";
-        });
-        item.addEventListener("mouseleave", function() {
-          const dropdownMenu = this.querySelector(".dropdown-menu");
-          if (dropdownMenu) dropdownMenu.style.display = "none";
-        });
-      });
-
-      // Открытие/закрытие категорий в сайдбаре
-      document.querySelectorAll('.category-header').forEach(header => {
-        header.addEventListener('click', function() {
-          this.classList.toggle('active');
-          const genresList = this.nextElementSibling;
-          if (genresList) {
-            if (genresList.style.display === 'none' || !genresList.style.display) {
-              genresList.style.display = 'block';
-            } else {
-              genresList.style.display = 'none';
-            }
+      {% include "books/footer.html" %}
+      <script>
+        window.addEventListener("scroll", function() {
+          const header = document.querySelector(".main-header");
+          if (window.scrollY > 50) {
+            header.classList.add("scrolled");
+          } else {
+            header.classList.remove("scrolled");
           }
         });
-      });
 
-      // Кнопка "Фильтры" для мобильных
-      const toggleFiltersBtn = document.getElementById('toggleFilters');
-      const catalogSidebar = document.getElementById('catalogSidebar');
-      const toggleSidebarBtn = document.getElementById('toggleSidebar');
-
-      if (toggleFiltersBtn) {
-        toggleFiltersBtn.addEventListener('click', function() {
-          if (catalogSidebar) catalogSidebar.classList.add('active');
+        document.querySelectorAll(".dropdown").forEach(item => {
+          item.addEventListener("mouseenter", function() {
+            const dropdownMenu = this.querySelector(".dropdown-menu");
+            if (dropdownMenu) dropdownMenu.style.display = "block";
+          });
+          item.addEventListener("mouseleave", function() {
+            const dropdownMenu = this.querySelector(".dropdown-menu");
+            if (dropdownMenu) dropdownMenu.style.display = "none";
+          });
         });
-      }
 
-      if (toggleSidebarBtn) {
-        toggleSidebarBtn.addEventListener('click', function() {
-          if (catalogSidebar) catalogSidebar.classList.remove('active');
+        document.querySelectorAll('.category-header').forEach(header => {
+          header.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const genresList = this.nextElementSibling;
+            if (genresList) {
+              if (genresList.style.display === 'none' || !genresList.style.display) {
+                genresList.style.display = 'block';
+              } else {
+                genresList.style.display = 'none';
+              }
+            }
+          });
         });
-      }
 
-      // Подсветка текущей категории в сайдбаре
-      {% if current_category %}
-      document.querySelectorAll('input[name="genre"]').forEach(checkbox => {
-        if (checkbox.value == '{{ current_category }}') {
-          checkbox.closest('.category-item').classList.add('active-category');
+        const toggleFiltersBtn = document.getElementById('toggleFilters');
+        const catalogSidebar = document.getElementById('catalogSidebar');
+        const toggleSidebarBtn = document.getElementById('toggleSidebar');
+
+        if (toggleFiltersBtn) {
+          toggleFiltersBtn.addEventListener('click', function() {
+            if (catalogSidebar) catalogSidebar.classList.add('active');
+          });
         }
-      });
-      {% endif %}
-    </script>
-  </body>
-</html>
+
+        if (toggleSidebarBtn) {
+          toggleSidebarBtn.addEventListener('click', function() {
+            if (catalogSidebar) catalogSidebar.classList.remove('active');
+          });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+          const messages = document.querySelectorAll('.alert-message');
+          messages.forEach(function(message) {
+            setTimeout(function() {
+              if (message.parentNode) {
+                message.remove();
+              }
+            }, 5000);
+          });
+        });
+
+        {% if current_category %}
+        document.querySelectorAll('input[name="genre"]').forEach(checkbox => {
+          if (checkbox.value == '{{ current_category }}') {
+            checkbox.closest('.category-item').classList.add('active-category');
+          }
+        });
+        {% endif %}
+      </script>
+    </body>
+  </html>
