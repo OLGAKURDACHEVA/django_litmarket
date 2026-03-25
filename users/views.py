@@ -5,7 +5,7 @@ from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import logout
-from books.models import Book, Basket, MyBooks, Order, OrderItem
+from books.models import Book, Basket, MyBooks, Order, OrderItem, Review
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -161,7 +161,7 @@ def toggle_mybooks(request, book_id):
 def move_to_cart(request, book_id):
     book = get_object_or_404(Book, id=book_id)
 
-    MyBooks.objects.filter(user=request.user, book=book).delete()
+
 
     basket, created = Basket.objects.get_or_create(
         user=request.user,
@@ -243,13 +243,12 @@ def order_review(request, order_id):
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
 
-        # Создание отзыва (нужна модель Review)
-        # Review.objects.create(
-        #     user=request.user,
-        #     book=order.items.first().book,
-        #     rating=rating,
-        #     comment=comment
-        # )
+        Review.objects.create(
+            user=request.user,
+            book=order.items.first().book,
+            rating=rating,
+            comment=comment
+        )
 
         messages.success(request, 'Спасибо за ваш отзыв!')
         return redirect('users:order_list')

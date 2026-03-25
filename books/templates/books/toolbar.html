@@ -15,9 +15,6 @@
                             <h1 class="logo-text">LitMarket</h1>
                         </a>
                     </div>
-                    <div class="region-selector">
-                        <span class="region">Россия, Москва <i class="fas fa-chevron-down"></i></span>
-                    </div>
                 </div>
 
                 <a href="{% url 'books:index' %}" class="catalog-btn">Каталог</a>
@@ -31,19 +28,8 @@
                     </form>
 
                     <ul class="nav-menu">
-                        <li class="nav-item"><a href="{% url 'books:certificates' %}" class="nav-link">Сертификаты</a></li>
-                        <li class="nav-item"><a href="{% url 'books:loyalty' %}" class="nav-link">Программа лояльности</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Чат</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Ресейл</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">Оплата и доставка</a></li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link">Ещё <i class="fas fa-chevron-down"></i></a>
-                            <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item">Карта сайта</a>
-                                <a href="#" class="dropdown-item">Поддержка</a>
-                                <a href="#" class="dropdown-item">Контакты</a>
-                            </div>
-                        </li>
+                        <li class="nav-item"><a href="{% url 'books:agreement' %}" class="nav-link">Пользовательское соглашение</a></li>
+                        <li class="nav-item"><a href="{% url 'books:delivery' %}" class="nav-link">Оплата и доставка</a></li>
                     </ul>
                 </div>
 
@@ -77,7 +63,7 @@
                             </button>
                         </form>
                     {% else %}
-                        <a href="{% url 'users:login' %}" class="user-action">
+                        <a href="{% url 'users:login' %}" class="user-action login-btn">
                             <i class="far fa-user"></i><span>Войти</span>
                         </a>
                     {% endif %}

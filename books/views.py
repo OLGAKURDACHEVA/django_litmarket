@@ -2,7 +2,7 @@ from statistics import quantiles
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from books.models import Book, Catalog, Basket, BookOfTheMonth
+from books.models import Book, Catalog, Basket, BookOfTheMonth, Review
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -55,7 +55,7 @@ def index(request):
         recommended_books = all_books[:4]
 
     context = {
-        'title': 'Litmarket | Книжный уголок',
+        'title': 'Litmarket',
         'popular_books': popular_books,
         'new_books': new_books,
         'recommended_books': recommended_books,
@@ -235,7 +235,6 @@ def agreement(request):
     return render(request, 'books/agreement.html')
 
 def card(request, book_id):
-
     book = get_object_or_404(Book, id=book_id)
     categories = Catalog.objects.all()
 
@@ -245,8 +244,15 @@ def card(request, book_id):
     ).values('order__user').distinct().count()
 
     user_books_ids = []
+    user_has_rated = False
+    user_has_reviewed = False
+
     if request.user.is_authenticated:
         user_books_ids = request.user.my_books.values_list('book_id', flat=True)
+        user_has_rated = Review.objects.filter(user=request.user, book=book, comment__isnull=True).exists()
+        user_has_reviewed = Review.objects.filter(user=request.user, book=book, comment__isnull=False).exists()
+
+    reviews = Review.objects.filter(book=book, comment__isnull=False).order_by('-created_at')
 
     context = {
         'book': book,
@@ -254,8 +260,79 @@ def card(request, book_id):
         'title': book.title,
         'user_books_ids': list(user_books_ids),
         'purchased_count': purchased_count,
+        'user_has_rated': user_has_rated,
+        'user_has_reviewed': user_has_reviewed,
+        'reviews': reviews,
     }
     return render(request, 'books/card.html', context)
+
+@login_required
+def rate_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    existing_review = Review.objects.filter(user=request.user, book=book, comment__isnull=True).first()
+    if existing_review:
+        messages.warning(request, 'Вы уже оценили эту книгу')
+        return redirect('books:card', book_id=book_id)
+
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+
+        if rating and rating.isdigit() and 1 <= int(rating) <= 5:
+            Review.objects.create(
+                user=request.user,
+                book=book,
+                rating=int(rating),
+                comment=None
+            )
+            messages.success(request, f'Спасибо за оценку! Вы оценили книгу на {rating} звезд.')
+            return redirect('books:card', book_id=book_id)
+        else:
+            messages.error(request, 'Пожалуйста, выберите корректную оценку')
+
+    context = {
+        'book': book,
+        'title': f'Оценить книгу - {book.title}',
+    }
+    return render(request, 'books/rate_book.html', context)
+
+@login_required
+def review_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment', '').strip()
+
+        if not rating or not rating.isdigit() or not 1 <= int(rating) <= 5:
+            messages.error(request, 'Пожалуйста, выберите корректную оценку')
+        elif not comment:
+            messages.error(request, 'Пожалуйста, напишите комментарий к отзыву')
+        else:
+            review, created = Review.objects.get_or_create(
+                user=request.user,
+                book=book,
+                defaults={
+                    'rating': int(rating),
+                    'comment': comment
+                }
+            )
+
+            if not created:
+                review.rating = int(rating)
+                review.comment = comment
+                review.save()
+                messages.success(request, 'Ваш отзыв был обновлен!')
+            else:
+                messages.success(request, 'Спасибо за ваш отзыв! Он поможет другим читателям.')
+
+            return redirect('books:card', book_id=book_id)
+
+    context = {
+        'book': book,
+        'title': f'Оставить отзыв - {book.title}',
+    }
+    return render(request, 'books/review_book.html', context)
 
 def delivery_info(request):
     title = 'Оплата и доставка'

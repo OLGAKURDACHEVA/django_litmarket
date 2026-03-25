@@ -19,7 +19,6 @@
     />
 </head>
 <body>
-
     {% include "books/toolbar.html" %}
     <div class="container">
         {% if messages %}
@@ -90,9 +89,6 @@
 
                     <div class="cart-summary">
                         <div class="summary-stats">
-                            <div class="total-items">
-                                Всего товаров: <span>{{ total_quantity }}</span>
-                            </div>
                             <div class="total-sum">
                                 Общая сумма: <span>{{ total_sum }} ₽</span>
                             </div>

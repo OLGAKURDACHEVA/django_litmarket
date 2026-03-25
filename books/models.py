@@ -78,6 +78,15 @@ class Book(models.Model):
     def __str__(self):
         return f'{self.title} | {self.catalog_id}'
 
+    def get_avg_rating(self):
+        reviews = self.reviews.filter(rating__isnull=False)
+        if reviews.exists():
+            return round(reviews.aggregate(Avg('rating'))['rating__avg'], 1)
+        return 0.0
+
+    def get_reviews_count(self):
+        return self.reviews.filter(rating__isnull=False).count()
+
 class Basket(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -197,3 +206,18 @@ class BookOfTheMonth(models.Model):
     def __str__(self):
         month_name = dict(self.MONTH_CHOICES)[self.month]
         return f"{self.book.title} - {month_name} {self.year}"
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)])
+    comment = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ['user', 'book']
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.user.username} - {self.book.title} - {self.rating}'

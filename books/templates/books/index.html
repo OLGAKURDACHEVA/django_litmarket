@@ -30,37 +30,37 @@
 
     <div class="content-wrapper">
         <div class="container">
-          <div class="hero-section">
-            <h2 class="hero-title">
-                {% if book_of_month %}
-                    КНИГА {{ current_month_name|default:"МЕСЯЦА" }}
-                {% else %}
-                    КНИГА МЕСЯЦА
-                {% endif %}
-            </h2>
-            <div class="hero-content">
-                <div class="hero-info">
+            <div class="hero-section">
+                <h2 class="hero-title">
                     {% if book_of_month %}
-                        <h2>{{ book_of_month.title }}</h2>
-                        <p class="hero-author">{{ book_of_month.author.name }}</p>
-                        <p class="hero-description">{{ book_of_month.description|truncatechars:200 }}</p>
-                        <a href="{% url 'books:card' book_of_month.id %}" class="hero-btn">Узнать больше</a>
+                        КНИГА {{ current_month_name|default:"МЕСЯЦА" }}
                     {% else %}
-                        <h2>Название книги месяца</h2>
-                        <p class="hero-author">Имя автора</p>
-                        <p class="hero-description">Краткое описание книги, которое заинтересует читателя. Здесь может быть несколько предложений. Это описание может быть более подробным, чтобы читатель захотел узнать о книге больше.</p>
-                        <a href="#" class="hero-btn">Узнать больше</a>
+                        КНИГА МЕСЯЦА
                     {% endif %}
-                </div>
-                <div class="hero-image">
-                    {% if book_of_month and book_of_month.cover_image_url %}
-                        <img src="{{ book_of_month.cover_image_url.url }}" alt="{{ book_of_month.title }}">
-                    {% else %}
-                        <img src="{% static 'vendor/img/profile.png' %}" alt="Книга месяца">
-                    {% endif %}
+                </h2>
+                <div class="hero-content">
+                    <div class="hero-info">
+                        {% if book_of_month %}
+                            <h2>{{ book_of_month.title }}</h2>
+                            <p class="hero-author">{{ book_of_month.author.name }}</p>
+                            <p class="hero-description">{{ book_of_month.description|truncatechars:200 }}</p>
+                            <a href="{% url 'books:card' book_of_month.id %}" class="hero-btn">Узнать больше</a>
+                        {% else %}
+                            <h2>Название книги месяца</h2>
+                            <p class="hero-author">Имя автора</p>
+                            <p class="hero-description">Краткое описание книги, которое заинтересует читателя. Здесь может быть несколько предложений. Это описание может быть более подробным, чтобы читатель захотел узнать о книге больше.</p>
+                            <a href="#" class="hero-btn">Узнать больше</a>
+                        {% endif %}
+                    </div>
+                    <div class="hero-image">
+                        {% if book_of_month and book_of_month.cover_image_url %}
+                            <img src="{{ book_of_month.cover_image_url.url }}" alt="{{ book_of_month.title }}">
+                        {% else %}
+                            <img src="{% static 'vendor/img/profile.png' %}" alt="Книга месяца">
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
 
             {% if search_query %}
             <div class="search-results">
@@ -106,18 +106,13 @@
             </div>
             {% else %}
             <div class="collections-section">
-                <div class="collections-tabs">
-                    <div class="tabs-wrapper">
-                        <button class="collection-tab active" data-collection="popular">Популярные книги</button>
-                        <button class="collection-tab" data-collection="new">Новинки</button>
-                        <button class="collection-tab" data-collection="recommended">Рекомендуем</button>
+                <div class="collection-block">
+                    <div class="collection-header">
+                        <h3 class="collection-title">Популярные книги</h3>
+                        <a href="{% url 'books:index' %}" class="view-all-link">
+                            Смотреть все <i class="fas fa-arrow-right"></i>
+                        </a>
                     </div>
-                    <a href="{% url 'books:index' %}" class="view-all-link">
-                        Смотреть все <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="collection-content active" id="collection-popular">
                     <div class="books-row">
                         {% for book in popular_books|slice:":4" %}
                         <div class="book-card">
@@ -155,7 +150,13 @@
                     </div>
                 </div>
 
-                <div class="collection-content" id="collection-new">
+                <div class="collection-block">
+                    <div class="collection-header">
+                        <h3 class="collection-title">Новинки</h3>
+                        <a href="{% url 'books:index' %}" class="view-all-link">
+                            Смотреть все <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
                     <div class="books-row">
                         {% for book in new_books|slice:":4" %}
                         <div class="book-card">
@@ -193,7 +194,13 @@
                     </div>
                 </div>
 
-                <div class="collection-content" id="collection-recommended">
+                <div class="collection-block">
+                    <div class="collection-header">
+                        <h3 class="collection-title">Рекомендуем</h3>
+                        <a href="{% url 'books:index' %}" class="view-all-link">
+                            Смотреть все <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
                     <div class="books-row">
                         {% for book in recommended_books|slice:":4" %}
                         <div class="book-card">
@@ -258,19 +265,7 @@
             });
         });
 
-        document.querySelectorAll('.collection-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.collection-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-
-                document.querySelectorAll('.collection-content').forEach(c => c.classList.remove('active'));
-
-                const collectionId = this.getAttribute('data-collection');
-                document.getElementById(`collection-${collectionId}`).classList.add('active');
-            });
-        });
-
-         document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const messages = document.querySelectorAll('.alert-message');
             messages.forEach(function(message) {
                 setTimeout(function() {
@@ -280,7 +275,6 @@
                 }, 3000);
             });
         });
-
     </script>
 </body>
 </html>

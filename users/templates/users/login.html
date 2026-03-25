@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +7,8 @@
   <link rel="stylesheet" href="/static/css/login.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 </head>
 <body>
 
@@ -20,6 +19,30 @@
 
     <h1 class="auth-title">Авторизация</h1>
 
+    <div class="messages-container">
+      {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == 'error' %}
+            <div class="alert-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ message }}</span>
+              <button type="button" class="message-close-btn" onclick="this.parentElement.remove();">&times;</button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+          <div class="alert-message">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>{{ error }}</span>
+            <button type="button" class="message-close-btn" onclick="this.parentElement.remove();">&times;</button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
     <form action="{% url 'users:login' %}" method="post">
       {% csrf_token %}
 
@@ -28,9 +51,15 @@
         <div class="input-wrapper">
           <i class="fas fa-user input-icon"></i>
           <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}"
-                 class="form-input" placeholder="Введите имя"
+                 class="form-input {% if form.username.errors %}error{% endif %}"
+                 placeholder="Введите имя пользователя"
                  {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
         </div>
+        {% if form.username.errors %}
+          {% for error in form.username.errors %}
+            <div class="field-error">{{ error }}</div>
+          {% endfor %}
+        {% endif %}
       </div>
 
       <div class="form-group">
@@ -38,8 +67,14 @@
         <div class="input-wrapper">
           <i class="fas fa-lock input-icon"></i>
           <input type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}"
-                 class="form-input" placeholder="Введите пароль">
+                 class="form-input {% if form.password.errors %}error{% endif %}"
+                 placeholder="Введите пароль">
         </div>
+        {% if form.password.errors %}
+          {% for error in form.password.errors %}
+            <div class="field-error">{{ error }}</div>
+          {% endfor %}
+        {% endif %}
       </div>
 
       <button type="submit" class="auth-btn">Авторизоваться</button>
@@ -54,5 +89,18 @@
       <a href="{% url 'users:register' %}">Зарегистрируйся!</a>
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const messages = document.querySelectorAll('.alert-message');
+      messages.forEach(function(message) {
+        setTimeout(function() {
+          if (message.parentNode) {
+            message.remove();
+          }
+        }, 5000);
+      });
+    });
+  </script>
 </body>
 </html>

@@ -43,7 +43,7 @@
         </div>
         {% endif %}
 
-        <div class="profile-wrapper"
+        <div class="profile-wrapper">
             <div class="profile-header">
                 <h1>
                     <i class="fas fa-user-circle"></i>
@@ -102,7 +102,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Авто-скрытие сообщений через 5 секунд
             const messages = document.querySelectorAll('.alert-message');
             messages.forEach(function(message) {
                 setTimeout(function() {
@@ -112,7 +111,6 @@
                 }, 5000);
             });
 
-            // Отображение имени выбранного файла
             const fileInput = document.querySelector('input[type="file"]');
             const fileNameDisplay = document.getElementById('file-name-display');
 

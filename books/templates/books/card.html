@@ -53,12 +53,33 @@
 
                     <div class="product-rating">
                         <div class="stars">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            {% for i in "12345"|make_list %}
+                                {% if forloop.counter <= book.avg_rating|floatformat:0 %}
+                                    <i class="fas fa-star"></i>
+                                {% elif forloop.counter <= book.avg_rating|add:0.5 %}
+                                    <i class="fas fa-star-half-alt"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
                         </div>
-                        <span class="rating-value">{{ book.rating|default:"5.0" }} ({{ book.reviews_count|default:"2" }} оценки)</span>
+                        <span class="rating-value">{{ book.avg_rating|default:"0.0" }} ({{ book.reviews_count|default:0 }} оценок)</span>
                         <div class="rating-actions">
-                            <button>Оценить</button>
-                            <button>Оставить отзыв</button>
+                            {% if user.is_authenticated %}
+                                {% if user_has_rated %}
+                                    <button class="rate-btn" disabled>Вы уже оценили</button>
+                                {% else %}
+                                    <a href="{% url 'books:rate_book' book.id %}" class="rate-btn">Оценить</a>
+                                {% endif %}
+                                {% if user_has_reviewed %}
+                                    <button class="review-btn" disabled>Отзыв оставлен</button>
+                                {% else %}
+                                    <a href="{% url 'books:review_book' book.id %}" class="review-btn">Оставить отзыв</a>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'users:login' %}?next={{ request.path }}" class="rate-btn">Оценить</a>
+                                <a href="{% url 'users:login' %}?next={{ request.path }}" class="review-btn">Оставить отзыв</a>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -153,9 +174,36 @@
                     </div>
                 </div>
             </div>
+
+            <div class="reviews-section">
+                <h3>Отзывы читателей</h3>
+                {% if reviews %}
+                    {% for review in reviews %}
+                        <div class="review-item">
+                            <div class="review-header">
+                                <strong class="review-author">{{ review.user.username }}</strong>
+                                <div class="review-stars">
+                                    {% for i in "12345"|make_list %}
+                                        {% if forloop.counter <= review.rating %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <span class="review-date">{{ review.created_at|date:"d.m.Y" }}</span>
+                            </div>
+                            <div class="review-comment">{{ review.comment|linebreaks }}</div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="no-reviews">Пока нет отзывов. Будьте первым!</p>
+                {% endif %}
+            </div>
         </div>
     </div>
-     <script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const messages = document.querySelectorAll('.alert-message');
             messages.forEach(function(message) {

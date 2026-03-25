@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оставить отзыв - {{ book.title }}</title>
+    <link rel="stylesheet" href="/static/css/toolbar.css">
+    <link rel="stylesheet" href="/static/css/form.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    {% include "books/toolbar.html" %}
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="navigation-row">
+                <div class="nav-links">
+                    <a href="{% url 'index' %}">Главная</a> >
+                    <a href="{% url 'books:index' %}">Каталог</a> >
+                    <a href="{% url 'books:card' book.id %}">{{ book.title }}</a> >
+                    <span>Оставить отзыв</span>
+                </div>
+            </div>
+
+            <div class="review-form">
+                <h3>Ваш отзыв о книге "{{ book.title }}"</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="rating">Ваша оценка:</label>
+                        <select name="rating" id="rating" required>
+                            <option value="">Выберите оценку</option>
+                            <option value="1">1 звезда</option>
+                            <option value="2">2 звезды</option>
+                            <option value="3">3 звезды</option>
+                            <option value="4">4 звезды</option>
+                            <option value="5">5 звезд</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Ваш комментарий:</label>
+                        <textarea name="comment" id="comment" rows="6" required placeholder="Поделитесь впечатлениями о книге..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Отправить отзыв</button>
+                        <a href="{% url 'books:card' book.id %}" class="btn-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% include "books/footer.html" %}
+</body>
+</html>

@@ -1,0 +1,230 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: auto;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f9f9f9;
+    color: #6b2c2c;
+    line-height: 1.5;
+    padding-top: 0;
+}
+
+.content-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navigation-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0 10px 0;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #8B3A3A;
+    white-space: nowrap;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: #6b2c2c;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    color: #8B3A3A;
+    text-decoration: underline;
+}
+
+.nav-links span {
+    color: #8B3A3A;
+}
+
+/* Стили для формы отзыва */
+.rating-form, .review-form {
+    max-width: 100%;
+    margin: 20px 0 40px 0;
+    background: #fff;
+    border: 1px solid #e8dfd6;
+    padding: 30px;
+    border-radius: 6px;
+}
+
+.rating-form h3, .review-form h3 {
+    color: #6b2c2c;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e8dfd6;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    color: #6b2c2c;
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e8dfd6;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #6b2c2c;
+    background-color: #fff;
+    cursor: pointer;
+    font-family: "Inter", sans-serif;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #8B3A3A;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e8dfd6;
+    border-radius: 6px;
+    font-family: "Inter", sans-serif;
+    font-size: 0.95rem;
+    color: #6b2c2c;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #8B3A3A;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-primary {
+    background: #6b2c2c;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Inter", sans-serif;
+}
+
+.btn-primary:hover {
+    background: #8B3A3A;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid #6b2c2c;
+    color: #6b2c2c;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Inter", sans-serif;
+    text-align: center;
+}
+
+.btn-secondary:hover {
+    background: #6b2c2c;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    html, body {
+        min-width: auto;
+    }
+
+    .container {
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    .navigation-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .nav-links {
+        white-space: normal;
+        flex-wrap: wrap;
+    }
+
+    .rating-form, .review-form {
+        margin: 10px 0 40px 0;
+        padding: 25px;
+    }
+
+    .rating-form h3, .review-form h3 {
+        font-size: 1.3rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .rating-form, .review-form {
+        padding: 20px;
+    }
+
+    .rating-form h3, .review-form h3 {
+        font-size: 1.2rem;
+    }
+
+    .form-group select, .form-group textarea {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-primary, .btn-secondary {
+        padding: 10px 20px;
+    }
+}

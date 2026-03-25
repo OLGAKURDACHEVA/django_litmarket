@@ -1,5 +1,5 @@
 from django.contrib import admin
-from books.models import Book, Catalog, Author, Basket, Publisher, MyBooks, BookOfTheMonth
+from books.models import Book, Catalog, Author, Basket, Publisher, MyBooks, BookOfTheMonth, Order, OrderItem
 
 admin.site.register(Book)
 admin.site.register(Catalog)
@@ -7,6 +7,8 @@ admin.site.register(Author)
 admin.site.register(Basket)
 admin.site.register(Publisher)
 admin.site.register(MyBooks)
+admin.site.register(Order)
+admin.site.register(OrderItem)
 
 @admin.register(BookOfTheMonth)
 class BookOfTheMonthAdmin(admin.ModelAdmin):
