@@ -10,11 +10,12 @@ html, body {
 }
 
 body {
-    font-family: "Inter", sans-serif;
-    background-color: #f9f9f9;
-    color: #6b2c2c;
-    line-height: 1.5;
-    padding-top: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #f9f9f9;
+  color: #6b2c2c;
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-top: 120px;
 }
 
 .content-wrapper {
@@ -23,11 +24,6 @@ body {
     justify-content: center;
 }
 
-.container {
-    width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
 
 .navigation-row {
     display: flex;
@@ -60,7 +56,6 @@ body {
     color: #8B3A3A;
 }
 
-/* Стили для формы отзыва */
 .rating-form, .review-form {
     max-width: 100%;
     margin: 20px 0 40px 0;
@@ -169,20 +164,44 @@ body {
     color: white;
 }
 
+@media (max-width: 1300px) {
+    .navigation-row {
+        margin: 18px 0 10px 0;
+    }
+}
+
+@media (max-width: 1200px) {
+    .navigation-row {
+        margin: 15px 0 8px 0;
+    }
+}
+
+@media (max-width: 1024px) {
+    .rating-form, .review-form {
+        margin: 15px 0 35px 0;
+        padding: 28px;
+    }
+
+    .rating-form h3, .review-form h3 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+}
+
 @media (max-width: 768px) {
     html, body {
         min-width: auto;
-    }
-
-    .container {
-        width: 100%;
-        padding: 0 15px;
     }
 
     .navigation-row {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+        margin: 15px 0 8px 0;
     }
 
     .nav-links {
@@ -191,40 +210,79 @@ body {
     }
 
     .rating-form, .review-form {
-        margin: 10px 0 40px 0;
+        margin: 10px 0 30px 0;
         padding: 25px;
     }
 
     .rating-form h3, .review-form h3 {
         font-size: 1.3rem;
+        margin-bottom: 18px;
+        padding-bottom: 12px;
     }
 
     .form-actions {
         flex-direction: column;
+        gap: 12px;
     }
 
     .btn-primary, .btn-secondary {
         width: 100%;
         text-align: center;
+        padding: 10px 25px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
     }
 }
 
 @media (max-width: 576px) {
     .rating-form, .review-form {
         padding: 20px;
+        margin: 8px 0 25px 0;
     }
 
     .rating-form h3, .review-form h3 {
         font-size: 1.2rem;
+        margin-bottom: 15px;
     }
 
-    .form-group select, .form-group textarea {
+    .form-group select,
+    .form-group textarea {
         padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-actions {
+        margin-top: 25px;
     }
 }
 
 @media (max-width: 480px) {
     .btn-primary, .btn-secondary {
         padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .rating-form, .review-form {
+        padding: 18px;
+        margin: 5px 0 20px 0;
+    }
+
+    .rating-form h3, .review-form h3 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
     }
 }
+
+

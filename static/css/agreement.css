@@ -1,245 +1,293 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    font-size: 16px;
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: "Inter", sans-serif;
-    background-color: #f9f9f9;
-    color: #6b2c2c;
-    line-height: 1.5;
-    padding-top: 140px;
-    overflow-x: hidden;
-}
-
-.agreement-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.content-wrapper {
-    width: 100%;
-}
-
-.bookshelf {
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.library-hall {
-    background-color: white;
-    padding: 40px;
-    border: 1px solid #e8dfd6;
-}
-
-.section-title {
-    font-size: 2.2rem;
-    color: #6b2c2c;
-    margin-bottom: 10px;
-    font-weight: 700;
-    text-align: center;
-}
-
-.section-subtitle {
-    font-size: 1.1rem;
-    color: #6b2c2c;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.divider {
-    height: 1px;
-    background-color: #e8dfd6;
-    margin: 40px 0;
-}
-
-.agreement-text {
-    font-size: 0.95rem;
-    color: #6b2c2c;
-    max-height: 600px;
-    overflow-y: auto;
-    padding-right: 15px;
-}
-
-.agreement-text h1 {
-    font-size: 1.8rem;
-    color: #6b2c2c;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.agreement-text h2 {
-    font-size: 1.3rem;
-    color: #6b2c2c;
-    margin: 25px 0 15px;
-    font-weight: 600;
-}
-
-.agreement-text h3 {
-    font-size: 1.1rem;
-    color: #6b2c2c;
-    margin: 20px 0 10px;
-    font-weight: 600;
-}
-
-.agreement-text p {
-    margin-bottom: 12px;
-    line-height: 1.6;
-}
-
-.agreement-text ul,
-.agreement-text ol {
-    margin-left: 25px;
-    margin-bottom: 15px;
-}
-
-.agreement-text li {
-    margin-bottom: 5px;
-}
-
-.agreement-text .note {
-    font-style: italic;
-    color: #555;
-    border-left: 3px solid #6b2c2c;
-    padding-left: 15px;
-    margin: 20px 0;
-}
-
-.agreement-text hr {
-    margin: 30px 0;
-    border: none;
-    border-top: 1px solid #e8dfd6;
-}
-
-.agreement-text strong {
-    font-weight: 600;
-}
-
-@media (max-width: 1024px) {
-    .agreement-container {
-        padding: 0 20px;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
-    
-    .bookshelf {
-        padding: 15px;
-    }
-    
-    .library-hall {
-        padding: 35px;
-    }
-}
 
-@media (max-width: 768px) {
+    html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+    }
+
     body {
-        padding-top: 180px;
+        font-family: "Inter", sans-serif;
+        background-color: #f9f9f9;
+        color: #6b2c2c;
+        line-height: 1.5;
+        padding-top: 140px;
+        overflow-x: hidden;
     }
-    
-    .agreement-container {
-        padding: 0 15px;
-    }
-    
-    .bookshelf {
-        padding: 10px;
-    }
-    
-    .library-hall {
-        padding: 30px 20px;
-    }
-    
-    .section-title {
-        font-size: 1.6rem;
-    }
-    
-    .section-subtitle {
-        font-size: 1rem;
-    }
-    
-    .agreement-text {
-        font-size: 0.9rem;
-        max-height: 500px;
-        padding-right: 10px;
-    }
-    
-    .agreement-text h1 {
-        font-size: 1.5rem;
-    }
-    
-    .agreement-text h2 {
-        font-size: 1.2rem;
-    }
-    
-    .agreement-text h3 {
-        font-size: 1rem;
-    }
-}
 
-@media (max-width: 480px) {
-    body {
-        padding-top: 220px;
-    }
-    
     .agreement-container {
-        padding: 0 10px;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
     }
-    
+
+    .content-wrapper {
+        width: 100%;
+    }
+
     .bookshelf {
-        padding: 5px;
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 20px;
     }
-    
+
     .library-hall {
-        padding: 20px 15px;
+        background-color: white;
+        padding: 40px;
+        border: 1px solid #e8dfd6;
     }
-    
+
     .section-title {
-        font-size: 1.4rem;
-        margin-bottom: 8px;
-    }
-    
-    .section-subtitle {
-        font-size: 0.9rem;
-        margin-bottom: 15px;
-    }
-    
-    .divider {
-        margin: 30px 0;
-    }
-    
-    .agreement-text {
-        font-size: 0.85rem;
-        padding-right: 5px;
-        max-height: 450px;
-    }
-    
-    .agreement-text h1 {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-    }
-    
-    .agreement-text h2 {
-        font-size: 1.1rem;
-        margin: 20px 0 12px;
-    }
-    
-    .agreement-text h3 {
-        font-size: 1rem;
-        margin: 15px 0 8px;
-    }
-    
-    .agreement-text p {
+        font-size: 2.2rem;
+        color: #6b2c2c;
         margin-bottom: 10px;
+        font-weight: 700;
+        text-align: center;
     }
-    
+
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: #6b2c2c;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .divider {
+        height: 1px;
+        background-color: #e8dfd6;
+        margin: 40px 0;
+    }
+
+    .agreement-text {
+        font-size: 0.95rem;
+        color: #6b2c2c;
+        max-height: 600px;
+        overflow-y: auto;
+        padding-right: 15px;
+    }
+
+    .agreement-text h1 {
+        font-size: 1.8rem;
+        color: #6b2c2c;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    .agreement-text h2 {
+        font-size: 1.3rem;
+        color: #6b2c2c;
+        margin: 25px 0 15px;
+        font-weight: 600;
+    }
+
+    .agreement-text h3 {
+        font-size: 1.1rem;
+        color: #6b2c2c;
+        margin: 20px 0 10px;
+        font-weight: 600;
+    }
+
+    .agreement-text p {
+        margin-bottom: 12px;
+        line-height: 1.6;
+    }
+
     .agreement-text ul,
     .agreement-text ol {
-        margin-left: 20px;
-        margin-bottom: 12px;
+        margin-left: 25px;
+        margin-bottom: 15px;
     }
-}
+
+    .agreement-text li {
+        margin-bottom: 5px;
+    }
+
+    .agreement-text .note {
+        font-style: italic;
+        color: #555;
+        border-left: 3px solid #6b2c2c;
+        padding-left: 15px;
+        margin: 20px 0;
+    }
+
+    .agreement-text hr {
+        margin: 30px 0;
+        border: none;
+        border-top: 1px solid #e8dfd6;
+    }
+
+    .agreement-text strong {
+        font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+        .agreement-container {
+            padding: 0 20px;
+        }
+
+        .bookshelf {
+            padding: 15px;
+        }
+
+        .library-hall {
+            padding: 35px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        body {
+            padding-top: 180px;
+        }
+
+        .agreement-container {
+            padding: 0 15px;
+        }
+
+        .bookshelf {
+            padding: 10px;
+        }
+
+        .library-hall {
+            padding: 30px 20px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+        }
+
+        .agreement-text {
+            font-size: 0.9rem;
+            max-height: 500px;
+            padding-right: 10px;
+        }
+
+        .agreement-text h1 {
+            font-size: 1.5rem;
+        }
+
+        .agreement-text h2 {
+            font-size: 1.2rem;
+        }
+
+        .agreement-text h3 {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        body {
+            padding-top: 220px;
+        }
+
+        .agreement-container {
+            padding: 0 10px;
+        }
+
+        .bookshelf {
+            padding: 5px;
+        }
+
+        .library-hall {
+            padding: 20px 15px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .divider {
+            margin: 30px 0;
+        }
+
+        .agreement-text {
+            font-size: 0.85rem;
+            padding-right: 5px;
+            max-height: 450px;
+        }
+
+        .agreement-text h1 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .agreement-text h2 {
+            font-size: 1.1rem;
+            margin: 20px 0 12px;
+        }
+
+        .agreement-text h3 {
+            font-size: 1rem;
+            margin: 15px 0 8px;
+        }
+
+        .agreement-text p {
+            margin-bottom: 10px;
+        }
+
+        .agreement-text ul,
+        .agreement-text ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+    }
+
+    .content-wrapper {
+        width: 100%;
+        position: relative;
+        top: 0;
+        margin-top: 0;
+        padding-top: 0;
+    }
+
+    body {
+        padding-top: 140px;
+        margin: 0;
+    }
+
+    .main-header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background-color: #ffffff !important;
+        z-index: 999 !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .main-header * {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        width: 100%;
+    }
+
+    .header-content {
+        display: grid;
+        grid-template-columns: 160px 100px 550px 350px;
+        align-items: center;
+        gap: 20px;
+        min-width: 1200px;
+    }
+
+    .catalog-search {
+        margin-top: 0 !important;
+    }

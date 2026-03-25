@@ -41,6 +41,18 @@
           </div>
         {% endfor %}
       {% endif %}
+
+      {% if form.errors %}
+        {% for field in form %}
+          {% for error in field.errors %}
+            <div class="alert-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ error }}</span>
+              <button type="button" class="message-close-btn" onclick="this.parentElement.remove();">&times;</button>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      {% endif %}
     </div>
 
     <form action="{% url 'users:login' %}" method="post">
