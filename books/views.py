@@ -341,14 +341,4 @@ def delivery_info(request):
     }
     return render(request, 'books/delivery.html', content)
 
-def loyalty_program(request):
-    return render(request, 'books/loyalty_program.html')
 
-def loyalty_rules(request):
-    return render(request, 'books/loyalty_rules.html')
-
-def certificates(request):
-    return render(request, 'books/certificates.html')
-
-def certificate_rules(request):
-    return render(request, 'books/certificate_rules.html')

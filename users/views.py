@@ -125,7 +125,6 @@ def checkout(request):
     }
     return render(request, 'users/checkout.html', context)
 
-
 def mybooks(request):
     my_books = MyBooks.objects.filter(user=request.user).select_related('book', 'book__author')
     context = {
